@@ -1,0 +1,35 @@
+{
+  "descriptionHash": "2AA62365A8872CF0270968199A48CCC51E77A1CBAD93C15CDF57D959FFCBDC9E629468C8F8714E21040663E0AC5B1C61E5C6F178D8050B3BFF0644329821997B",
+  "descriptionLocation": "../../openapi.fixed.json",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "1.34.1",
+  "clientClassName": "GranolaOpenApiClient",
+  "typeAccessModifier": "Public",
+  "clientNamespaceName": "Soenneker.Granola.OpenApiClient",
+  "language": "CSharp",
+  "usesBackingStore": false,
+  "excludeBackwardCompatible": true,
+  "includeAdditionalData": true,
+  "disableSSLValidation": false,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Text.TextSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Form.FormSerializationWriterFactory",
+    "Microsoft.Kiota.Serialization.Multipart.MultipartSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Text.TextParseNodeFactory",
+    "Microsoft.Kiota.Serialization.Form.FormParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json",
+    "text/plain;q=0.9",
+    "application/x-www-form-urlencoded;q=0.2",
+    "multipart/form-data;q=0.1"
+  ],
+  "includePatterns": [],
+  "excludePatterns": [],
+  "disabledValidationRules": [],
+  "allowedExternalOrigins": []
+}

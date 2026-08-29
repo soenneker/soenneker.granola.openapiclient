@@ -1,0 +1,2200 @@
+{
+  "openapi": "3.1.2",
+  "info": {
+    "title": "Granola API",
+    "description": "API for accessing meeting data from Granola",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://public-api.granola.ai",
+      "description": "Production"
+    }
+  ],
+  "paths": {
+    "/v1/notes": {
+      "get": {
+        "summary": "List notes",
+        "operationId": "GetV1Notes",
+        "parameters": [
+          {
+            "name": "created_before",
+            "in": "query",
+            "schema": {
+              "examples": [
+                "2026-01-27",
+                "2026-01-27T15:30:00Z"
+              ],
+              "type": "object",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              ],
+              "description": "Return notes created before this date"
+            }
+          },
+          {
+            "name": "created_after",
+            "in": "query",
+            "schema": {
+              "examples": [
+                "2026-01-27",
+                "2026-01-27T15:30:00Z"
+              ],
+              "type": "object",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              ],
+              "description": "Return notes created after this date"
+            }
+          },
+          {
+            "name": "updated_after",
+            "in": "query",
+            "schema": {
+              "examples": [
+                "2026-01-27",
+                "2026-01-27T15:30:00Z"
+              ],
+              "type": "object",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              ],
+              "description": "Return notes updated after this date"
+            }
+          },
+          {
+            "name": "folder_id",
+            "in": "query",
+            "schema": {
+              "pattern": "^fol_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "Return notes in this folder and any of its child folders. Use the list folders endpoint to discover folder IDs.",
+              "example": "fol_4y6LduVdwSKC27"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "The cursor to continue from",
+              "example": "eyJjcmVkZW50aWFsfQ=="
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "integer",
+              "description": "Maximum number of notes to return per page",
+              "default": 10,
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of notes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListNotesOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/notes/{noteId}": {
+      "get": {
+        "summary": "Get note",
+        "operationId": "GetV1NotesByNoteId",
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^not_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The ID of the note",
+              "example": "not_1d3tmYTlCICgjy"
+            }
+          },
+          {
+            "name": "include",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/TranscriptInclude"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Note",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "413": {
+            "description": "Transcript is too large to return inline. Retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/notes/{noteId}/transcript": {
+      "get": {
+        "summary": "Get transcript",
+        "description": "Retrieve a meeting transcript in pages, including when Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060.",
+        "operationId": "GetV1NotesByNoteIdTranscript",
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^not_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The ID of the note",
+              "example": "not_1d3tmYTlCICgjy"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "The opaque cursor returned by the previous page",
+              "example": "eyJyb3dfb2Zmc2V0Ijo1MCwiaXRlbV9vZmZzZXQiOjB9"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "description": "The maximum number of transcript items to return",
+              "default": 50,
+              "example": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of transcript items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTranscriptOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or invalid cursor"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/folders": {
+      "get": {
+        "summary": "List folders",
+        "operationId": "GetV1Folders",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "The cursor to continue from",
+              "example": "eyJjcmVkZW50aWFsfQ=="
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "integer",
+              "description": "Maximum number of folders to return per page",
+              "default": 10,
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of folders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListFoldersOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/audit": {
+      "get": {
+        "summary": "List audit events",
+        "operationId": "GetV1Audit",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "schema": {
+              "pattern": "^[a-z][a-z0-9_.-]*$",
+              "type": "string",
+              "description": "Return only events with this exact action, or events whose action starts with it followed by a dot (\u0060workspace\u0060 returns \u0060workspace.member_added\u0060 but not \u0060workspace_automation.created\u0060). Lowercase, as actions are.",
+              "example": "workspace"
+            }
+          },
+          {
+            "name": "occurred_before",
+            "in": "query",
+            "schema": {
+              "examples": [
+                "2026-01-27",
+                "2026-01-27T15:30:00Z"
+              ],
+              "type": "object",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              ],
+              "description": "Return events that occurred before this date. Must fall within the one-year retention window; an earlier date is rejected."
+            }
+          },
+          {
+            "name": "occurred_after",
+            "in": "query",
+            "schema": {
+              "examples": [
+                "2026-01-27",
+                "2026-01-27T15:30:00Z"
+              ],
+              "type": "object",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              ],
+              "description": "Return events that occurred after this date. Must fall within the one-year retention window; an earlier date is rejected."
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "The cursor to continue from",
+              "example": "eyJjcmVkZW50aWFsfQ=="
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "integer",
+              "description": "Maximum number of audit events to return per page",
+              "default": 10,
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of audit events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetV1Audit200Response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/webhook-endpoints": {
+      "post": {
+        "summary": "Create webhook endpoint",
+        "description": "Registers an HTTPS URL to receive event deliveries. With a Workspace API key the endpoint is workspace-managed: pass \u0060scopes: [\u0022workspace\u0022]\u0060 (the key\u0027s own scope), and \u0060folder_ids\u0060 may only reference folders the key can list.",
+        "operationId": "PostV1WebhookEndpoints",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWebhookEndpointBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Webhook endpoint created. The signing secret is only returned here.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateWebhookEndpointOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "403": {
+            "description": "Forbidden - A requested scope is disabled by the workspace\u0027s API access controls"
+          },
+          "404": {
+            "description": "Not found - The webhooks API is not available for this workspace"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "List webhook endpoints",
+        "operationId": "GetV1WebhookEndpoints",
+        "responses": {
+          "200": {
+            "description": "List of webhook endpoints",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListWebhookEndpointsOutput"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not found - The webhooks API is not available for this workspace"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/webhook-endpoints/{webhookEndpointId}": {
+      "patch": {
+        "summary": "Update webhook endpoint",
+        "operationId": "PatchV1WebhookEndpointsByWebhookEndpointId",
+        "parameters": [
+          {
+            "name": "webhookEndpointId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^whe_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The ID of the webhook endpoint",
+              "example": "whe_2mKr8fQxLp7Ta3"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWebhookEndpointBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated webhook endpoint",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookEndpoint"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "403": {
+            "description": "Forbidden - A requested scope is disabled by the workspace\u0027s API access controls, the caller is not the endpoint\u0027s creator (non-creators can only change enabled), or the endpoint is workspace-managed (its scope is fixed)"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete webhook endpoint",
+        "operationId": "DeleteV1WebhookEndpointsByWebhookEndpointId",
+        "parameters": [
+          {
+            "name": "webhookEndpointId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^whe_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The ID of the webhook endpoint",
+              "example": "whe_2mKr8fQxLp7Ta3"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Webhook endpoint deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteWebhookEndpointOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "required": [
+          "name",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The name of the user",
+            "example": "Oat Benson"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the user",
+            "format": "email",
+            "example": "oat@granola.ai"
+          }
+        }
+      },
+      "Folder": {
+        "required": [
+          "id",
+          "object",
+          "name",
+          "parent_folder_id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^fol_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the folder",
+            "example": "fol_4y6LduVdwSKC27"
+          },
+          "object": {
+            "$ref": "#/components/schemas/FolderObject"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the folder",
+            "example": "Top secret recipes"
+          },
+          "parent_folder_id": {
+            "pattern": "^fol_[a-zA-Z0-9]{14}$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The ID of the parent folder, or null if the folder is top-level.",
+            "example": "fol_a74g2hvl98iUHG"
+          }
+        }
+      },
+      "Speaker": {
+        "required": [
+          "source"
+        ],
+        "type": "object",
+        "properties": {
+          "source": {
+            "$ref": "#/components/schemas/SpeakerSource"
+          },
+          "attribution": {
+            "$ref": "#/components/schemas/SpeakerAttribution"
+          },
+          "diarization_label": {
+            "type": "string",
+            "description": "The diarized anonymous speaker label assigned in the transcript, such as \u0060Speaker A\u0060. This is currently only present on iOS transcripts when diarization is available.",
+            "example": "Speaker A"
+          },
+          "name": {
+            "type": "string",
+            "description": "The resolved name of the identified speaker, such as \u0060Alice Smith\u0060. This is only present when a speaker could be identified for the transcript item.",
+            "example": "Alice Smith"
+          }
+        }
+      },
+      "Transcript": {
+        "required": [
+          "speaker",
+          "text",
+          "start_time",
+          "end_time"
+        ],
+        "type": "object",
+        "properties": {
+          "speaker": {
+            "$ref": "#/components/schemas/Speaker"
+          },
+          "text": {
+            "type": "string",
+            "description": "The text of the transcript"
+          },
+          "start_time": {
+            "type": "string",
+            "description": "The start time of the transcript",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "The end time of the transcript",
+            "format": "date-time"
+          }
+        }
+      },
+      "CalendarInvitee": {
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The email of the calendar invitee",
+            "format": "email",
+            "example": "raisin@granola.ai"
+          }
+        }
+      },
+      "CalendarEvent": {
+        "required": [
+          "event_title",
+          "invitees",
+          "organiser",
+          "calendar_event_id",
+          "scheduled_start_time",
+          "scheduled_end_time"
+        ],
+        "type": "object",
+        "properties": {
+          "event_title": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The title of the calendar event",
+            "example": "Quarterly yoghurt budget review"
+          },
+          "invitees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarInvitee"
+            }
+          },
+          "organiser": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The email of the organiser",
+            "format": "email",
+            "example": "oat@granola.ai"
+          },
+          "calendar_event_id": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The id of the calendar event",
+            "example": "2su99n6iiik37iiknmb5t4fkfh_20260127T153000Z"
+          },
+          "scheduled_start_time": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The start time of the calendar event",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
+          },
+          "scheduled_end_time": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The end time of the calendar event",
+            "format": "date-time",
+            "example": "2026-01-27T16:30:00Z"
+          }
+        }
+      },
+      "NoteSummary": {
+        "required": [
+          "id",
+          "object",
+          "title",
+          "owner",
+          "created_at",
+          "updated_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^not_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the note",
+            "example": "not_1d3tmYTlCICgjy"
+          },
+          "object": {
+            "$ref": "#/components/schemas/NoteObject"
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The title of the note",
+            "example": "Quarterly yoghurt budget review"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The creation time of the note",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "The last update time of the note",
+            "format": "date-time",
+            "example": "2026-01-27T16:45:00Z"
+          }
+        }
+      },
+      "NoteDetail": {
+        "required": [
+          "web_url",
+          "calendar_event",
+          "attendees",
+          "folder_membership",
+          "summary_text",
+          "summary_markdown",
+          "transcript"
+        ],
+        "type": "object",
+        "properties": {
+          "web_url": {
+            "type": "string",
+            "description": "The URL to view the note in the Granola web app",
+            "format": "uri",
+            "example": "https://notes.granola.ai/d/f3e45e0f-24cc-480b-9a6c-8b1f5e3d7a2c"
+          },
+          "calendar_event": {
+            "$ref": "#/components/schemas/NoteDetailCalendarEvent"
+          },
+          "attendees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            },
+            "description": "The attendees of the meeting"
+          },
+          "folder_membership": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Folder"
+            },
+            "description": "The folder membership of the note"
+          },
+          "summary_text": {
+            "type": "string",
+            "description": "The summary text of the note",
+            "example": "The quarterly yoghurt budget review was a success. We spent $100,000 on yoghurt and made $150,000 in profit."
+          },
+          "summary_markdown": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The summary of the note in markdown format. Can be null if the note has no summary.",
+            "example": "## Quarterly Yoghurt Budget Review\n\nThe quarterly yoghurt budget review was a success.\n\n- Spent **$100,000** on yoghurt\n- Made **$150,000** in profit"
+          },
+          "transcript": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Transcript"
+            },
+            "description": "The inline transcript of the note. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060. The example below shows a macOS transcript. On iOS, Granola currently returns \u0060speaker.source\u0060 as \u0060microphone\u0060, and \u0060diarization_label\u0060 can carry anonymous \u0060Speaker A/B/...\u0060 buckets when diarization is available."
+          }
+        }
+      },
+      "Note": {
+        "required": [
+          "id",
+          "object",
+          "title",
+          "owner",
+          "created_at",
+          "updated_at",
+          "web_url",
+          "calendar_event",
+          "attendees",
+          "folder_membership",
+          "summary_text",
+          "summary_markdown",
+          "transcript"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^not_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the note",
+            "example": "not_1d3tmYTlCICgjy"
+          },
+          "object": {
+            "$ref": "#/components/schemas/NoteObject"
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The title of the note",
+            "example": "Quarterly yoghurt budget review"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The creation time of the note",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "The last update time of the note",
+            "format": "date-time",
+            "example": "2026-01-27T16:45:00Z"
+          },
+          "web_url": {
+            "type": "string",
+            "description": "The URL to view the note in the Granola web app",
+            "format": "uri",
+            "example": "https://notes.granola.ai/d/f3e45e0f-24cc-480b-9a6c-8b1f5e3d7a2c"
+          },
+          "calendar_event": {
+            "$ref": "#/components/schemas/NoteCalendarEvent"
+          },
+          "attendees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            },
+            "description": "The attendees of the meeting"
+          },
+          "folder_membership": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Folder"
+            },
+            "description": "The folder membership of the note"
+          },
+          "summary_text": {
+            "type": "string",
+            "description": "The summary text of the note",
+            "example": "The quarterly yoghurt budget review was a success. We spent $100,000 on yoghurt and made $150,000 in profit."
+          },
+          "summary_markdown": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The summary of the note in markdown format. Can be null if the note has no summary.",
+            "example": "## Quarterly Yoghurt Budget Review\n\nThe quarterly yoghurt budget review was a success.\n\n- Spent **$100,000** on yoghurt\n- Made **$150,000** in profit"
+          },
+          "transcript": {
+            "type": [
+              "null",
+              "array"
+            ],
+            "items": {
+              "$ref": "#/components/schemas/Transcript"
+            },
+            "description": "The inline transcript of the note. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060. The example below shows a macOS transcript. On iOS, Granola currently returns \u0060speaker.source\u0060 as \u0060microphone\u0060, and \u0060diarization_label\u0060 can carry anonymous \u0060Speaker A/B/...\u0060 buckets when diarization is available."
+          }
+        }
+      },
+      "GetNotePath": {
+        "required": [
+          "note_id"
+        ],
+        "type": "object",
+        "properties": {
+          "note_id": {
+            "pattern": "^not_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the note",
+            "example": "not_1d3tmYTlCICgjy"
+          }
+        }
+      },
+      "GetNoteQuery": {
+        "type": "object",
+        "properties": {
+          "include": {
+            "$ref": "#/components/schemas/TranscriptInclude"
+          }
+        }
+      },
+      "GetTranscriptQuery": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "type": "string",
+            "description": "The opaque cursor returned by the previous page",
+            "example": "eyJyb3dfb2Zmc2V0Ijo1MCwiaXRlbV9vZmZzZXQiOjB9"
+          },
+          "page_size": {
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer",
+            "description": "The maximum number of transcript items to return",
+            "default": 50,
+            "example": 50
+          }
+        }
+      },
+      "GetTranscriptOutput": {
+        "required": [
+          "transcript",
+          "hasMore",
+          "cursor"
+        ],
+        "type": "object",
+        "properties": {
+          "transcript": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Transcript"
+            },
+            "description": "Transcript items for this page"
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether another page of transcript items is available"
+          },
+          "cursor": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The opaque cursor for the next page, or null when this is the final page"
+          }
+        }
+      },
+      "ListNotesQuery": {
+        "type": "object",
+        "properties": {
+          "created_before": {
+            "$ref": "#/components/schemas/ListNotesQueryCreatedBefore"
+          },
+          "created_after": {
+            "$ref": "#/components/schemas/ListNotesQueryCreatedAfter"
+          },
+          "updated_after": {
+            "$ref": "#/components/schemas/ListNotesQueryUpdatedAfter"
+          },
+          "folder_id": {
+            "pattern": "^fol_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "Return notes in this folder and any of its child folders. Use the list folders endpoint to discover folder IDs.",
+            "example": "fol_4y6LduVdwSKC27"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          },
+          "page_size": {
+            "maximum": 30,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Maximum number of notes to return per page",
+            "default": 10,
+            "example": 10
+          }
+        }
+      },
+      "ListNotesOutput": {
+        "required": [
+          "notes",
+          "hasMore",
+          "cursor"
+        ],
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NoteSummary"
+            }
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether there are more notes to fetch",
+            "example": true
+          },
+          "cursor": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          }
+        }
+      },
+      "ListFoldersQuery": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "type": "string",
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          },
+          "page_size": {
+            "maximum": 30,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Maximum number of folders to return per page",
+            "default": 10,
+            "example": 10
+          }
+        }
+      },
+      "ListFoldersOutput": {
+        "required": [
+          "folders",
+          "hasMore",
+          "cursor"
+        ],
+        "type": "object",
+        "properties": {
+          "folders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Folder"
+            }
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether there are more folders to fetch",
+            "example": true
+          },
+          "cursor": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          }
+        }
+      },
+      "WebhookEndpoint": {
+        "required": [
+          "id",
+          "object",
+          "url",
+          "url_redacted",
+          "events",
+          "folder_ids",
+          "scopes",
+          "created_by",
+          "enabled",
+          "created_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^whe_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the webhook endpoint",
+            "example": "whe_2mKr8fQxLp7Ta3"
+          },
+          "object": {
+            "$ref": "#/components/schemas/WebhookEndpointObject"
+          },
+          "url": {
+            "type": "string",
+            "description": "The HTTPS URL deliveries are sent to. When \u0060url_redacted\u0060 is true, reduced to the URL\u0027s origin.",
+            "format": "uri",
+            "example": "https://example.com/granola-webhooks"
+          },
+          "url_redacted": {
+            "type": "boolean",
+            "description": "True when this response reduces \u0060url\u0060 to its origin because the caller is not the endpoint\u0027s creator (the path can carry credentials). Orphaned endpoints whose creator account was deleted are returned unredacted so they can be cleaned up.",
+            "example": false
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebhookEndpointEventsItem"
+            },
+            "description": "The event names this endpoint is subscribed to"
+          },
+          "folder_ids": {
+            "type": "array",
+            "items": {
+              "pattern": "^fol_[a-zA-Z0-9]{14}$",
+              "type": "string"
+            },
+            "description": "Folder IDs this endpoint\u0027s delivery is restricted to, or an empty array when unrestricted. Events fire only for notes in these folders or their subfolders.",
+            "example": []
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebhookEndpointScopesItem"
+            },
+            "description": "Which notes this endpoint receives events for. \u0060personal\u0060 covers notes the creating user owns, notes shared directly with them, and notes in private folders shared with them. \u0060public\u0060 covers notes visible to everyone in the workspace. \u0060workspace\u0060 is reported for endpoints created with a workspace API key: public workspace notes plus notes in spaces with Granola API access enabled."
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/WebhookEndpointCreatedBy"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether deliveries are active",
+            "example": true
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The creation time of the webhook endpoint",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
+          }
+        }
+      },
+      "CreateWebhookEndpointBody": {
+        "required": [
+          "url",
+          "scopes"
+        ],
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The publicly reachable HTTPS URL to deliver events to",
+            "format": "uri",
+            "example": "https://example.com/granola-webhooks"
+          },
+          "scopes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateWebhookEndpointBodyScopesItem"
+            },
+            "description": "Which notes to receive events for. \u0060personal\u0060 covers notes you own, notes shared directly with you, and notes in private folders shared with you. \u0060public\u0060 covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace\u0027s API settings. With a Workspace API key, pass exactly \u0060[\u0022workspace\u0022]\u0060 \u2014 the key\u0027s own scope: public workspace notes plus notes in spaces with Granola API access enabled."
+          },
+          "events": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateWebhookEndpointBodyEventsItem"
+            },
+            "description": "Event names to subscribe to. Omit to subscribe to all events.",
+            "default": [
+              "note.access_granted",
+              "note.edited",
+              "note.generated"
+            ]
+          },
+          "folder_ids": {
+            "maxItems": 100,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "pattern": "^fol_[a-zA-Z0-9]{14}$",
+              "type": "string"
+            },
+            "description": "Restrict delivery to notes in these folders or any of their subfolders. Accepts folder IDs returned by \u0060GET /v1/folders\u0060. Omit to receive events for every note matching \u0060scopes\u0060. The same filter applies to all subscribed \u0060events\u0060."
+          }
+        }
+      },
+      "CreateWebhookEndpointOutput": {
+        "required": [
+          "id",
+          "object",
+          "url",
+          "url_redacted",
+          "events",
+          "folder_ids",
+          "scopes",
+          "created_by",
+          "enabled",
+          "created_at",
+          "signing_secret"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^whe_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the webhook endpoint",
+            "example": "whe_2mKr8fQxLp7Ta3"
+          },
+          "object": {
+            "$ref": "#/components/schemas/WebhookEndpointObject"
+          },
+          "url": {
+            "type": "string",
+            "description": "The HTTPS URL deliveries are sent to. When \u0060url_redacted\u0060 is true, reduced to the URL\u0027s origin.",
+            "format": "uri",
+            "example": "https://example.com/granola-webhooks"
+          },
+          "url_redacted": {
+            "type": "boolean",
+            "description": "True when this response reduces \u0060url\u0060 to its origin because the caller is not the endpoint\u0027s creator (the path can carry credentials). Orphaned endpoints whose creator account was deleted are returned unredacted so they can be cleaned up.",
+            "example": false
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebhookEndpointEventsItem"
+            },
+            "description": "The event names this endpoint is subscribed to"
+          },
+          "folder_ids": {
+            "type": "array",
+            "items": {
+              "pattern": "^fol_[a-zA-Z0-9]{14}$",
+              "type": "string"
+            },
+            "description": "Folder IDs this endpoint\u0027s delivery is restricted to, or an empty array when unrestricted. Events fire only for notes in these folders or their subfolders.",
+            "example": []
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebhookEndpointScopesItem"
+            },
+            "description": "Which notes this endpoint receives events for. \u0060personal\u0060 covers notes the creating user owns, notes shared directly with them, and notes in private folders shared with them. \u0060public\u0060 covers notes visible to everyone in the workspace. \u0060workspace\u0060 is reported for endpoints created with a workspace API key: public workspace notes plus notes in spaces with Granola API access enabled."
+          },
+          "created_by": {
+            "$ref": "#/components/schemas/WebhookEndpointCreatedBy"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether deliveries are active",
+            "example": true
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The creation time of the webhook endpoint",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
+          },
+          "signing_secret": {
+            "type": "string",
+            "description": "Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response \u2014 store it securely.",
+            "example": "whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        }
+      },
+      "ListWebhookEndpointsOutput": {
+        "required": [
+          "webhook_endpoints"
+        ],
+        "type": "object",
+        "properties": {
+          "webhook_endpoints": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WebhookEndpoint"
+            }
+          }
+        }
+      },
+      "UpdateWebhookEndpointPath": {
+        "required": [
+          "webhook_endpoint_id"
+        ],
+        "type": "object",
+        "properties": {
+          "webhook_endpoint_id": {
+            "pattern": "^whe_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the webhook endpoint",
+            "example": "whe_2mKr8fQxLp7Ta3"
+          }
+        }
+      },
+      "UpdateWebhookEndpointBody": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The publicly reachable HTTPS URL to deliver events to. Omit to leave unchanged.",
+            "format": "uri",
+            "example": "https://example.com/granola-webhooks"
+          },
+          "scopes": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdateWebhookEndpointBodyScopesItem"
+            },
+            "description": "Which notes to receive events for; replaces the current scopes. \u0060personal\u0060 covers notes you own, notes shared directly with you, and notes in private folders shared with you. \u0060public\u0060 covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace\u0027s API settings. A workspace-managed endpoint\u0027s scope is fixed: only \u0060[\u0022workspace\u0022]\u0060 is accepted. Omit to leave unchanged."
+          },
+          "events": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UpdateWebhookEndpointBodyEventsItem"
+            },
+            "description": "Event names to subscribe to; replaces the current subscriptions. Omit to leave unchanged."
+          },
+          "folder_ids": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "pattern": "^fol_[a-zA-Z0-9]{14}$",
+              "type": "string"
+            },
+            "description": "Restrict delivery to notes in these folders or any of their subfolders; replaces the current folder filter. Accepts folder IDs returned by \u0060GET /v1/folders\u0060. Pass an empty array to remove the filter. Omit to leave unchanged."
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Pause (\u0060false\u0060) or resume (\u0060true\u0060) event deliveries. A paused endpoint keeps its configuration and signing secret; events that occur while paused are not delivered later. Omit to leave unchanged.",
+            "example": true
+          }
+        }
+      },
+      "DeleteWebhookEndpointPath": {
+        "required": [
+          "webhook_endpoint_id"
+        ],
+        "type": "object",
+        "properties": {
+          "webhook_endpoint_id": {
+            "pattern": "^whe_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the webhook endpoint",
+            "example": "whe_2mKr8fQxLp7Ta3"
+          }
+        }
+      },
+      "DeleteWebhookEndpointOutput": {
+        "required": [
+          "id",
+          "object",
+          "deleted"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^whe_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the deleted webhook endpoint",
+            "example": "whe_2mKr8fQxLp7Ta3"
+          },
+          "object": {
+            "$ref": "#/components/schemas/WebhookEndpointObject"
+          },
+          "deleted": {
+            "$ref": "#/components/schemas/DeleteWebhookEndpointOutputDeleted"
+          }
+        }
+      },
+      "NoteDetailCalendarEvent": {
+        "required": [
+          "event_title",
+          "invitees",
+          "organiser",
+          "calendar_event_id",
+          "scheduled_start_time",
+          "scheduled_end_time"
+        ],
+        "type": "object",
+        "properties": {
+          "event_title": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The title of the calendar event",
+            "example": "Quarterly yoghurt budget review"
+          },
+          "invitees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarInvitee"
+            }
+          },
+          "organiser": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The email of the organiser",
+            "format": "email",
+            "example": "oat@granola.ai"
+          },
+          "calendar_event_id": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The id of the calendar event",
+            "example": "2su99n6iiik37iiknmb5t4fkfh_20260127T153000Z"
+          },
+          "scheduled_start_time": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The start time of the calendar event",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
+          },
+          "scheduled_end_time": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The end time of the calendar event",
+            "format": "date-time",
+            "example": "2026-01-27T16:30:00Z"
+          }
+        }
+      },
+      "NoteCalendarEvent": {
+        "required": [
+          "event_title",
+          "invitees",
+          "organiser",
+          "calendar_event_id",
+          "scheduled_start_time",
+          "scheduled_end_time"
+        ],
+        "type": "object",
+        "properties": {
+          "event_title": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The title of the calendar event",
+            "example": "Quarterly yoghurt budget review"
+          },
+          "invitees": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarInvitee"
+            }
+          },
+          "organiser": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The email of the organiser",
+            "format": "email",
+            "example": "oat@granola.ai"
+          },
+          "calendar_event_id": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The id of the calendar event",
+            "example": "2su99n6iiik37iiknmb5t4fkfh_20260127T153000Z"
+          },
+          "scheduled_start_time": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The start time of the calendar event",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
+          },
+          "scheduled_end_time": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The end time of the calendar event",
+            "format": "date-time",
+            "example": "2026-01-27T16:30:00Z"
+          }
+        }
+      },
+      "ListNotesQueryCreatedBefore": {
+        "examples": [
+          "2026-01-27",
+          "2026-01-27T15:30:00Z"
+        ],
+        "type": "object",
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "description": "Return notes created before this date"
+      },
+      "ListNotesQueryCreatedAfter": {
+        "examples": [
+          "2026-01-27",
+          "2026-01-27T15:30:00Z"
+        ],
+        "type": "object",
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "description": "Return notes created after this date"
+      },
+      "ListNotesQueryUpdatedAfter": {
+        "examples": [
+          "2026-01-27",
+          "2026-01-27T15:30:00Z"
+        ],
+        "type": "object",
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "description": "Return notes updated after this date"
+      },
+      "WebhookEndpointCreatedBy": {
+        "required": [
+          "name",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The name of the user",
+            "example": "Oat Benson"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the user",
+            "format": "email",
+            "example": "oat@granola.ai"
+          }
+        },
+        "description": "The user who created this endpoint. Null for a workspace-managed endpoint (\u0060scopes\u0060 is \u0060[\u0022workspace\u0022]\u0060), or when the creator\u0027s account was deleted.",
+        "example": {
+          "name": "Oat Benson",
+          "email": "oat@granola.ai"
+        }
+      },
+      "CreateWebhookEndpointOutputAllOf2": {
+        "required": [
+          "signing_secret"
+        ],
+        "type": "object",
+        "properties": {
+          "signing_secret": {
+            "type": "string",
+            "description": "Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response \u2014 store it securely.",
+            "example": "whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+          }
+        }
+      },
+      "GetV1Audit200Response": {
+        "required": [
+          "events",
+          "hasMore",
+          "cursor"
+        ],
+        "type": "object",
+        "properties": {
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItem"
+            }
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether there are more audit events to fetch. A page can hold fewer than \u0060page_size\u0060 events and still not be the last one, so page on this and \u0060cursor\u0060 rather than on the number of events returned.",
+            "example": true
+          },
+          "cursor": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          }
+        }
+      },
+      "ExamplePayload": {
+        "type": "object",
+        "description": "Placeholder schema for path example refs"
+      },
+      "GetV1Audit200ResponseEventsItem": {
+        "required": [
+          "id",
+          "object",
+          "action",
+          "occurred_at",
+          "collected_at",
+          "actor",
+          "data",
+          "context"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^aud_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the audit event",
+            "example": "aud_7Kq2mXbT9vRp3L"
+          },
+          "object": {
+            "$ref": "#/components/schemas/AuditEventObject"
+          },
+          "action": {
+            "type": "string",
+            "description": "The action that was recorded. See the [audit events reference](/audit-events) for every action and the \u0060data\u0060 it carries. Actions are added over time, so treat this as an open set of strings rather than a fixed list.",
+            "example": "workspace.member_added"
+          },
+          "occurred_at": {
+            "type": "string",
+            "description": "When the action happened, to the millisecond",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00.482Z"
+          },
+          "collected_at": {
+            "type": "string",
+            "description": "When Granola recorded the event. Usually the same moment as \u0060occurred_at\u0060, but later for events we learn about after the fact \u2014 a meeting recording is recorded once its summary finishes, and a note viewed offline is recorded when that device next reaches us. Events are returned in \u0060collected_at\u0060 order, so this is the field that never moves under a cursor, and it carries microseconds to keep events that share a millisecond ordered.",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:04.109733Z"
+          },
+          "actor": {
+            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActor"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemData"
+          },
+          "context": {
+            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemContext"
+          }
+        }
+      },
+      "GetV1Audit200ResponseEventsItemActor": {
+        "required": [
+          "object"
+        ],
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActorObject"
+          },
+          "id_suffix": {
+            "pattern": "^[A-Za-z0-9]{8}$",
+            "type": "string",
+            "description": "The final eight characters of the non-secret API key identifier.",
+            "example": "aB3dE7hK"
+          },
+          "id": {
+            "pattern": "^usr_[a-zA-Z0-9]{14}$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The ID of the user who performed the action, or null if the recorded actor was not a resolvable user.",
+            "example": "usr_3nQ8vLpZ2kR7dY"
+          },
+          "email": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The email of the user who performed the action, or null if the account no longer exists.",
+            "format": "email",
+            "example": "oat@granola.ai"
+          }
+        },
+        "description": "Who performed the action"
+      },
+      "GetV1Audit200ResponseEventsItemData": {
+        "type": "object",
+        "description": "Details of the action. The fields depend on the action, and their names are the ones Granola records internally, so they are camelCase rather than snake_case. See the [audit events reference](/audit-events) for the fields each action carries.",
+        "example": {
+          "role": "member"
+        }
+      },
+      "GetV1Audit200ResponseEventsItemContext": {
+        "required": [
+          "ip_address",
+          "user_agent",
+          "client_version"
+        ],
+        "type": "object",
+        "properties": {
+          "ip_address": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The IP address the request came from, or null if it was not recorded.",
+            "example": "203.0.113.42"
+          },
+          "user_agent": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The user agent of the client that made the request, or null if it was not recorded.",
+            "example": "Granola/7.400.0 (macOS 15.3)"
+          },
+          "client_version": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The Granola client version that made the request, or null if it was not recorded.",
+            "example": "7.400.0"
+          }
+        },
+        "description": "How the request that produced this event reached Granola",
+        "example": {
+          "ip_address": "203.0.113.42",
+          "user_agent": "Granola/7.400.0 (macOS 15.3)",
+          "client_version": "7.400.0"
+        }
+      },
+      "FolderObject": {
+        "enum": [
+          "folder"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "FolderObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "folder",
+              "name": "Folder"
+            }
+          ]
+        }
+      },
+      "SpeakerSource": {
+        "enum": [
+          "microphone",
+          "speaker"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "description": "The source of the speaker. For iOS transcripts, Granola currently returns \u0060microphone\u0060 for all transcript items because iOS currently captures a single audio stream. Clients should not assume this will never expand in the future.",
+        "x-ms-enum": {
+          "name": "SpeakerSource",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "microphone",
+              "name": "Microphone"
+            },
+            {
+              "value": "speaker",
+              "name": "Speaker"
+            }
+          ]
+        }
+      },
+      "SpeakerAttribution": {
+        "enum": [
+          "me",
+          "them"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "description": "Who said this relative to the note: \u0060me\u0060 is the note-taker (the note\u0027s owner), \u0060them\u0060 is other meeting participants. Omitted when the attribution is unknown, such as iOS transcript items that only carry an anonymous \u0060diarization_label\u0060.",
+        "example": "me",
+        "x-ms-enum": {
+          "name": "SpeakerAttribution",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "me",
+              "name": "Me"
+            },
+            {
+              "value": "them",
+              "name": "Them"
+            }
+          ]
+        }
+      },
+      "NoteObject": {
+        "enum": [
+          "note"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "description": "The object type of the note",
+        "x-ms-enum": {
+          "name": "NoteObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "note",
+              "name": "Note"
+            }
+          ]
+        }
+      },
+      "TranscriptInclude": {
+        "enum": [
+          "transcript"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "description": "Include the note transcript in the response. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060.",
+        "example": "transcript",
+        "x-ms-enum": {
+          "name": "TranscriptInclude",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "transcript",
+              "name": "Transcript"
+            }
+          ]
+        }
+      },
+      "WebhookEndpointObject": {
+        "enum": [
+          "webhook_endpoint"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "WebhookEndpointObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "webhook_endpoint",
+              "name": "WebhookEndpoint"
+            }
+          ]
+        }
+      },
+      "WebhookEndpointEventsItem": {
+        "enum": [
+          "note.access_granted",
+          "note.edited",
+          "note.generated"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "WebhookEndpointEventsItem",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "note.access_granted",
+              "name": "NoteAccessGranted"
+            },
+            {
+              "value": "note.edited",
+              "name": "NoteEdited"
+            },
+            {
+              "value": "note.generated",
+              "name": "NoteGenerated"
+            }
+          ]
+        }
+      },
+      "WebhookEndpointScopesItem": {
+        "enum": [
+          "personal",
+          "public",
+          "workspace"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "WebhookEndpointScopesItem",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "personal",
+              "name": "Personal"
+            },
+            {
+              "value": "public",
+              "name": "PublicValue"
+            },
+            {
+              "value": "workspace",
+              "name": "Workspace"
+            }
+          ]
+        }
+      },
+      "CreateWebhookEndpointBodyScopesItem": {
+        "enum": [
+          "personal",
+          "public",
+          "workspace"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "CreateWebhookEndpointBodyScopesItem",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "personal",
+              "name": "Personal"
+            },
+            {
+              "value": "public",
+              "name": "PublicValue"
+            },
+            {
+              "value": "workspace",
+              "name": "Workspace"
+            }
+          ]
+        }
+      },
+      "CreateWebhookEndpointBodyEventsItem": {
+        "enum": [
+          "note.access_granted",
+          "note.edited",
+          "note.generated"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "CreateWebhookEndpointBodyEventsItem",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "note.access_granted",
+              "name": "NoteAccessGranted"
+            },
+            {
+              "value": "note.edited",
+              "name": "NoteEdited"
+            },
+            {
+              "value": "note.generated",
+              "name": "NoteGenerated"
+            }
+          ]
+        }
+      },
+      "UpdateWebhookEndpointBodyScopesItem": {
+        "enum": [
+          "personal",
+          "public",
+          "workspace"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "UpdateWebhookEndpointBodyScopesItem",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "personal",
+              "name": "Personal"
+            },
+            {
+              "value": "public",
+              "name": "PublicValue"
+            },
+            {
+              "value": "workspace",
+              "name": "Workspace"
+            }
+          ]
+        }
+      },
+      "UpdateWebhookEndpointBodyEventsItem": {
+        "enum": [
+          "note.access_granted",
+          "note.edited",
+          "note.generated"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "UpdateWebhookEndpointBodyEventsItem",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "note.access_granted",
+              "name": "NoteAccessGranted"
+            },
+            {
+              "value": "note.edited",
+              "name": "NoteEdited"
+            },
+            {
+              "value": "note.generated",
+              "name": "NoteGenerated"
+            }
+          ]
+        }
+      },
+      "DeleteWebhookEndpointOutputDeleted": {
+        "enum": [
+          true
+        ],
+        "type": "boolean",
+        "additionalProperties": false
+      },
+      "AuditEventObject": {
+        "enum": [
+          "audit_event"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "description": "The object type of the audit event",
+        "x-ms-enum": {
+          "name": "AuditEventObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "audit_event",
+              "name": "AuditEvent"
+            }
+          ]
+        }
+      },
+      "GetV1Audit200ResponseEventsItemActorObject": {
+        "enum": [
+          "api_key",
+          "user",
+          "system",
+          "anonymous"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "description": "The object type of the actor",
+        "x-ms-enum": {
+          "name": "GetV1Audit200ResponseEventsItemActorObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "api_key",
+              "name": "ApiKey"
+            },
+            {
+              "value": "user",
+              "name": "User"
+            },
+            {
+              "value": "system",
+              "name": "System"
+            },
+            {
+              "value": "anonymous",
+              "name": "Anonymous"
+            }
+          ]
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "apiKey"
+      }
+    }
+  }
+}
