@@ -14,7 +14,7 @@ A Kiota-generated .NET client for Granola notes, transcripts, folders, audit eve
 dotnet add package Soenneker.Granola.OpenApiClient
 ```
 
-For dependency injection, authentication configuration, and managed client reuse, install `Soenneker.Granola.OpenApiClientUtil` instead. It exposes this generated client over the long-lived HTTP client registration used by the Granola packages.
+For application registration, authentication configuration, and managed client reuse, install `Soenneker.Granola.OpenApiClientUtil` instead. It exposes this generated client over the long-lived HTTP client registration used by the Granola packages.
 
 ## Direct construction
 
