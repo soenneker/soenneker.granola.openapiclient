@@ -828,6 +828,8 @@
           "folder_membership",
           "summary_text",
           "summary_markdown",
+          "private_notes_text",
+          "private_notes_markdown",
           "transcript"
         ],
         "type": "object",
@@ -868,6 +870,22 @@
             "description": "The summary of the note in markdown format. Can be null if the note has no summary.",
             "example": "## Quarterly Yoghurt Budget Review\n\nThe quarterly yoghurt budget review was a success.\n\n- Spent **$100,000** on yoghurt\n- Made **$150,000** in profit"
           },
+          "private_notes_text": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The private notes the note\u0027s owner wrote themselves, as plain text. Only returned when the API key belongs to the user who created the note; \u0060null\u0060 otherwise (including for shared notes and workspace-scoped keys).",
+            "example": "Push back on the dairy forecast. Ask about the almond milk pivot."
+          },
+          "private_notes_markdown": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The private notes the note\u0027s owner wrote themselves, in markdown format. Only returned when the API key belongs to the user who created the note; \u0060null\u0060 otherwise (including for shared notes and workspace-scoped keys).",
+            "example": "- Push back on the dairy forecast\n- Ask about the **almond milk** pivot"
+          },
           "transcript": {
             "type": [
               "null",
@@ -894,6 +912,8 @@
           "folder_membership",
           "summary_text",
           "summary_markdown",
+          "private_notes_text",
+          "private_notes_markdown",
           "transcript"
         ],
         "type": "object",
@@ -965,6 +985,22 @@
             ],
             "description": "The summary of the note in markdown format. Can be null if the note has no summary.",
             "example": "## Quarterly Yoghurt Budget Review\n\nThe quarterly yoghurt budget review was a success.\n\n- Spent **$100,000** on yoghurt\n- Made **$150,000** in profit"
+          },
+          "private_notes_text": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The private notes the note\u0027s owner wrote themselves, as plain text. Only returned when the API key belongs to the user who created the note; \u0060null\u0060 otherwise (including for shared notes and workspace-scoped keys).",
+            "example": "Push back on the dairy forecast. Ask about the almond milk pivot."
+          },
+          "private_notes_markdown": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The private notes the note\u0027s owner wrote themselves, in markdown format. Only returned when the API key belongs to the user who created the note; \u0060null\u0060 otherwise (including for shared notes and workspace-scoped keys).",
+            "example": "- Push back on the dairy forecast\n- Ask about the **almond milk** pivot"
           },
           "transcript": {
             "type": [

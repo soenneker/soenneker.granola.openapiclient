@@ -58,6 +58,22 @@ namespace Soenneker.Granola.OpenApiClient.Models
 #else
         public global::Soenneker.Granola.OpenApiClient.Models.User Owner { get; set; }
 #endif
+        /// <summary>The private notes the note&apos;s owner wrote themselves, in markdown format. Only returned when the API key belongs to the user who created the note; `null` otherwise (including for shared notes and workspace-scoped keys).</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? PrivateNotesMarkdown { get; set; }
+#nullable restore
+#else
+        public string PrivateNotesMarkdown { get; set; }
+#endif
+        /// <summary>The private notes the note&apos;s owner wrote themselves, as plain text. Only returned when the API key belongs to the user who created the note; `null` otherwise (including for shared notes and workspace-scoped keys).</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? PrivateNotesText { get; set; }
+#nullable restore
+#else
+        public string PrivateNotesText { get; set; }
+#endif
         /// <summary>The summary of the note in markdown format. Can be null if the note has no summary.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -132,6 +148,8 @@ namespace Soenneker.Granola.OpenApiClient.Models
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "object", n => { Object = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.NoteObject>(); } },
                 { "owner", n => { Owner = n.GetObjectValue<global::Soenneker.Granola.OpenApiClient.Models.User>(global::Soenneker.Granola.OpenApiClient.Models.User.CreateFromDiscriminatorValue); } },
+                { "private_notes_markdown", n => { PrivateNotesMarkdown = n.GetStringValue(); } },
+                { "private_notes_text", n => { PrivateNotesText = n.GetStringValue(); } },
                 { "summary_markdown", n => { SummaryMarkdown = n.GetStringValue(); } },
                 { "summary_text", n => { SummaryText = n.GetStringValue(); } },
                 { "title", n => { Title = n.GetStringValue(); } },
@@ -154,6 +172,8 @@ namespace Soenneker.Granola.OpenApiClient.Models
             writer.WriteStringValue("id", Id);
             writer.WriteEnumValue<global::Soenneker.Granola.OpenApiClient.Models.NoteObject>("object", Object);
             writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.User>("owner", Owner);
+            writer.WriteStringValue("private_notes_markdown", PrivateNotesMarkdown);
+            writer.WriteStringValue("private_notes_text", PrivateNotesText);
             writer.WriteStringValue("summary_markdown", SummaryMarkdown);
             writer.WriteStringValue("summary_text", SummaryText);
             writer.WriteStringValue("title", Title);
