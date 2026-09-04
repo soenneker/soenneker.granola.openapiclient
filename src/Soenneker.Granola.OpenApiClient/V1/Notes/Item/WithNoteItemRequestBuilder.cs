@@ -91,8 +91,10 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class WithNoteItemRequestBuilderGetQueryParameters 
         {
+            #pragma warning disable CS1591
             [QueryParameter("include")]
             public global::Soenneker.Granola.OpenApiClient.Models.TranscriptInclude? Include { get; set; }
+            #pragma warning restore CS1591
         }
     }
 }

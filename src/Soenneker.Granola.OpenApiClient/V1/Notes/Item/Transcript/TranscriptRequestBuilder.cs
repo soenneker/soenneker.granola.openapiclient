@@ -87,15 +87,21 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript
         {
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
+            #pragma warning disable CS1591
             [QueryParameter("cursor")]
             public string? Cursor { get; set; }
+            #pragma warning restore CS1591
 #nullable restore
 #else
+            #pragma warning disable CS1591
             [QueryParameter("cursor")]
             public string Cursor { get; set; }
+            #pragma warning restore CS1591
 #endif
+            #pragma warning disable CS1591
             [QueryParameter("page_size")]
             public int? PageSize { get; set; }
+            #pragma warning restore CS1591
         }
     }
 }
