@@ -586,6 +586,421 @@
           }
         ]
       }
+    },
+    "/v1/legal-holds": {
+      "post": {
+        "summary": "Create legal hold",
+        "description": "Places a named legal hold on custodians in your workspace. Granola preserves a custodian\u0027s notes, transcripts and attachments while any hold covering them is active. Custodians see no change in the product.",
+        "operationId": "PostV1LegalHolds",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLegalHoldBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The legal hold that was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalHold"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, or a custodian is not a member of this workspace"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "409": {
+            "description": "A live legal hold with this name already exists in your workspace"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "List legal holds",
+        "description": "Lists every legal hold in your workspace, newest first. Released holds are returned alongside active ones, each carrying \u0060released_at\u0060.",
+        "operationId": "GetV1LegalHolds",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "The cursor to continue from",
+              "example": "eyJjcmVkZW50aWFsfQ=="
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "integer",
+              "description": "Maximum number of legal holds to return per page",
+              "default": 10,
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of legal holds",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListLegalHoldsOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or invalid cursor"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/legal-holds/{holdId}": {
+      "get": {
+        "summary": "Get legal hold",
+        "operationId": "GetV1LegalHoldsByHoldId",
+        "parameters": [
+          {
+            "name": "holdId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The legal hold id",
+              "example": "lgh_Abc123XyZ456De"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The legal hold",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalHold"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "summary": "Update legal hold",
+        "description": "Renames or re-describes a hold, or widens and narrows its workspace-wide coverage. Toggling coverage never touches the custodians the hold names. A released hold cannot be updated.",
+        "operationId": "PatchV1LegalHoldsByHoldId",
+        "parameters": [
+          {
+            "name": "holdId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The legal hold id",
+              "example": "lgh_Abc123XyZ456De"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLegalHoldBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated legal hold",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalHold"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "409": {
+            "description": "A live legal hold with this name already exists in your workspace"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Release legal hold",
+        "description": "Releases a hold. Release is terminal: the hold is never deleted, there is no un-release, and a matter that reopens is a new hold. Releasing an already-released hold returns its original \u0060released_at\u0060.",
+        "operationId": "DeleteV1LegalHoldsByHoldId",
+        "parameters": [
+          {
+            "name": "holdId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The legal hold id",
+              "example": "lgh_Abc123XyZ456De"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The released legal hold",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReleaseLegalHoldOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/legal-holds/{holdId}/custodians": {
+      "post": {
+        "summary": "Add legal hold custodians",
+        "description": "Names users on a hold, by email or by Granola user id. Idempotent: the response carries the request\u0027s full resolved set, whether each entry was newly added or already present.",
+        "operationId": "PostV1LegalHoldsByHoldIdCustodians",
+        "parameters": [
+          {
+            "name": "holdId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The legal hold id",
+              "example": "lgh_Abc123XyZ456De"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddLegalHoldCustodiansBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The custodians named in the request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddLegalHoldCustodiansOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, or a custodian is not a member of this workspace"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "get": {
+        "summary": "List legal hold custodians",
+        "description": "Lists the users a hold names, oldest first. Removed custodians are returned alongside active ones, each carrying \u0060removed_at\u0060.",
+        "operationId": "GetV1LegalHoldsByHoldIdCustodians",
+        "parameters": [
+          {
+            "name": "holdId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The legal hold id",
+              "example": "lgh_Abc123XyZ456De"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "The cursor to continue from",
+              "example": "eyJjcmVkZW50aWFsfQ=="
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "integer",
+              "description": "Maximum number of custodians to return per page",
+              "default": 10,
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of custodians",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListLegalHoldCustodiansOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or invalid cursor"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/legal-holds/{holdId}/custodians/{custodianId}": {
+      "delete": {
+        "summary": "Remove legal hold custodian",
+        "description": "Removes a custodian from a hold. The record of who was held survives: the entry is returned by the list endpoint with \u0060removed_at\u0060 set. A custodian id that was never issued returns 404.",
+        "operationId": "DeleteV1LegalHoldsByHoldIdCustodiansByCustodianId",
+        "parameters": [
+          {
+            "name": "holdId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The legal hold id",
+              "example": "lgh_Abc123XyZ456De"
+            }
+          },
+          {
+            "name": "custodianId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^lhc_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The custodian entry id",
+              "example": "lhc_7Yt3nBv8Wq2Lms"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The removed custodian",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemoveLegalHoldCustodianOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1496,6 +1911,398 @@
           }
         }
       },
+      "LegalHold": {
+        "required": [
+          "id",
+          "object",
+          "name",
+          "description",
+          "covers_entire_workspace",
+          "custodian_count",
+          "created_at",
+          "released_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^lgh_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The unique identifier for the legal hold",
+            "example": "lgh_Abc123XyZ456De"
+          },
+          "object": {
+            "$ref": "#/components/schemas/LegalHoldObject"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the hold, as your admins see it",
+            "example": "X v. Y"
+          },
+          "description": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Free text describing the matter, or null",
+            "example": "Preservation notice 2026-08-12"
+          },
+          "covers_entire_workspace": {
+            "type": "boolean",
+            "description": "True when the hold covers every member of your workspace, current and future. Additive with \u0060custodian_count\u0060 \u2014 a hold may do both.",
+            "example": false
+          },
+          "custodian_count": {
+            "type": "integer",
+            "description": "How many users this hold names individually. Workspace-wide coverage is \u0060covers_entire_workspace\u0060, not a custodian.",
+            "example": 3
+          },
+          "created_at": {
+            "type": "string",
+            "description": "When the hold was placed",
+            "format": "date-time",
+            "example": "2026-09-21T10:00:00Z"
+          },
+          "released_at": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "When the hold was released, or null while it is active. A released hold is never deleted.",
+            "format": "date-time",
+            "example": null
+          }
+        }
+      },
+      "LegalHoldCustodian": {
+        "required": [
+          "id",
+          "object",
+          "user",
+          "added_at",
+          "removed_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^lhc_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The unique identifier for the custodian entry",
+            "example": "lhc_7Yt3nBv8Wq2Lms"
+          },
+          "object": {
+            "$ref": "#/components/schemas/LegalHoldCustodianObject"
+          },
+          "user": {
+            "$ref": "#/components/schemas/LegalHoldCustodianUser"
+          },
+          "added_at": {
+            "type": "string",
+            "description": "When this person was named by the hold",
+            "format": "date-time",
+            "example": "2026-09-21T10:00:00Z"
+          },
+          "removed_at": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "When this person was removed from the hold, or null while they are named. Removed custodians are always returned, so the record of who was held survives.",
+            "format": "date-time",
+            "example": null
+          }
+        }
+      },
+      "LegalHoldCustodianInput": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The custodian\u0027s email address. Use this when your system knows employees by email rather than by Granola user id.",
+            "format": "email",
+            "example": "person@example.com"
+          },
+          "id": {
+            "pattern": "^usr_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The custodian\u0027s Granola user id",
+            "example": "usr_9Kd2mPq7Rt4Xyz"
+          }
+        }
+      },
+      "CreateLegalHoldBody": {
+        "required": [
+          "name",
+          "covers_entire_workspace"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string",
+            "description": "A name for the matter this hold preserves",
+            "example": "X v. Y"
+          },
+          "description": {
+            "maxLength": 2000,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Free text describing the matter",
+            "example": "Preservation notice 2026-08-12"
+          },
+          "covers_entire_workspace": {
+            "type": "boolean",
+            "description": "Whether the hold covers every member of your workspace, current and future. Required: scope is never something a caller falls into.",
+            "example": false
+          },
+          "custodians": {
+            "maxItems": 100,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LegalHoldCustodianInput"
+            },
+            "description": "Users to name individually when the hold is created"
+          }
+        }
+      },
+      "UpdateLegalHoldBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string",
+            "description": "A new name for the matter",
+            "example": "X v. Y (consolidated)"
+          },
+          "description": {
+            "maxLength": 2000,
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "New free text for the matter, or null to clear it",
+            "example": "Preservation notice 2026-08-12"
+          },
+          "covers_entire_workspace": {
+            "type": "boolean",
+            "description": "Whether the hold covers every member of your workspace. Toggling this never touches the custodians the hold names.",
+            "example": true
+          }
+        }
+      },
+      "AddLegalHoldCustodiansBody": {
+        "required": [
+          "custodians"
+        ],
+        "type": "object",
+        "properties": {
+          "custodians": {
+            "maxItems": 100,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LegalHoldCustodianInput"
+            },
+            "description": "Users to name on this hold"
+          }
+        }
+      },
+      "LegalHoldPath": {
+        "required": [
+          "hold_id"
+        ],
+        "type": "object",
+        "properties": {
+          "hold_id": {
+            "pattern": "^lgh_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The legal hold id",
+            "example": "lgh_Abc123XyZ456De"
+          }
+        }
+      },
+      "LegalHoldCustodianPath": {
+        "required": [
+          "hold_id",
+          "custodian_id"
+        ],
+        "type": "object",
+        "properties": {
+          "hold_id": {
+            "pattern": "^lgh_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The legal hold id",
+            "example": "lgh_Abc123XyZ456De"
+          },
+          "custodian_id": {
+            "pattern": "^lhc_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The custodian entry id",
+            "example": "lhc_7Yt3nBv8Wq2Lms"
+          }
+        }
+      },
+      "ListLegalHoldsQuery": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "type": "string",
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          },
+          "page_size": {
+            "maximum": 30,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Maximum number of legal holds to return per page",
+            "default": 10,
+            "example": 10
+          }
+        }
+      },
+      "ListLegalHoldCustodiansQuery": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "type": "string",
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          },
+          "page_size": {
+            "maximum": 30,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Maximum number of custodians to return per page",
+            "default": 10,
+            "example": 10
+          }
+        }
+      },
+      "ListLegalHoldsOutput": {
+        "required": [
+          "legal_holds",
+          "hasMore",
+          "cursor"
+        ],
+        "type": "object",
+        "properties": {
+          "legal_holds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LegalHold"
+            }
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether there are more legal holds to fetch. A page can hold fewer than \u0060page_size\u0060 holds and still not be the last one, so page on this and \u0060cursor\u0060.",
+            "example": false
+          },
+          "cursor": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The cursor to continue from",
+            "example": null
+          }
+        }
+      },
+      "ListLegalHoldCustodiansOutput": {
+        "required": [
+          "custodians",
+          "hasMore",
+          "cursor"
+        ],
+        "type": "object",
+        "properties": {
+          "custodians": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LegalHoldCustodian"
+            }
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether there are more custodians to fetch. A page can hold fewer than \u0060page_size\u0060 custodians and still not be the last one, so page on this and \u0060cursor\u0060.",
+            "example": false
+          },
+          "cursor": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The cursor to continue from",
+            "example": null
+          }
+        }
+      },
+      "AddLegalHoldCustodiansOutput": {
+        "required": [
+          "custodians"
+        ],
+        "type": "object",
+        "properties": {
+          "custodians": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LegalHoldCustodian"
+            }
+          }
+        }
+      },
+      "ReleaseLegalHoldOutput": {
+        "required": [
+          "id",
+          "object",
+          "released",
+          "released_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^lgh_[a-zA-Z0-9]{14}$",
+            "type": "string"
+          },
+          "object": {
+            "$ref": "#/components/schemas/LegalHoldObject"
+          },
+          "released": {
+            "$ref": "#/components/schemas/ReleaseLegalHoldOutputReleased"
+          },
+          "released_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RemoveLegalHoldCustodianOutput": {
+        "required": [
+          "id",
+          "object",
+          "removed",
+          "removed_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^lhc_[a-zA-Z0-9]{14}$",
+            "type": "string"
+          },
+          "object": {
+            "$ref": "#/components/schemas/LegalHoldCustodianObject"
+          },
+          "removed": {
+            "$ref": "#/components/schemas/RemoveLegalHoldCustodianOutputRemoved"
+          },
+          "removed_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "NoteDetailCalendarEvent": {
         "required": [
           "event_title",
@@ -1713,6 +2520,36 @@
             "description": "Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response \u2014 store it securely.",
             "example": "whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
           }
+        }
+      },
+      "LegalHoldCustodianUser": {
+        "required": [
+          "object",
+          "id",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/UserObject"
+          },
+          "id": {
+            "pattern": "^usr_[a-zA-Z0-9]{14}$",
+            "type": "string"
+          },
+          "email": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "description": "The person this custodian entry names. \u0060email\u0060 is null once their Granola account has been deleted.",
+        "example": {
+          "object": "user",
+          "id": "usr_9Kd2mPq7Rt4Xyz",
+          "email": "person@example.com"
         }
       },
       "GetV1Audit200Response": {
@@ -2167,6 +3004,75 @@
         ],
         "type": "boolean",
         "additionalProperties": false
+      },
+      "LegalHoldObject": {
+        "enum": [
+          "legal_hold"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "description": "The type of object",
+        "example": "legal_hold",
+        "x-ms-enum": {
+          "name": "LegalHoldObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "legal_hold",
+              "name": "LegalHold"
+            }
+          ]
+        }
+      },
+      "LegalHoldCustodianObject": {
+        "enum": [
+          "legal_hold_custodian"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "description": "The type of object",
+        "example": "legal_hold_custodian",
+        "x-ms-enum": {
+          "name": "LegalHoldCustodianObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "legal_hold_custodian",
+              "name": "LegalHoldCustodian"
+            }
+          ]
+        }
+      },
+      "ReleaseLegalHoldOutputReleased": {
+        "enum": [
+          true
+        ],
+        "type": "boolean",
+        "additionalProperties": false
+      },
+      "RemoveLegalHoldCustodianOutputRemoved": {
+        "enum": [
+          true
+        ],
+        "type": "boolean",
+        "additionalProperties": false
+      },
+      "UserObject": {
+        "enum": [
+          "user"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "UserObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "user",
+              "name": "User"
+            }
+          ]
+        }
       },
       "AuditEventObject": {
         "enum": [

@@ -4,6 +4,7 @@ using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions;
 using Soenneker.Granola.OpenApiClient.V1.Audit;
 using Soenneker.Granola.OpenApiClient.V1.Folders;
+using Soenneker.Granola.OpenApiClient.V1.LegalHolds;
 using Soenneker.Granola.OpenApiClient.V1.Notes;
 using Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints;
 using System.Collections.Generic;
@@ -27,6 +28,11 @@ namespace Soenneker.Granola.OpenApiClient.V1
         public global::Soenneker.Granola.OpenApiClient.V1.Folders.FoldersRequestBuilder Folders
         {
             get => new global::Soenneker.Granola.OpenApiClient.V1.Folders.FoldersRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The legalHolds property</summary>
+        public global::Soenneker.Granola.OpenApiClient.V1.LegalHolds.LegalHoldsRequestBuilder LegalHolds
+        {
+            get => new global::Soenneker.Granola.OpenApiClient.V1.LegalHolds.LegalHoldsRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The notes property</summary>
         public global::Soenneker.Granola.OpenApiClient.V1.Notes.NotesRequestBuilder Notes
