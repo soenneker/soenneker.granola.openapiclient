@@ -206,6 +206,12 @@
             "format": "date-time",
             "description": "The last update time of the note",
             "example": "2026-01-27T16:45:00Z"
+          },
+          "deleted_at": {
+            "type": ["string", "null"],
+            "format": "date-time",
+            "description": "When the note was deleted, or null if it has not been. Only keys with access to all workspace notes can see deleted notes.",
+            "example": null
           }
         },
         "required": [
@@ -214,7 +220,8 @@
           "title",
           "owner",
           "created_at",
-          "updated_at"
+          "updated_at",
+          "deleted_at"
         ]
       },
       "NoteDetail": {
@@ -362,6 +369,12 @@
             "description": "The last update time of the note",
             "example": "2026-01-27T16:45:00Z"
           },
+          "deleted_at": {
+            "type": ["string", "null"],
+            "format": "date-time",
+            "description": "When the note was deleted, or null if it has not been. Only keys with access to all workspace notes can see deleted notes.",
+            "example": null
+          },
           "web_url": {
             "type": "string",
             "format": "uri",
@@ -465,6 +478,7 @@
           "owner",
           "created_at",
           "updated_at",
+          "deleted_at",
           "web_url",
           "calendar_event",
           "attendees",

@@ -16,6 +16,8 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>The creation time of the note</summary>
         public DateTimeOffset? CreatedAt { get; set; }
+        /// <summary>When the note was deleted, or null if it has not been. Only keys with access to all workspace notes can see deleted notes.</summary>
+        public DateTimeOffset? DeletedAt { get; set; }
         /// <summary>The ID of the note</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -70,6 +72,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "created_at", n => { CreatedAt = n.GetDateTimeOffsetValue(); } },
+                { "deleted_at", n => { DeletedAt = n.GetDateTimeOffsetValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "object", n => { Object = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.NoteObject>(); } },
                 { "owner", n => { Owner = n.GetObjectValue<global::Soenneker.Granola.OpenApiClient.Models.User>(global::Soenneker.Granola.OpenApiClient.Models.User.CreateFromDiscriminatorValue); } },
@@ -85,6 +88,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteDateTimeOffsetValue("created_at", CreatedAt);
+            writer.WriteDateTimeOffsetValue("deleted_at", DeletedAt);
             writer.WriteStringValue("id", Id);
             writer.WriteEnumValue<global::Soenneker.Granola.OpenApiClient.Models.NoteObject>("object", Object);
             writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.User>("owner", Owner);

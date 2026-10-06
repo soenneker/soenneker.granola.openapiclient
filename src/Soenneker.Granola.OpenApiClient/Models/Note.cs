@@ -32,6 +32,8 @@ namespace Soenneker.Granola.OpenApiClient.Models
 #endif
         /// <summary>The creation time of the note</summary>
         public DateTimeOffset? CreatedAt { get; set; }
+        /// <summary>When the note was deleted, or null if it has not been. Only keys with access to all workspace notes can see deleted notes.</summary>
+        public DateTimeOffset? DeletedAt { get; set; }
         /// <summary>The folder membership of the note</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -144,6 +146,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
                 { "attendees", n => { Attendees = n.GetCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.User>(global::Soenneker.Granola.OpenApiClient.Models.User.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "calendar_event", n => { CalendarEvent = n.GetObjectValue<global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent>(global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent.CreateFromDiscriminatorValue); } },
                 { "created_at", n => { CreatedAt = n.GetDateTimeOffsetValue(); } },
+                { "deleted_at", n => { DeletedAt = n.GetDateTimeOffsetValue(); } },
                 { "folder_membership", n => { FolderMembership = n.GetCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.Folder>(global::Soenneker.Granola.OpenApiClient.Models.Folder.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "object", n => { Object = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.NoteObject>(); } },
@@ -168,6 +171,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
             writer.WriteCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.User>("attendees", Attendees);
             writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent>("calendar_event", CalendarEvent);
             writer.WriteDateTimeOffsetValue("created_at", CreatedAt);
+            writer.WriteDateTimeOffsetValue("deleted_at", DeletedAt);
             writer.WriteCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.Folder>("folder_membership", FolderMembership);
             writer.WriteStringValue("id", Id);
             writer.WriteEnumValue<global::Soenneker.Granola.OpenApiClient.Models.NoteObject>("object", Object);
