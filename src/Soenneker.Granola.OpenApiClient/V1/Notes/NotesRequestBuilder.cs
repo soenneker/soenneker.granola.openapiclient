@@ -35,7 +35,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public NotesRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/v1/notes{?created_after*,created_before*,cursor*,folder_id*,page_size*,updated_after*}", pathParameters)
+        public NotesRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/v1/notes{?created_after*,created_before*,cursor*,folder_id*,page_size*,space_id*,updated_after*}", pathParameters)
         {
         }
         /// <summary>
@@ -43,7 +43,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public NotesRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/v1/notes{?created_after*,created_before*,cursor*,folder_id*,page_size*,updated_after*}", rawUrl)
+        public NotesRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/v1/notes{?created_after*,created_before*,cursor*,folder_id*,page_size*,space_id*,updated_after*}", rawUrl)
         {
         }
         /// <summary>
@@ -154,6 +154,19 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes
             [QueryParameter("page_size")]
             public int? PageSize { get; set; }
             #pragma warning restore CS1591
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+            #pragma warning disable CS1591
+            [QueryParameter("space_id")]
+            public string? SpaceId { get; set; }
+            #pragma warning restore CS1591
+#nullable restore
+#else
+            #pragma warning disable CS1591
+            [QueryParameter("space_id")]
+            public string SpaceId { get; set; }
+            #pragma warning restore CS1591
+#endif
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
             #pragma warning disable CS1591

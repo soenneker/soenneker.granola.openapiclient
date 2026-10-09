@@ -6,6 +6,7 @@ using Soenneker.Granola.OpenApiClient.V1.Audit;
 using Soenneker.Granola.OpenApiClient.V1.Folders;
 using Soenneker.Granola.OpenApiClient.V1.LegalHolds;
 using Soenneker.Granola.OpenApiClient.V1.Notes;
+using Soenneker.Granola.OpenApiClient.V1.Spaces;
 using Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints;
 using System.Collections.Generic;
 using System.IO;
@@ -38,6 +39,11 @@ namespace Soenneker.Granola.OpenApiClient.V1
         public global::Soenneker.Granola.OpenApiClient.V1.Notes.NotesRequestBuilder Notes
         {
             get => new global::Soenneker.Granola.OpenApiClient.V1.Notes.NotesRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The spaces property</summary>
+        public global::Soenneker.Granola.OpenApiClient.V1.Spaces.SpacesRequestBuilder Spaces
+        {
+            get => new global::Soenneker.Granola.OpenApiClient.V1.Spaces.SpacesRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>The webhookEndpoints property</summary>
         public global::Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints.WebhookEndpointsRequestBuilder WebhookEndpoints

@@ -9,12 +9,12 @@ namespace Soenneker.Granola.OpenApiClient.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
-    public partial class Folder : IAdditionalDataHolder, IParsable
+    public partial class Space : IAdditionalDataHolder, IParsable
     #pragma warning restore CS1591
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The ID of the folder</summary>
+        /// <summary>The ID of the space</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Id { get; set; }
@@ -22,7 +22,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
 #else
         public string Id { get; set; }
 #endif
-        /// <summary>The name of the folder</summary>
+        /// <summary>The name of the space</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Name { get; set; }
@@ -31,39 +31,23 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public string Name { get; set; }
 #endif
         /// <summary>The object property</summary>
-        public global::Soenneker.Granola.OpenApiClient.Models.FolderObject? Object { get; set; }
-        /// <summary>The ID of the parent folder, or null if the folder is top-level.</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? ParentFolderId { get; set; }
-#nullable restore
-#else
-        public string ParentFolderId { get; set; }
-#endif
-        /// <summary>The ID of the space the folder belongs to, or null if it is not in a space or the API key cannot access that space.</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? SpaceId { get; set; }
-#nullable restore
-#else
-        public string SpaceId { get; set; }
-#endif
+        public global::Soenneker.Granola.OpenApiClient.Models.SpaceObject? Object { get; set; }
         /// <summary>
-        /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.Folder"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.Space"/> and sets the default values.
         /// </summary>
-        public Folder()
+        public Space()
         {
             AdditionalData = new Dictionary<string, object>();
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.Folder"/></returns>
+        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.Space"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Soenneker.Granola.OpenApiClient.Models.Folder CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Soenneker.Granola.OpenApiClient.Models.Space CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Soenneker.Granola.OpenApiClient.Models.Folder();
+            return new global::Soenneker.Granola.OpenApiClient.Models.Space();
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -75,9 +59,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
             {
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
-                { "object", n => { Object = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.FolderObject>(); } },
-                { "parent_folder_id", n => { ParentFolderId = n.GetStringValue(); } },
-                { "space_id", n => { SpaceId = n.GetStringValue(); } },
+                { "object", n => { Object = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.SpaceObject>(); } },
             };
         }
         /// <summary>
@@ -89,9 +71,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("id", Id);
             writer.WriteStringValue("name", Name);
-            writer.WriteEnumValue<global::Soenneker.Granola.OpenApiClient.Models.FolderObject>("object", Object);
-            writer.WriteStringValue("parent_folder_id", ParentFolderId);
-            writer.WriteStringValue("space_id", SpaceId);
+            writer.WriteEnumValue<global::Soenneker.Granola.OpenApiClient.Models.SpaceObject>("object", Object);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

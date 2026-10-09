@@ -76,6 +76,14 @@ namespace Soenneker.Granola.OpenApiClient.Models
 #else
         public string PrivateNotesText { get; set; }
 #endif
+        /// <summary>The spaces the note is in that the API key can access, through the folders it belongs to.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<global::Soenneker.Granola.OpenApiClient.Models.Space>? SpaceMembership { get; set; }
+#nullable restore
+#else
+        public List<global::Soenneker.Granola.OpenApiClient.Models.Space> SpaceMembership { get; set; }
+#endif
         /// <summary>The summary of the note in markdown format. Can be null if the note has no summary.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -153,6 +161,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
                 { "owner", n => { Owner = n.GetObjectValue<global::Soenneker.Granola.OpenApiClient.Models.User>(global::Soenneker.Granola.OpenApiClient.Models.User.CreateFromDiscriminatorValue); } },
                 { "private_notes_markdown", n => { PrivateNotesMarkdown = n.GetStringValue(); } },
                 { "private_notes_text", n => { PrivateNotesText = n.GetStringValue(); } },
+                { "space_membership", n => { SpaceMembership = n.GetCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.Space>(global::Soenneker.Granola.OpenApiClient.Models.Space.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "summary_markdown", n => { SummaryMarkdown = n.GetStringValue(); } },
                 { "summary_text", n => { SummaryText = n.GetStringValue(); } },
                 { "title", n => { Title = n.GetStringValue(); } },
@@ -178,6 +187,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
             writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.User>("owner", Owner);
             writer.WriteStringValue("private_notes_markdown", PrivateNotesMarkdown);
             writer.WriteStringValue("private_notes_text", PrivateNotesText);
+            writer.WriteCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.Space>("space_membership", SpaceMembership);
             writer.WriteStringValue("summary_markdown", SummaryMarkdown);
             writer.WriteStringValue("summary_text", SummaryText);
             writer.WriteStringValue("title", Title);

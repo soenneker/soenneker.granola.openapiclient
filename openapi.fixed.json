@@ -110,6 +110,16 @@
               "default": 10,
               "example": 10
             }
+          },
+          {
+            "name": "space_id",
+            "in": "query",
+            "schema": {
+              "pattern": "^spa_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "Return notes in this space. Use the list spaces endpoint to discover space IDs.",
+              "example": "spa_8kTq2mWxLp4Rz7"
+            }
           }
         ],
         "responses": {
@@ -293,6 +303,58 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ListFoldersOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/spaces": {
+      "get": {
+        "summary": "List spaces",
+        "operationId": "GetV1Spaces",
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "description": "The cursor to continue from",
+              "example": "eyJjcmVkZW50aWFsfQ=="
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "maximum": 30,
+              "minimum": 1,
+              "type": "integer",
+              "description": "The number of spaces to return",
+              "default": 10,
+              "example": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of spaces",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListSpacesOutput"
                 }
               }
             }
@@ -1028,6 +1090,30 @@
           }
         }
       },
+      "Space": {
+        "required": [
+          "id",
+          "object",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^spa_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the space",
+            "example": "spa_8kTq2mWxLp4Rz7"
+          },
+          "object": {
+            "$ref": "#/components/schemas/SpaceObject"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the space",
+            "example": "Product team"
+          }
+        }
+      },
       "Folder": {
         "required": [
           "id",
@@ -1059,6 +1145,15 @@
             ],
             "description": "The ID of the parent folder, or null if the folder is top-level.",
             "example": "fol_a74g2hvl98iUHG"
+          },
+          "space_id": {
+            "pattern": "^spa_[a-zA-Z0-9]{14}$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The ID of the space the folder belongs to, or null if it is not in a space or the API key cannot access that space.",
+            "example": "spa_8kTq2mWxLp4Rz7"
           }
         }
       },
@@ -1282,6 +1377,13 @@
             },
             "description": "The folder membership of the note"
           },
+          "space_membership": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Space"
+            },
+            "description": "The spaces the note is in that the API key can access, through the folders it belongs to."
+          },
           "summary_text": {
             "type": "string",
             "description": "The summary text of the note",
@@ -1407,6 +1509,13 @@
               "$ref": "#/components/schemas/Folder"
             },
             "description": "The folder membership of the note"
+          },
+          "space_membership": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Space"
+            },
+            "description": "The spaces the note is in that the API key can access, through the folders it belongs to."
           },
           "summary_text": {
             "type": "string",
@@ -1614,6 +1723,53 @@
           "hasMore": {
             "type": "boolean",
             "description": "Whether there are more folders to fetch",
+            "example": true
+          },
+          "cursor": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          }
+        }
+      },
+      "ListSpacesQuery": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "type": "string",
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          },
+          "page_size": {
+            "maximum": 30,
+            "minimum": 1,
+            "type": "integer",
+            "description": "The number of spaces to return",
+            "default": 10,
+            "example": 10
+          }
+        }
+      },
+      "ListSpacesOutput": {
+        "required": [
+          "spaces",
+          "hasMore",
+          "cursor"
+        ],
+        "type": "object",
+        "properties": {
+          "spaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Space"
+            }
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether there are more spaces to fetch",
             "example": true
           },
           "cursor": {
@@ -2736,6 +2892,23 @@
           "ip_address": "203.0.113.42",
           "user_agent": "Granola/7.400.0 (macOS 15.3)",
           "client_version": "7.400.0"
+        }
+      },
+      "SpaceObject": {
+        "enum": [
+          "space"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "SpaceObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "space",
+              "name": "Space"
+            }
+          ]
         }
       },
       "FolderObject": {

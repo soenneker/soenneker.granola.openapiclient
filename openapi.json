@@ -37,6 +37,27 @@
         },
         "required": ["name", "email"]
       },
+      "Space": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^spa_[a-zA-Z0-9]{14}$",
+            "description": "The ID of the space",
+            "example": "spa_8kTq2mWxLp4Rz7"
+          },
+          "object": {
+            "type": "string",
+            "enum": ["space"]
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the space",
+            "example": "Product team"
+          }
+        },
+        "required": ["id", "object", "name"]
+      },
       "Folder": {
         "type": "object",
         "properties": {
@@ -60,6 +81,12 @@
             "pattern": "^fol_[a-zA-Z0-9]{14}$",
             "description": "The ID of the parent folder, or null if the folder is top-level.",
             "example": "fol_a74g2hvl98iUHG"
+          },
+          "space_id": {
+            "type": ["string", "null"],
+            "pattern": "^spa_[a-zA-Z0-9]{14}$",
+            "description": "The ID of the space the folder belongs to, or null if it is not in a space or the API key cannot access that space.",
+            "example": "spa_8kTq2mWxLp4Rz7"
           }
         },
         "required": ["id", "object", "name", "parent_folder_id"]
@@ -271,7 +298,22 @@
                 "id": "fol_4y6LduVdwSKC27",
                 "object": "folder",
                 "name": "Top secret recipes",
-                "parent_folder_id": "fol_a74g2hvl98iUHG"
+                "parent_folder_id": "fol_a74g2hvl98iUHG",
+                "space_id": "spa_8kTq2mWxLp4Rz7"
+              }
+            ]
+          },
+          "space_membership": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Space"
+            },
+            "description": "The spaces the note is in that the API key can access, through the folders it belongs to.",
+            "example": [
+              {
+                "id": "spa_8kTq2mWxLp4Rz7",
+                "object": "space",
+                "name": "Product team"
               }
             ]
           },
@@ -419,7 +461,22 @@
                 "id": "fol_4y6LduVdwSKC27",
                 "object": "folder",
                 "name": "Top secret recipes",
-                "parent_folder_id": "fol_a74g2hvl98iUHG"
+                "parent_folder_id": "fol_a74g2hvl98iUHG",
+                "space_id": "spa_8kTq2mWxLp4Rz7"
+              }
+            ]
+          },
+          "space_membership": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Space"
+            },
+            "description": "The spaces the note is in that the API key can access, through the folders it belongs to.",
+            "example": [
+              {
+                "id": "spa_8kTq2mWxLp4Rz7",
+                "object": "space",
+                "name": "Product team"
               }
             ]
           },
@@ -679,6 +736,46 @@
           }
         },
         "required": ["folders", "hasMore", "cursor"]
+      },
+      "ListSpacesQuery": {
+        "type": "object",
+        "properties": {
+          "cursor": {
+            "type": "string",
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          },
+          "page_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 30,
+            "default": 10,
+            "description": "The number of spaces to return",
+            "example": 10
+          }
+        }
+      },
+      "ListSpacesOutput": {
+        "type": "object",
+        "properties": {
+          "spaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Space"
+            }
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether there are more spaces to fetch",
+            "example": true
+          },
+          "cursor": {
+            "type": ["string", "null"],
+            "description": "The cursor to continue from",
+            "example": "eyJjcmVkZW50aWFsfQ=="
+          }
+        },
+        "required": ["spaces", "hasMore", "cursor"]
       },
       "WebhookEndpoint": {
         "type": "object",
@@ -1404,6 +1501,17 @@
             "required": false,
             "name": "page_size",
             "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "pattern": "^spa_[a-zA-Z0-9]{14}$",
+              "description": "Return notes in this space. Use the list spaces endpoint to discover space IDs.",
+              "example": "spa_8kTq2mWxLp4Rz7"
+            },
+            "required": false,
+            "name": "space_id",
+            "in": "query"
           }
         ],
         "responses": {
@@ -1592,6 +1700,59 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ListFoldersOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          }
+        }
+      }
+    },
+    "/v1/spaces": {
+      "get": {
+        "summary": "List spaces",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "The cursor to continue from",
+              "example": "eyJjcmVkZW50aWFsfQ=="
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30,
+              "default": 10,
+              "description": "The number of spaces to return",
+              "example": 10
+            },
+            "required": false,
+            "name": "page_size",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of spaces",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListSpacesOutput"
                 }
               }
             }
