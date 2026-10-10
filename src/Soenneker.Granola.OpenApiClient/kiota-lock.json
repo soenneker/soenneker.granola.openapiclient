@@ -2,7 +2,7 @@
   "descriptionHash": "666F3C1C7A7248973BE7C4B1486609BCBF813287C286CB94A9048067C9625D23409AD29767CE07CB500C4492DBAC31D0C632F256A12019377D433D2BC917B9C0",
   "descriptionLocation": "../../openapi.fixed.json",
   "lockFileVersion": "1.0.0",
-  "kiotaVersion": "1.35.0",
+  "kiotaVersion": "1.36.0",
   "clientClassName": "GranolaOpenApiClient",
   "typeAccessModifier": "Public",
   "clientNamespaceName": "Soenneker.Granola.OpenApiClient",
