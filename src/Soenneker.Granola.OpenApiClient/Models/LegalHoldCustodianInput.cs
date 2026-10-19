@@ -22,7 +22,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
 #else
         public string Email { get; set; }
 #endif
-        /// <summary>The custodian&apos;s Granola user id</summary>
+        /// <summary>The custodian&apos;s Granola user id. Case-insensitive.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Id { get; set; }

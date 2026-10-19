@@ -22,7 +22,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
 #else
         public List<global::Soenneker.Granola.OpenApiClient.Models.CreateWebhookEndpointBodyEventsItem?> Events { get; set; }
 #endif
-        /// <summary>Restrict delivery to notes in these folders or any of their subfolders. Accepts folder IDs returned by `GET /v1/folders`. Omit to receive events for every note matching `scopes`. The same filter applies to all subscribed `events`.</summary>
+        /// <summary>Restrict delivery to notes in these folders or any of their subfolders. Accepts folder IDs returned by `GET /v1/folders`, in any casing. Omit to receive events for every note matching `scopes`. The same filter applies to all subscribed `events`.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<string>? FolderIds { get; set; }

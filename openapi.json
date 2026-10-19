@@ -552,8 +552,8 @@
         "properties": {
           "note_id": {
             "type": "string",
-            "pattern": "^not_[a-zA-Z0-9]{14}$",
-            "description": "The ID of the note",
+            "pattern": "^[Nn][Oo][Tt]_[a-zA-Z0-9]{14}$",
+            "description": "The ID of the note (case-insensitive)",
             "example": "not_1d3tmYTlCICgjy"
           }
         },
@@ -656,8 +656,8 @@
           },
           "folder_id": {
             "type": "string",
-            "pattern": "^fol_[a-zA-Z0-9]{14}$",
-            "description": "Return notes in this folder and any of its child folders. Use the list folders endpoint to discover folder IDs.",
+            "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$",
+            "description": "Return notes in this folder and any of its child folders. Folder IDs are case-insensitive. Use the list folders endpoint to discover folder IDs.",
             "example": "fol_4y6LduVdwSKC27"
           },
           "cursor": {
@@ -902,11 +902,11 @@
             "type": "array",
             "items": {
               "type": "string",
-              "pattern": "^fol_[a-zA-Z0-9]{14}$"
+              "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$"
             },
             "minItems": 1,
             "maxItems": 100,
-            "description": "Restrict delivery to notes in these folders or any of their subfolders. Accepts folder IDs returned by `GET /v1/folders`. Omit to receive events for every note matching `scopes`. The same filter applies to all subscribed `events`.",
+            "description": "Restrict delivery to notes in these folders or any of their subfolders. Accepts folder IDs returned by `GET /v1/folders`, in any casing. Omit to receive events for every note matching `scopes`. The same filter applies to all subscribed `events`.",
             "example": ["fol_2mKr8fQxLp7Ta3"]
           }
         },
@@ -947,8 +947,8 @@
         "properties": {
           "webhook_endpoint_id": {
             "type": "string",
-            "pattern": "^whe_[a-zA-Z0-9]{14}$",
-            "description": "The ID of the webhook endpoint",
+            "pattern": "^[Ww][Hh][Ee]_[a-zA-Z0-9]{14}$",
+            "description": "The ID of the webhook endpoint. Case-insensitive.",
             "example": "whe_2mKr8fQxLp7Ta3"
           }
         },
@@ -987,10 +987,10 @@
             "type": "array",
             "items": {
               "type": "string",
-              "pattern": "^fol_[a-zA-Z0-9]{14}$"
+              "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$"
             },
             "maxItems": 100,
-            "description": "Restrict delivery to notes in these folders or any of their subfolders; replaces the current folder filter. Accepts folder IDs returned by `GET /v1/folders`. Pass an empty array to remove the filter. Omit to leave unchanged.",
+            "description": "Restrict delivery to notes in these folders or any of their subfolders; replaces the current folder filter. Accepts folder IDs returned by `GET /v1/folders`, in any casing. Pass an empty array to remove the filter. Omit to leave unchanged.",
             "example": ["fol_2mKr8fQxLp7Ta3"]
           },
           "enabled": {
@@ -1005,8 +1005,8 @@
         "properties": {
           "webhook_endpoint_id": {
             "type": "string",
-            "pattern": "^whe_[a-zA-Z0-9]{14}$",
-            "description": "The ID of the webhook endpoint",
+            "pattern": "^[Ww][Hh][Ee]_[a-zA-Z0-9]{14}$",
+            "description": "The ID of the webhook endpoint. Case-insensitive.",
             "example": "whe_2mKr8fQxLp7Ta3"
           }
         },
@@ -1156,8 +1156,8 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^usr_[a-zA-Z0-9]{14}$",
-            "description": "The custodian's Granola user id",
+            "pattern": "^[Uu][Ss][Rr]_[a-zA-Z0-9]{14}$",
+            "description": "The custodian's Granola user id. Case-insensitive.",
             "example": "usr_9Kd2mPq7Rt4Xyz"
           }
         }
@@ -1237,8 +1237,8 @@
         "properties": {
           "hold_id": {
             "type": "string",
-            "pattern": "^lgh_[a-zA-Z0-9]{14}$",
-            "description": "The legal hold id",
+            "pattern": "^[Ll][Gg][Hh]_[a-zA-Z0-9]{14}$",
+            "description": "The legal hold id. Case-insensitive.",
             "example": "lgh_Abc123XyZ456De"
           }
         },
@@ -1249,14 +1249,14 @@
         "properties": {
           "hold_id": {
             "type": "string",
-            "pattern": "^lgh_[a-zA-Z0-9]{14}$",
-            "description": "The legal hold id",
+            "pattern": "^[Ll][Gg][Hh]_[a-zA-Z0-9]{14}$",
+            "description": "The legal hold id. Case-insensitive.",
             "example": "lgh_Abc123XyZ456De"
           },
           "custodian_id": {
             "type": "string",
-            "pattern": "^lhc_[a-zA-Z0-9]{14}$",
-            "description": "The custodian entry id",
+            "pattern": "^[Ll][Hh][Cc]_[a-zA-Z0-9]{14}$",
+            "description": "The custodian entry id. Case-insensitive.",
             "example": "lhc_7Yt3nBv8Wq2Lms"
           }
         },
@@ -1471,8 +1471,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^fol_[a-zA-Z0-9]{14}$",
-              "description": "Return notes in this folder and any of its child folders. Use the list folders endpoint to discover folder IDs.",
+              "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$",
+              "description": "Return notes in this folder and any of its child folders. Folder IDs are case-insensitive. Use the list folders endpoint to discover folder IDs.",
               "example": "fol_4y6LduVdwSKC27"
             },
             "required": false,
@@ -1505,8 +1505,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^spa_[a-zA-Z0-9]{14}$",
-              "description": "Return notes in this space. Use the list spaces endpoint to discover space IDs.",
+              "pattern": "^[Ss][Pp][Aa]_[a-zA-Z0-9]{14}$",
+              "description": "Return notes in this space. Space IDs are case-insensitive. Use the list spaces endpoint to discover space IDs.",
               "example": "spa_8kTq2mWxLp4Rz7"
             },
             "required": false,
@@ -1546,8 +1546,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^not_[a-zA-Z0-9]{14}$",
-              "description": "The ID of the note",
+              "pattern": "^[Nn][Oo][Tt]_[a-zA-Z0-9]{14}$",
+              "description": "The ID of the note (case-insensitive)",
               "example": "not_1d3tmYTlCICgjy"
             },
             "required": true,
@@ -1605,8 +1605,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^not_[a-zA-Z0-9]{14}$",
-              "description": "The ID of the note",
+              "pattern": "^[Nn][Oo][Tt]_[a-zA-Z0-9]{14}$",
+              "description": "The ID of the note (case-insensitive)",
               "example": "not_1d3tmYTlCICgjy"
             },
             "required": true,
@@ -2138,8 +2138,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^whe_[a-zA-Z0-9]{14}$",
-              "description": "The ID of the webhook endpoint",
+              "pattern": "^[Ww][Hh][Ee]_[a-zA-Z0-9]{14}$",
+              "description": "The ID of the webhook endpoint. Case-insensitive.",
               "example": "whe_2mKr8fQxLp7Ta3"
             },
             "required": true,
@@ -2192,8 +2192,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^whe_[a-zA-Z0-9]{14}$",
-              "description": "The ID of the webhook endpoint",
+              "pattern": "^[Ww][Hh][Ee]_[a-zA-Z0-9]{14}$",
+              "description": "The ID of the webhook endpoint. Case-insensitive.",
               "example": "whe_2mKr8fQxLp7Ta3"
             },
             "required": true,
@@ -2329,8 +2329,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
-              "description": "The legal hold id",
+              "pattern": "^[Ll][Gg][Hh]_[a-zA-Z0-9]{14}$",
+              "description": "The legal hold id. Case-insensitive.",
               "example": "lgh_Abc123XyZ456De"
             },
             "required": true,
@@ -2372,8 +2372,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
-              "description": "The legal hold id",
+              "pattern": "^[Ll][Gg][Hh]_[a-zA-Z0-9]{14}$",
+              "description": "The legal hold id. Case-insensitive.",
               "example": "lgh_Abc123XyZ456De"
             },
             "required": true,
@@ -2427,8 +2427,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
-              "description": "The legal hold id",
+              "pattern": "^[Ll][Gg][Hh]_[a-zA-Z0-9]{14}$",
+              "description": "The legal hold id. Case-insensitive.",
               "example": "lgh_Abc123XyZ456De"
             },
             "required": true,
@@ -2472,8 +2472,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
-              "description": "The legal hold id",
+              "pattern": "^[Ll][Gg][Hh]_[a-zA-Z0-9]{14}$",
+              "description": "The legal hold id. Case-insensitive.",
               "example": "lgh_Abc123XyZ456De"
             },
             "required": true,
@@ -2524,8 +2524,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
-              "description": "The legal hold id",
+              "pattern": "^[Ll][Gg][Hh]_[a-zA-Z0-9]{14}$",
+              "description": "The legal hold id. Case-insensitive.",
               "example": "lgh_Abc123XyZ456De"
             },
             "required": true,
@@ -2592,8 +2592,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^lgh_[a-zA-Z0-9]{14}$",
-              "description": "The legal hold id",
+              "pattern": "^[Ll][Gg][Hh]_[a-zA-Z0-9]{14}$",
+              "description": "The legal hold id. Case-insensitive.",
               "example": "lgh_Abc123XyZ456De"
             },
             "required": true,
@@ -2603,8 +2603,8 @@
           {
             "schema": {
               "type": "string",
-              "pattern": "^lhc_[a-zA-Z0-9]{14}$",
-              "description": "The custodian entry id",
+              "pattern": "^[Ll][Hh][Cc]_[a-zA-Z0-9]{14}$",
+              "description": "The custodian entry id. Case-insensitive.",
               "example": "lhc_7Yt3nBv8Wq2Lms"
             },
             "required": true,
