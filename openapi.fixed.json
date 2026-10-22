@@ -1340,10 +1340,60 @@
           }
         }
       },
+      "NoteAttachment": {
+        "required": [
+          "id",
+          "object",
+          "type",
+          "url",
+          "width",
+          "height"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^att_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the attachment",
+            "example": "att_4y6LduVdwSKC27"
+          },
+          "object": {
+            "$ref": "#/components/schemas/AttachmentObject"
+          },
+          "type": {
+            "type": "string",
+            "description": "The attachment type: \u0060photo\u0060 for manually attached images, or \u0060screenshot\u0060 for automatic shared-screen captures. Clients should ignore types they do not recognize.",
+            "example": "photo"
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL to download the image. URLs may change; fetch the note again for the current URL. Anyone with this URL can view it; treat it as sensitive note content.",
+            "format": "uri"
+          },
+          "width": {
+            "type": "number",
+            "description": "The image width in pixels"
+          },
+          "height": {
+            "type": "number",
+            "description": "The image height in pixels"
+          },
+          "captured_at": {
+            "type": "string",
+            "description": "When the shared-screen screenshot was captured. Omitted for photos.",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string",
+            "description": "The generated description of the shared-screen screenshot. Omitted for photos."
+          }
+        }
+      },
       "NoteDetail": {
         "required": [
           "web_url",
           "calendar_event",
+          "attachments",
           "attendees",
           "folder_membership",
           "summary_text",
@@ -1362,6 +1412,13 @@
           },
           "calendar_event": {
             "$ref": "#/components/schemas/NoteDetailCalendarEvent"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NoteAttachment"
+            },
+            "description": "Images attached to the note, in stored order. Includes manually attached photos and, when a workspace admin enables API screenshot access, described shared-screen screenshots. Screenshot access is off by default and applies to every API key scope. Pending screenshots are excluded. Disabling access does not revoke previously issued image URLs. Empty when no attachments are available."
           },
           "attendees": {
             "type": "array",
@@ -1436,6 +1493,7 @@
           "deleted_at",
           "web_url",
           "calendar_event",
+          "attachments",
           "attendees",
           "folder_membership",
           "summary_text",
@@ -1495,6 +1553,13 @@
           },
           "calendar_event": {
             "$ref": "#/components/schemas/NoteCalendarEvent"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NoteAttachment"
+            },
+            "description": "Images attached to the note, in stored order. Includes manually attached photos and, when a workspace admin enables API screenshot access, described shared-screen screenshots. Screenshot access is off by default and applies to every API key scope. Pending screenshots are excluded. Disabling access does not revoke previously issued image URLs. Empty when no attachments are available."
           },
           "attendees": {
             "type": "array",
@@ -2989,6 +3054,23 @@
             {
               "value": "note",
               "name": "Note"
+            }
+          ]
+        }
+      },
+      "AttachmentObject": {
+        "enum": [
+          "attachment"
+        ],
+        "type": "string",
+        "additionalProperties": false,
+        "x-ms-enum": {
+          "name": "AttachmentObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "attachment",
+              "name": "Attachment"
             }
           ]
         }

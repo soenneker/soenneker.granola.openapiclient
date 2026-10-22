@@ -14,6 +14,14 @@ namespace Soenneker.Granola.OpenApiClient.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
+        /// <summary>Images attached to the note, in stored order. Includes manually attached photos and, when a workspace admin enables API screenshot access, described shared-screen screenshots. Screenshot access is off by default and applies to every API key scope. Pending screenshots are excluded. Disabling access does not revoke previously issued image URLs. Empty when no attachments are available.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment>? Attachments { get; set; }
+#nullable restore
+#else
+        public List<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment> Attachments { get; set; }
+#endif
         /// <summary>The attendees of the meeting</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -151,6 +159,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "attachments", n => { Attachments = n.GetCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment>(global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "attendees", n => { Attendees = n.GetCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.User>(global::Soenneker.Granola.OpenApiClient.Models.User.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "calendar_event", n => { CalendarEvent = n.GetObjectValue<global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent>(global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent.CreateFromDiscriminatorValue); } },
                 { "created_at", n => { CreatedAt = n.GetDateTimeOffsetValue(); } },
@@ -177,6 +186,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment>("attachments", Attachments);
             writer.WriteCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.User>("attendees", Attendees);
             writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent>("calendar_event", CalendarEvent);
             writer.WriteDateTimeOffsetValue("created_at", CreatedAt);

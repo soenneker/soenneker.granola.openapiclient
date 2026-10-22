@@ -251,6 +251,49 @@
           "deleted_at"
         ]
       },
+      "NoteAttachment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^att_[a-zA-Z0-9]{14}$",
+            "description": "The ID of the attachment",
+            "example": "att_4y6LduVdwSKC27"
+          },
+          "object": {
+            "type": "string",
+            "enum": ["attachment"]
+          },
+          "type": {
+            "type": "string",
+            "description": "The attachment type: `photo` for manually attached images, or `screenshot` for automatic shared-screen captures. Clients should ignore types they do not recognize.",
+            "example": "photo"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL to download the image. URLs may change; fetch the note again for the current URL. Anyone with this URL can view it; treat it as sensitive note content."
+          },
+          "width": {
+            "type": "number",
+            "description": "The image width in pixels"
+          },
+          "height": {
+            "type": "number",
+            "description": "The image height in pixels"
+          },
+          "captured_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the shared-screen screenshot was captured. Omitted for photos."
+          },
+          "description": {
+            "type": "string",
+            "description": "The generated description of the shared-screen screenshot. Omitted for photos."
+          }
+        },
+        "required": ["id", "object", "type", "url", "width", "height"]
+      },
       "NoteDetail": {
         "type": "object",
         "properties": {
@@ -269,6 +312,13 @@
                 "type": ["object", "null"]
               }
             ]
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NoteAttachment"
+            },
+            "description": "Images attached to the note, in stored order. Includes manually attached photos and, when a workspace admin enables API screenshot access, described shared-screen screenshots. Screenshot access is off by default and applies to every API key scope. Pending screenshots are excluded. Disabling access does not revoke previously issued image URLs. Empty when no attachments are available."
           },
           "attendees": {
             "type": "array",
@@ -368,6 +418,7 @@
         "required": [
           "web_url",
           "calendar_event",
+          "attachments",
           "attendees",
           "folder_membership",
           "summary_text",
@@ -432,6 +483,13 @@
                 "type": ["object", "null"]
               }
             ]
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NoteAttachment"
+            },
+            "description": "Images attached to the note, in stored order. Includes manually attached photos and, when a workspace admin enables API screenshot access, described shared-screen screenshots. Screenshot access is off by default and applies to every API key scope. Pending screenshots are excluded. Disabling access does not revoke previously issued image URLs. Empty when no attachments are available."
           },
           "attendees": {
             "type": "array",
@@ -538,6 +596,7 @@
           "deleted_at",
           "web_url",
           "calendar_event",
+          "attachments",
           "attendees",
           "folder_membership",
           "summary_text",
