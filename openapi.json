@@ -266,7 +266,7 @@
           },
           "type": {
             "type": "string",
-            "description": "The attachment type: `photo` for manually attached images, or `screenshot` for automatic shared-screen captures. Clients should ignore types they do not recognize.",
+            "description": "The attachment type: `photo` for manually attached images. Clients should ignore types they do not recognize.",
             "example": "photo"
           },
           "url": {
@@ -281,15 +281,6 @@
           "height": {
             "type": "number",
             "description": "The image height in pixels"
-          },
-          "captured_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the shared-screen screenshot was captured. Omitted for photos."
-          },
-          "description": {
-            "type": "string",
-            "description": "The generated description of the shared-screen screenshot. Omitted for photos."
           }
         },
         "required": ["id", "object", "type", "url", "width", "height"]
@@ -318,7 +309,7 @@
             "items": {
               "$ref": "#/components/schemas/NoteAttachment"
             },
-            "description": "Images attached to the note, in stored order. Includes manually attached photos and, when a workspace admin enables API screenshot access, described shared-screen screenshots. Screenshot access is off by default and applies to every API key scope. Pending screenshots are excluded. Disabling access does not revoke previously issued image URLs. Empty when no attachments are available."
+            "description": "Manually attached photos, in stored order. Empty when no photos are available."
           },
           "attendees": {
             "type": "array",
@@ -489,7 +480,7 @@
             "items": {
               "$ref": "#/components/schemas/NoteAttachment"
             },
-            "description": "Images attached to the note, in stored order. Includes manually attached photos and, when a workspace admin enables API screenshot access, described shared-screen screenshots. Screenshot access is off by default and applies to every API key scope. Pending screenshots are excluded. Disabling access does not revoke previously issued image URLs. Empty when no attachments are available."
+            "description": "Manually attached photos, in stored order. Empty when no photos are available."
           },
           "attendees": {
             "type": "array",

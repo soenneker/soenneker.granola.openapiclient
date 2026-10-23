@@ -14,16 +14,6 @@ namespace Soenneker.Granola.OpenApiClient.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>When the shared-screen screenshot was captured. Omitted for photos.</summary>
-        public DateTimeOffset? CapturedAt { get; set; }
-        /// <summary>The generated description of the shared-screen screenshot. Omitted for photos.</summary>
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
-#nullable enable
-        public string? Description { get; set; }
-#nullable restore
-#else
-        public string Description { get; set; }
-#endif
         /// <summary>The image height in pixels</summary>
         public double? Height { get; set; }
         /// <summary>The ID of the attachment</summary>
@@ -36,7 +26,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
 #endif
         /// <summary>The object property</summary>
         public global::Soenneker.Granola.OpenApiClient.Models.AttachmentObject? Object { get; set; }
-        /// <summary>The attachment type: `photo` for manually attached images, or `screenshot` for automatic shared-screen captures. Clients should ignore types they do not recognize.</summary>
+        /// <summary>The attachment type: `photo` for manually attached images. Clients should ignore types they do not recognize.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Type { get; set; }
@@ -79,8 +69,6 @@ namespace Soenneker.Granola.OpenApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "captured_at", n => { CapturedAt = n.GetDateTimeOffsetValue(); } },
-                { "description", n => { Description = n.GetStringValue(); } },
                 { "height", n => { Height = n.GetDoubleValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "object", n => { Object = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.AttachmentObject>(); } },
@@ -96,8 +84,6 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteDateTimeOffsetValue("captured_at", CapturedAt);
-            writer.WriteStringValue("description", Description);
             writer.WriteDoubleValue("height", Height);
             writer.WriteStringValue("id", Id);
             writer.WriteEnumValue<global::Soenneker.Granola.OpenApiClient.Models.AttachmentObject>("object", Object);

@@ -14,7 +14,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
     {
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>Images attached to the note, in stored order. Includes manually attached photos and, when a workspace admin enables API screenshot access, described shared-screen screenshots. Screenshot access is off by default and applies to every API key scope. Pending screenshots are excluded. Disabling access does not revoke previously issued image URLs. Empty when no attachments are available.</summary>
+        /// <summary>Manually attached photos, in stored order. Empty when no photos are available.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment>? Attachments { get; set; }
