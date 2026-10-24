@@ -8,46 +8,43 @@ using System;
 namespace Soenneker.Granola.OpenApiClient.Models
 {
     /// <summary>
-    /// Who performed the action
+    /// Composed type wrapper for classes <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymous"/>, <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKey"/>, <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystem"/>, <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorUser"/>
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-    public partial class GetV1Audit200ResponseEventsItemActor : IAdditionalDataHolder, IParsable
+    public partial class GetV1Audit200ResponseEventsItemActor : IComposedTypeWrapper, IParsable
     {
-        /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
-        public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The email of the user who performed the action, or null if the account no longer exists.</summary>
+        /// <summary>Composed type representation for type <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymous"/></summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? Email { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymous? GetV1Audit200ResponseEventsItemActorAnonymous { get; set; }
 #nullable restore
 #else
-        public string Email { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymous GetV1Audit200ResponseEventsItemActorAnonymous { get; set; }
 #endif
-        /// <summary>The ID of the user who performed the action, or null if the recorded actor was not a resolvable user.</summary>
+        /// <summary>Composed type representation for type <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKey"/></summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? Id { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKey? GetV1Audit200ResponseEventsItemActorApiKey { get; set; }
 #nullable restore
 #else
-        public string Id { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKey GetV1Audit200ResponseEventsItemActorApiKey { get; set; }
 #endif
-        /// <summary>The final eight characters of the non-secret API key identifier.</summary>
+        /// <summary>Composed type representation for type <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystem"/></summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? IdSuffix { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystem? GetV1Audit200ResponseEventsItemActorSystem { get; set; }
 #nullable restore
 #else
-        public string IdSuffix { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystem GetV1Audit200ResponseEventsItemActorSystem { get; set; }
 #endif
-        /// <summary>The object type of the actor</summary>
-        public global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorObject? Object { get; set; }
-        /// <summary>
-        /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActor"/> and sets the default values.
-        /// </summary>
-        public GetV1Audit200ResponseEventsItemActor()
-        {
-            AdditionalData = new Dictionary<string, object>();
-        }
+        /// <summary>Composed type representation for type <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorUser"/></summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorUser? GetV1Audit200ResponseEventsItemActorUser { get; set; }
+#nullable restore
+#else
+        public global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorUser GetV1Audit200ResponseEventsItemActorUser { get; set; }
+#endif
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
@@ -56,7 +53,25 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public static global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActor CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActor();
+            var mappingValue = parseNode.GetChildNode("object")?.GetStringValue();
+            var result = new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActor();
+            if("anonymous".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+            {
+                result.GetV1Audit200ResponseEventsItemActorAnonymous = new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymous();
+            }
+            else if("api_key".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+            {
+                result.GetV1Audit200ResponseEventsItemActorApiKey = new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKey();
+            }
+            else if("system".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+            {
+                result.GetV1Audit200ResponseEventsItemActorSystem = new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystem();
+            }
+            else if("user".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
+            {
+                result.GetV1Audit200ResponseEventsItemActorUser = new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorUser();
+            }
+            return result;
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -64,13 +79,23 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <returns>A IDictionary&lt;string, Action&lt;IParseNode&gt;&gt;</returns>
         public virtual IDictionary<string, Action<IParseNode>> GetFieldDeserializers()
         {
-            return new Dictionary<string, Action<IParseNode>>
+            if(GetV1Audit200ResponseEventsItemActorAnonymous != null)
             {
-                { "email", n => { Email = n.GetStringValue(); } },
-                { "id", n => { Id = n.GetStringValue(); } },
-                { "id_suffix", n => { IdSuffix = n.GetStringValue(); } },
-                { "object", n => { Object = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorObject>(); } },
-            };
+                return GetV1Audit200ResponseEventsItemActorAnonymous.GetFieldDeserializers();
+            }
+            else if(GetV1Audit200ResponseEventsItemActorApiKey != null)
+            {
+                return GetV1Audit200ResponseEventsItemActorApiKey.GetFieldDeserializers();
+            }
+            else if(GetV1Audit200ResponseEventsItemActorSystem != null)
+            {
+                return GetV1Audit200ResponseEventsItemActorSystem.GetFieldDeserializers();
+            }
+            else if(GetV1Audit200ResponseEventsItemActorUser != null)
+            {
+                return GetV1Audit200ResponseEventsItemActorUser.GetFieldDeserializers();
+            }
+            return new Dictionary<string, Action<IParseNode>>();
         }
         /// <summary>
         /// Serializes information the current object
@@ -79,11 +104,22 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
-            writer.WriteStringValue("email", Email);
-            writer.WriteStringValue("id", Id);
-            writer.WriteStringValue("id_suffix", IdSuffix);
-            writer.WriteEnumValue<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorObject>("object", Object);
-            writer.WriteAdditionalData(AdditionalData);
+            if(GetV1Audit200ResponseEventsItemActorAnonymous != null)
+            {
+                writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymous>(null, GetV1Audit200ResponseEventsItemActorAnonymous);
+            }
+            else if(GetV1Audit200ResponseEventsItemActorApiKey != null)
+            {
+                writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKey>(null, GetV1Audit200ResponseEventsItemActorApiKey);
+            }
+            else if(GetV1Audit200ResponseEventsItemActorSystem != null)
+            {
+                writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystem>(null, GetV1Audit200ResponseEventsItemActorSystem);
+            }
+            else if(GetV1Audit200ResponseEventsItemActorUser != null)
+            {
+                writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorUser>(null, GetV1Audit200ResponseEventsItemActorUser);
+            }
         }
     }
 }

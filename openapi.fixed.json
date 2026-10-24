@@ -1416,21 +1416,47 @@
             "items": {
               "$ref": "#/components/schemas/User"
             },
-            "description": "The attendees of the meeting"
+            "description": "The attendees of the meeting",
+            "example": [
+              {
+                "name": "Oat Benson",
+                "email": "oat@granola.ai"
+              },
+              {
+                "name": "Raisin Patel",
+                "email": "raisin@granola.ai"
+              }
+            ]
           },
           "folder_membership": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Folder"
             },
-            "description": "The folder membership of the note"
+            "description": "The folder membership of the note",
+            "example": [
+              {
+                "id": "fol_4y6LduVdwSKC27",
+                "object": "folder",
+                "name": "Top secret recipes",
+                "parent_folder_id": "fol_a74g2hvl98iUHG",
+                "space_id": "spa_8kTq2mWxLp4Rz7"
+              }
+            ]
           },
           "space_membership": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Space"
             },
-            "description": "The spaces the note is in that the API key can access, through the folders it belongs to."
+            "description": "The spaces the note is in that the API key can access, through the folders it belongs to.",
+            "example": [
+              {
+                "id": "spa_8kTq2mWxLp4Rz7",
+                "object": "space",
+                "name": "Product team"
+              }
+            ]
           },
           "summary_text": {
             "type": "string",
@@ -1557,21 +1583,47 @@
             "items": {
               "$ref": "#/components/schemas/User"
             },
-            "description": "The attendees of the meeting"
+            "description": "The attendees of the meeting",
+            "example": [
+              {
+                "name": "Oat Benson",
+                "email": "oat@granola.ai"
+              },
+              {
+                "name": "Raisin Patel",
+                "email": "raisin@granola.ai"
+              }
+            ]
           },
           "folder_membership": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Folder"
             },
-            "description": "The folder membership of the note"
+            "description": "The folder membership of the note",
+            "example": [
+              {
+                "id": "fol_4y6LduVdwSKC27",
+                "object": "folder",
+                "name": "Top secret recipes",
+                "parent_folder_id": "fol_a74g2hvl98iUHG",
+                "space_id": "spa_8kTq2mWxLp4Rz7"
+              }
+            ]
           },
           "space_membership": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/Space"
             },
-            "description": "The spaces the note is in that the API key can access, through the folders it belongs to."
+            "description": "The spaces the note is in that the API key can access, through the folders it belongs to.",
+            "example": [
+              {
+                "id": "spa_8kTq2mWxLp4Rz7",
+                "object": "space",
+                "name": "Product team"
+              }
+            ]
           },
           "summary_text": {
             "type": "string",
@@ -1878,7 +1930,12 @@
             "items": {
               "$ref": "#/components/schemas/WebhookEndpointEventsItem"
             },
-            "description": "The event names this endpoint is subscribed to"
+            "description": "The event names this endpoint is subscribed to",
+            "example": [
+              "note.access_granted",
+              "note.edited",
+              "note.generated"
+            ]
           },
           "folder_ids": {
             "type": "array",
@@ -1894,7 +1951,11 @@
             "items": {
               "$ref": "#/components/schemas/WebhookEndpointScopesItem"
             },
-            "description": "Which notes this endpoint receives events for. \u0060personal\u0060 covers notes the creating user owns, notes shared directly with them, and notes in private folders shared with them. \u0060public\u0060 covers notes visible to everyone in the workspace. \u0060workspace\u0060 is reported for endpoints created with a workspace API key: public workspace notes plus notes in spaces with Granola API access enabled."
+            "description": "Which notes this endpoint receives events for. \u0060personal\u0060 covers notes the creating user owns, notes shared directly with them, and notes in private folders shared with them. \u0060public\u0060 covers notes visible to everyone in the workspace. \u0060workspace\u0060 is reported for endpoints created with a workspace API key: public workspace notes plus notes in spaces with Granola API access enabled.",
+            "example": [
+              "personal",
+              "public"
+            ]
           },
           "created_by": {
             "$ref": "#/components/schemas/WebhookEndpointCreatedBy"
@@ -1931,7 +1992,11 @@
             "items": {
               "$ref": "#/components/schemas/CreateWebhookEndpointBodyScopesItem"
             },
-            "description": "Which notes to receive events for. \u0060personal\u0060 covers notes you own, notes shared directly with you, and notes in private folders shared with you. \u0060public\u0060 covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace\u0027s API settings. With a Workspace API key, pass exactly \u0060[\u0022workspace\u0022]\u0060 \u2014 the key\u0027s own scope: public workspace notes plus notes in spaces with Granola API access enabled."
+            "description": "Which notes to receive events for. \u0060personal\u0060 covers notes you own, notes shared directly with you, and notes in private folders shared with you. \u0060public\u0060 covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace\u0027s API settings. With a Workspace API key, pass exactly \u0060[\u0022workspace\u0022]\u0060 \u2014 the key\u0027s own scope: public workspace notes plus notes in spaces with Granola API access enabled.",
+            "example": [
+              "personal",
+              "public"
+            ]
           },
           "events": {
             "minItems": 1,
@@ -1941,6 +2006,11 @@
             },
             "description": "Event names to subscribe to. Omit to subscribe to all events.",
             "default": [
+              "note.access_granted",
+              "note.edited",
+              "note.generated"
+            ],
+            "example": [
               "note.access_granted",
               "note.edited",
               "note.generated"
@@ -1954,7 +2024,10 @@
               "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$",
               "type": "string"
             },
-            "description": "Restrict delivery to notes in these folders or any of their subfolders. Accepts folder IDs returned by \u0060GET /v1/folders\u0060, in any casing. Omit to receive events for every note matching \u0060scopes\u0060. The same filter applies to all subscribed \u0060events\u0060."
+            "description": "Restrict delivery to notes in these folders or any of their subfolders. Accepts folder IDs returned by \u0060GET /v1/folders\u0060, in any casing. Omit to receive events for every note matching \u0060scopes\u0060. The same filter applies to all subscribed \u0060events\u0060.",
+            "example": [
+              "fol_2mKr8fQxLp7Ta3"
+            ]
           }
         }
       },
@@ -1999,7 +2072,12 @@
             "items": {
               "$ref": "#/components/schemas/WebhookEndpointEventsItem"
             },
-            "description": "The event names this endpoint is subscribed to"
+            "description": "The event names this endpoint is subscribed to",
+            "example": [
+              "note.access_granted",
+              "note.edited",
+              "note.generated"
+            ]
           },
           "folder_ids": {
             "type": "array",
@@ -2015,7 +2093,11 @@
             "items": {
               "$ref": "#/components/schemas/WebhookEndpointScopesItem"
             },
-            "description": "Which notes this endpoint receives events for. \u0060personal\u0060 covers notes the creating user owns, notes shared directly with them, and notes in private folders shared with them. \u0060public\u0060 covers notes visible to everyone in the workspace. \u0060workspace\u0060 is reported for endpoints created with a workspace API key: public workspace notes plus notes in spaces with Granola API access enabled."
+            "description": "Which notes this endpoint receives events for. \u0060personal\u0060 covers notes the creating user owns, notes shared directly with them, and notes in private folders shared with them. \u0060public\u0060 covers notes visible to everyone in the workspace. \u0060workspace\u0060 is reported for endpoints created with a workspace API key: public workspace notes plus notes in spaces with Granola API access enabled.",
+            "example": [
+              "personal",
+              "public"
+            ]
           },
           "created_by": {
             "$ref": "#/components/schemas/WebhookEndpointCreatedBy"
@@ -2081,7 +2163,11 @@
             "items": {
               "$ref": "#/components/schemas/UpdateWebhookEndpointBodyScopesItem"
             },
-            "description": "Which notes to receive events for; replaces the current scopes. \u0060personal\u0060 covers notes you own, notes shared directly with you, and notes in private folders shared with you. \u0060public\u0060 covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace\u0027s API settings. A workspace-managed endpoint\u0027s scope is fixed: only \u0060[\u0022workspace\u0022]\u0060 is accepted. Omit to leave unchanged."
+            "description": "Which notes to receive events for; replaces the current scopes. \u0060personal\u0060 covers notes you own, notes shared directly with you, and notes in private folders shared with you. \u0060public\u0060 covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace\u0027s API settings. A workspace-managed endpoint\u0027s scope is fixed: only \u0060[\u0022workspace\u0022]\u0060 is accepted. Omit to leave unchanged.",
+            "example": [
+              "personal",
+              "public"
+            ]
           },
           "events": {
             "minItems": 1,
@@ -2089,7 +2175,12 @@
             "items": {
               "$ref": "#/components/schemas/UpdateWebhookEndpointBodyEventsItem"
             },
-            "description": "Event names to subscribe to; replaces the current subscriptions. Omit to leave unchanged."
+            "description": "Event names to subscribe to; replaces the current subscriptions. Omit to leave unchanged.",
+            "example": [
+              "note.access_granted",
+              "note.edited",
+              "note.generated"
+            ]
           },
           "folder_ids": {
             "maxItems": 100,
@@ -2098,7 +2189,10 @@
               "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$",
               "type": "string"
             },
-            "description": "Restrict delivery to notes in these folders or any of their subfolders; replaces the current folder filter. Accepts folder IDs returned by \u0060GET /v1/folders\u0060, in any casing. Pass an empty array to remove the filter. Omit to leave unchanged."
+            "description": "Restrict delivery to notes in these folders or any of their subfolders; replaces the current folder filter. Accepts folder IDs returned by \u0060GET /v1/folders\u0060, in any casing. Pass an empty array to remove the filter. Omit to leave unchanged.",
+            "example": [
+              "fol_2mKr8fQxLp7Ta3"
+            ]
           },
           "enabled": {
             "type": "boolean",
@@ -2664,7 +2758,6 @@
           "2026-01-27",
           "2026-01-27T15:30:00Z"
         ],
-        "type": "object",
         "anyOf": [
           {
             "type": "string",
@@ -2682,7 +2775,6 @@
           "2026-01-27",
           "2026-01-27T15:30:00Z"
         ],
-        "type": "object",
         "anyOf": [
           {
             "type": "string",
@@ -2700,7 +2792,6 @@
           "2026-01-27",
           "2026-01-27T15:30:00Z"
         ],
-        "type": "object",
         "anyOf": [
           {
             "type": "string",
@@ -2817,6 +2908,126 @@
         "type": "object",
         "description": "Placeholder schema for path example refs"
       },
+      "GetV1Audit200ResponseEventsItemActor": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActorApiKey"
+          },
+          {
+            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActorUser"
+          },
+          {
+            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActorSystem"
+          },
+          {
+            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActorAnonymous"
+          }
+        ],
+        "description": "Who performed the action",
+        "discriminator": {
+          "propertyName": "object",
+          "mapping": {
+            "api_key": "#/components/schemas/GetV1Audit200ResponseEventsItemActorApiKey",
+            "user": "#/components/schemas/GetV1Audit200ResponseEventsItemActorUser",
+            "system": "#/components/schemas/GetV1Audit200ResponseEventsItemActorSystem",
+            "anonymous": "#/components/schemas/GetV1Audit200ResponseEventsItemActorAnonymous"
+          }
+        }
+      },
+      "GetV1Audit200ResponseEventsItemActorApiKey": {
+        "title": "API key",
+        "required": [
+          "object",
+          "id_suffix"
+        ],
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/ApiKeyObject"
+          },
+          "id_suffix": {
+            "pattern": "^[A-Za-z0-9]{8}$",
+            "type": "string",
+            "description": "The final eight characters of the non-secret API key identifier.",
+            "example": "aB3dE7hK"
+          }
+        },
+        "description": "A public API key authenticated the request.",
+        "example": {
+          "object": "api_key",
+          "id_suffix": "aB3dE7hK"
+        }
+      },
+      "GetV1Audit200ResponseEventsItemActorUser": {
+        "title": "User",
+        "required": [
+          "object",
+          "id",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/UserObject"
+          },
+          "id": {
+            "pattern": "^usr_[a-zA-Z0-9]{14}$",
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The ID of the user who performed the action, or null if the recorded actor was not a resolvable user.",
+            "example": "usr_3nQ8vLpZ2kR7dY"
+          },
+          "email": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The email of the user who performed the action, or null if the account no longer exists.",
+            "format": "email",
+            "example": "oat@granola.ai"
+          }
+        },
+        "description": "A person in your workspace performed the action.",
+        "example": {
+          "object": "user",
+          "id": "usr_3nQ8vLpZ2kR7dY",
+          "email": "oat@granola.ai"
+        }
+      },
+      "GetV1Audit200ResponseEventsItemActorSystem": {
+        "title": "System",
+        "required": [
+          "object"
+        ],
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/SystemObject"
+          }
+        },
+        "description": "No identifiable user performed the action \u2014 it came from an automated process, such as a scheduled job or an inbound webhook from a connected service. This variant carries no other fields.",
+        "example": {
+          "object": "system"
+        }
+      },
+      "GetV1Audit200ResponseEventsItemActorAnonymous": {
+        "title": "Anonymous",
+        "required": [
+          "object"
+        ],
+        "type": "object",
+        "properties": {
+          "object": {
+            "$ref": "#/components/schemas/AnonymousObject"
+          }
+        },
+        "description": "A person performed the action without signing in, so there is no account to name \u2014 for example, someone opening a note through a shared link. Distinct from \u0060system\u0060, which means no person was involved at all. This variant carries no other fields; the \u0060ip_address\u0060 and \u0060user_agent\u0060 in \u0060context\u0060 are the only attribution available.",
+        "example": {
+          "object": "anonymous"
+        }
+      },
       "GetV1Audit200ResponseEventsItem": {
         "required": [
           "id",
@@ -2866,42 +3077,6 @@
             "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemContext"
           }
         }
-      },
-      "GetV1Audit200ResponseEventsItemActor": {
-        "required": [
-          "object"
-        ],
-        "type": "object",
-        "properties": {
-          "object": {
-            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActorObject"
-          },
-          "id_suffix": {
-            "pattern": "^[A-Za-z0-9]{8}$",
-            "type": "string",
-            "description": "The final eight characters of the non-secret API key identifier.",
-            "example": "aB3dE7hK"
-          },
-          "id": {
-            "pattern": "^usr_[a-zA-Z0-9]{14}$",
-            "type": [
-              "null",
-              "string"
-            ],
-            "description": "The ID of the user who performed the action, or null if the recorded actor was not a resolvable user.",
-            "example": "usr_3nQ8vLpZ2kR7dY"
-          },
-          "email": {
-            "type": [
-              "null",
-              "string"
-            ],
-            "description": "The email of the user who performed the action, or null if the account no longer exists.",
-            "format": "email",
-            "example": "oat@granola.ai"
-          }
-        },
-        "description": "Who performed the action"
       },
       "GetV1Audit200ResponseEventsItemData": {
         "type": "object",
@@ -2955,7 +3130,6 @@
           "space"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "SpaceObject",
           "modelAsString": false,
@@ -2972,7 +3146,6 @@
           "folder"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "FolderObject",
           "modelAsString": false,
@@ -2990,7 +3163,6 @@
           "speaker"
         ],
         "type": "string",
-        "additionalProperties": false,
         "description": "The source of the speaker. For iOS transcripts, Granola currently returns \u0060microphone\u0060 for all transcript items because iOS currently captures a single audio stream. Clients should not assume this will never expand in the future.",
         "x-ms-enum": {
           "name": "SpeakerSource",
@@ -3013,7 +3185,6 @@
           "them"
         ],
         "type": "string",
-        "additionalProperties": false,
         "description": "Who said this relative to the note: \u0060me\u0060 is the note-taker (the note\u0027s owner), \u0060them\u0060 is other meeting participants. Omitted when the attribution is unknown, such as iOS transcript items that only carry an anonymous \u0060diarization_label\u0060.",
         "example": "me",
         "x-ms-enum": {
@@ -3036,7 +3207,6 @@
           "note"
         ],
         "type": "string",
-        "additionalProperties": false,
         "description": "The object type of the note",
         "x-ms-enum": {
           "name": "NoteObject",
@@ -3054,7 +3224,6 @@
           "attachment"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "AttachmentObject",
           "modelAsString": false,
@@ -3071,7 +3240,6 @@
           "transcript"
         ],
         "type": "string",
-        "additionalProperties": false,
         "description": "Include the note transcript in the response. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060.",
         "example": "transcript",
         "x-ms-enum": {
@@ -3090,7 +3258,6 @@
           "webhook_endpoint"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "WebhookEndpointObject",
           "modelAsString": false,
@@ -3109,7 +3276,6 @@
           "note.generated"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "WebhookEndpointEventsItem",
           "modelAsString": false,
@@ -3136,7 +3302,6 @@
           "workspace"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "WebhookEndpointScopesItem",
           "modelAsString": false,
@@ -3163,7 +3328,6 @@
           "workspace"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "CreateWebhookEndpointBodyScopesItem",
           "modelAsString": false,
@@ -3190,7 +3354,6 @@
           "note.generated"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "CreateWebhookEndpointBodyEventsItem",
           "modelAsString": false,
@@ -3217,7 +3380,6 @@
           "workspace"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "UpdateWebhookEndpointBodyScopesItem",
           "modelAsString": false,
@@ -3244,7 +3406,6 @@
           "note.generated"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "UpdateWebhookEndpointBodyEventsItem",
           "modelAsString": false,
@@ -3268,15 +3429,13 @@
         "enum": [
           true
         ],
-        "type": "boolean",
-        "additionalProperties": false
+        "type": "boolean"
       },
       "LegalHoldObject": {
         "enum": [
           "legal_hold"
         ],
         "type": "string",
-        "additionalProperties": false,
         "description": "The type of object",
         "example": "legal_hold",
         "x-ms-enum": {
@@ -3295,7 +3454,6 @@
           "legal_hold_custodian"
         ],
         "type": "string",
-        "additionalProperties": false,
         "description": "The type of object",
         "example": "legal_hold_custodian",
         "x-ms-enum": {
@@ -3313,22 +3471,19 @@
         "enum": [
           true
         ],
-        "type": "boolean",
-        "additionalProperties": false
+        "type": "boolean"
       },
       "RemoveLegalHoldCustodianOutputRemoved": {
         "enum": [
           true
         ],
-        "type": "boolean",
-        "additionalProperties": false
+        "type": "boolean"
       },
       "UserObject": {
         "enum": [
           "user"
         ],
         "type": "string",
-        "additionalProperties": false,
         "x-ms-enum": {
           "name": "UserObject",
           "modelAsString": false,
@@ -3340,12 +3495,62 @@
           ]
         }
       },
+      "ApiKeyObject": {
+        "enum": [
+          "api_key"
+        ],
+        "type": "string",
+        "description": "The object type of the actor",
+        "x-ms-enum": {
+          "name": "ApiKeyObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "api_key",
+              "name": "ApiKey"
+            }
+          ]
+        }
+      },
+      "SystemObject": {
+        "enum": [
+          "system"
+        ],
+        "type": "string",
+        "description": "The object type of the actor",
+        "x-ms-enum": {
+          "name": "SystemObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "system",
+              "name": "System"
+            }
+          ]
+        }
+      },
+      "AnonymousObject": {
+        "enum": [
+          "anonymous"
+        ],
+        "type": "string",
+        "description": "The object type of the actor",
+        "x-ms-enum": {
+          "name": "AnonymousObject",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "anonymous",
+              "name": "Anonymous"
+            }
+          ]
+        }
+      },
       "AuditEventObject": {
         "enum": [
           "audit_event"
         ],
         "type": "string",
-        "additionalProperties": false,
         "description": "The object type of the audit event",
         "x-ms-enum": {
           "name": "AuditEventObject",
@@ -3354,39 +3559,6 @@
             {
               "value": "audit_event",
               "name": "AuditEvent"
-            }
-          ]
-        }
-      },
-      "GetV1Audit200ResponseEventsItemActorObject": {
-        "enum": [
-          "api_key",
-          "user",
-          "system",
-          "anonymous"
-        ],
-        "type": "string",
-        "additionalProperties": false,
-        "description": "The object type of the actor",
-        "x-ms-enum": {
-          "name": "GetV1Audit200ResponseEventsItemActorObject",
-          "modelAsString": false,
-          "values": [
-            {
-              "value": "api_key",
-              "name": "ApiKey"
-            },
-            {
-              "value": "user",
-              "name": "User"
-            },
-            {
-              "value": "system",
-              "name": "System"
-            },
-            {
-              "value": "anonymous",
-              "name": "Anonymous"
             }
           ]
         }
