@@ -1063,6 +1063,78 @@
           }
         ]
       }
+    },
+    "/v1/notes/search": {
+      "post": {
+        "summary": "Search notes",
+        "description": "Search indexed note titles and shared summaries by keyword, or filter by calendar participant. Results contain the standard note summary plus meeting_at; use Get note to retrieve content. Filter by space_id to search a space and its folders; when folder_id is also provided, both filters apply. Each recording is a separate note. Private notes and transcripts are not searched. Only live notes with generated summaries are returned, including for compliance keys. Search coverage depends on indexing; use List notes for a complete listing. An empty body browses indexed notes without a default date window. Pages examine up to 100 index candidates, so access checks and filters may produce short or empty pages even when hasMore is true. Continue with cursor while hasMore is true. Cursors expire after 15 minutes and are bound to the API key and scope; access is rechecked on every page. After 10,000 examined candidates, completion_status is incomplete, hasMore is false, and cursor is null; narrow the search. Fetch-only keys return an empty result.",
+        "operationId": "SearchNotes",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchNotesRequest"
+              },
+              "examples": {
+                "keywords": {
+                  "summary": "Find notes with a calendar participant from Acme",
+                  "value": {
+                    "keywords": [
+                      "budget review",
+                      "renewal"
+                    ],
+                    "participant": "acme.com",
+                    "page_size": 10
+                  }
+                },
+                "nextPage": {
+                  "summary": "Continue with the cursor from the previous response",
+                  "value": {
+                    "cursor": "CURSOR_FROM_PREVIOUS_RESPONSE",
+                    "page_size": 10
+                  }
+                },
+                "browse": {
+                  "summary": "Browse indexed notes without a date filter",
+                  "value": {}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Matching note metadata and search continuation status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchNotes200Response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid search filters or expired/mismatched cursor"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Folder or space not found, spaces API unavailable, or scope not allowed"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Search unavailable"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -2904,6 +2976,93 @@
           }
         }
       },
+      "SearchNotesRequest": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "maxItems": 20,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "string"
+            },
+            "description": "Alternative keyword searches in titles and shared summaries. All tokens of at least one entry must match."
+          },
+          "participant": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string",
+            "description": "Participant name, email, company or domain from calendar metadata. Filters attendance, not mentions in notes."
+          },
+          "folder_id": {
+            "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$",
+            "type": "string"
+          },
+          "space_id": {
+            "pattern": "^[Ss][Pp][Aa]_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "Return notes in this space and its folders. Space IDs are case-insensitive. Use List spaces to discover accessible spaces. When folder_id is also provided, both filters apply.",
+            "example": "spa_8kTq2mWxLp4Rz7"
+          },
+          "from_date": {
+            "$ref": "#/components/schemas/SearchNotesRequestFromDate"
+          },
+          "to_date": {
+            "$ref": "#/components/schemas/SearchNotesRequestToDate"
+          },
+          "updated_after": {
+            "$ref": "#/components/schemas/SearchNotesRequestUpdatedAfter"
+          },
+          "page_size": {
+            "maximum": 30,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Maximum number of notes to return per page",
+            "default": 10,
+            "example": 10
+          },
+          "cursor": {
+            "maxLength": 2048,
+            "minLength": 1,
+            "type": "string",
+            "description": "Continue a search. Only page_size may accompany a cursor."
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchNotes200Response": {
+        "required": [
+          "notes",
+          "hasMore",
+          "cursor",
+          "completion_status"
+        ],
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchNotes200ResponseNotesItem"
+            }
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether another page can be fetched using cursor."
+          },
+          "cursor": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The next-page cursor, or null when hasMore is false."
+          },
+          "completion_status": {
+            "$ref": "#/components/schemas/SearchNotes200ResponseCompletionStatus"
+          }
+        }
+      },
       "ExamplePayload": {
         "type": "object",
         "description": "Placeholder schema for path example refs"
@@ -2933,6 +3092,57 @@
             "anonymous": "#/components/schemas/GetV1Audit200ResponseEventsItemActorAnonymous"
           }
         }
+      },
+      "SearchNotesRequestFromDate": {
+        "examples": [
+          "2026-01-27",
+          "2026-01-27T15:30:00Z"
+        ],
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "description": "Inclusive meeting start time, falling back to note creation time. Accepts a date or UTC timestamp; a date means midnight UTC."
+      },
+      "SearchNotesRequestToDate": {
+        "examples": [
+          "2026-01-27",
+          "2026-01-27T15:30:00Z"
+        ],
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "description": "Inclusive meeting end bound, using calendar start or note creation time. Accepts a date or UTC timestamp; a date means midnight UTC, not the end of that day."
+      },
+      "SearchNotesRequestUpdatedAfter": {
+        "examples": [
+          "2026-01-27",
+          "2026-01-27T15:30:00Z"
+        ],
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "type": "string",
+            "format": "date-time"
+          }
+        ],
+        "description": "Only notes whose content or shared summary changed after this date or UTC timestamp. A date means midnight UTC."
       },
       "GetV1Audit200ResponseEventsItemActorApiKey": {
         "title": "API key",
@@ -3075,6 +3285,67 @@
           },
           "context": {
             "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemContext"
+          }
+        }
+      },
+      "SearchNotes200ResponseNotesItem": {
+        "required": [
+          "id",
+          "object",
+          "title",
+          "owner",
+          "created_at",
+          "updated_at",
+          "deleted_at",
+          "meeting_at"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^not_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the note",
+            "example": "not_1d3tmYTlCICgjy"
+          },
+          "object": {
+            "$ref": "#/components/schemas/NoteObject"
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The title of the note",
+            "example": "Quarterly yoghurt budget review"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The creation time of the note",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "The last update time of the note",
+            "format": "date-time",
+            "example": "2026-01-27T16:45:00Z"
+          },
+          "deleted_at": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "When the note was deleted, or null if it has not been. Only keys with access to all workspace notes can see deleted notes.",
+            "format": "date-time",
+            "example": null
+          },
+          "meeting_at": {
+            "type": "string",
+            "description": "Calendar start time, falling back to note creation time.",
+            "format": "date-time"
           }
         }
       },
@@ -3491,6 +3762,33 @@
             {
               "value": "user",
               "name": "User"
+            }
+          ]
+        }
+      },
+      "SearchNotes200ResponseCompletionStatus": {
+        "enum": [
+          "more_available",
+          "exhausted",
+          "incomplete"
+        ],
+        "type": "string",
+        "description": "more_available: continue with cursor. exhausted: no more matches. incomplete: the scan limit was reached; hasMore is false and cursor is null. Start a narrower search.",
+        "x-ms-enum": {
+          "name": "SearchNotes200ResponseCompletionStatus",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "more_available",
+              "name": "MoreAvailable"
+            },
+            {
+              "value": "exhausted",
+              "name": "Exhausted"
+            },
+            {
+              "value": "incomplete",
+              "name": "Incomplete"
             }
           ]
         }

@@ -5,6 +5,7 @@ using Microsoft.Kiota.Abstractions.Serialization;
 using Microsoft.Kiota.Abstractions;
 using Soenneker.Granola.OpenApiClient.Models;
 using Soenneker.Granola.OpenApiClient.V1.Notes.Item;
+using Soenneker.Granola.OpenApiClient.V1.Notes.Search;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -18,6 +19,11 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class NotesRequestBuilder : BaseRequestBuilder
     {
+        /// <summary>The search property</summary>
+        public global::Soenneker.Granola.OpenApiClient.V1.Notes.Search.SearchRequestBuilder Search
+        {
+            get => new global::Soenneker.Granola.OpenApiClient.V1.Notes.Search.SearchRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>Gets an item from the Soenneker.Granola.OpenApiClient.v1.notes.item collection</summary>
         /// <param name="position">Unique identifier of the item</param>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.V1.Notes.Item.WithNoteItemRequestBuilder"/></returns>
