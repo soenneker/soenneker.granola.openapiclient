@@ -17,7 +17,8 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         public virtual void CaptureExplicitNulls(global::Microsoft.Kiota.Abstractions.Serialization.IParseNode parseNode)
         {
-            if (parseNode.GetChildNode("custodians") is { } nullNodeCustodians && nullNodeCustodians.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Custodians = null;
+            if (parseNode.GetChildNode("custodians") is null) { _explicitNullValueCustodians = default!; _explicitNullProperties?.Remove("custodians"); }
+            else if (parseNode.GetChildNode("custodians") is { } nullNodeCustodians && nullNodeCustodians.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Custodians = null;
         }
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
@@ -25,11 +26,11 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <summary>The custodians property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Soenneker.Granola.OpenApiClient.Models.LegalHoldCustodian>? Custodians { get => _explicitNullValueCustodians; set { _explicitNullValueCustodians = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("custodians"); else _explicitNullProperties?.Remove("custodians"); } }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.LegalHoldCustodian>? Custodians { get => _explicitNullValueCustodians; set { _explicitNullValueCustodians = value; AdditionalData?.Remove("custodians"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("custodians"); else _explicitNullProperties?.Remove("custodians"); } }
         private List<global::Soenneker.Granola.OpenApiClient.Models.LegalHoldCustodian>? _explicitNullValueCustodians = default!;
 #nullable restore
 #else
-        public List<global::Soenneker.Granola.OpenApiClient.Models.LegalHoldCustodian> Custodians { get => _explicitNullValueCustodians; set { _explicitNullValueCustodians = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("custodians"); else _explicitNullProperties?.Remove("custodians"); } }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.LegalHoldCustodian> Custodians { get => _explicitNullValueCustodians; set { _explicitNullValueCustodians = value; AdditionalData?.Remove("custodians"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("custodians"); else _explicitNullProperties?.Remove("custodians"); } }
         private List<global::Soenneker.Granola.OpenApiClient.Models.LegalHoldCustodian> _explicitNullValueCustodians = default!;
 #endif
         /// <summary>

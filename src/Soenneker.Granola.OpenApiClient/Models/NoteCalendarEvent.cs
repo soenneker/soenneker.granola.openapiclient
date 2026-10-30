@@ -17,12 +17,18 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         public virtual void CaptureExplicitNulls(global::Microsoft.Kiota.Abstractions.Serialization.IParseNode parseNode)
         {
-            if (parseNode.GetChildNode("calendar_event_id") is { } nullNodeCalendarEventId && nullNodeCalendarEventId.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) CalendarEventId = null;
-            if (parseNode.GetChildNode("event_title") is { } nullNodeEventTitle && nullNodeEventTitle.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) EventTitle = null;
-            if (parseNode.GetChildNode("invitees") is { } nullNodeInvitees && nullNodeInvitees.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Invitees = null;
-            if (parseNode.GetChildNode("organiser") is { } nullNodeOrganiser && nullNodeOrganiser.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Organiser = null;
-            if (parseNode.GetChildNode("scheduled_end_time") is { } nullNodeScheduledEndTime && nullNodeScheduledEndTime.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) ScheduledEndTime = null;
-            if (parseNode.GetChildNode("scheduled_start_time") is { } nullNodeScheduledStartTime && nullNodeScheduledStartTime.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) ScheduledStartTime = null;
+            if (parseNode.GetChildNode("calendar_event_id") is null) { _explicitNullValueCalendarEventId = default!; _explicitNullProperties?.Remove("calendar_event_id"); }
+            else if (parseNode.GetChildNode("calendar_event_id") is { } nullNodeCalendarEventId && nullNodeCalendarEventId.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) CalendarEventId = null;
+            if (parseNode.GetChildNode("event_title") is null) { _explicitNullValueEventTitle = default!; _explicitNullProperties?.Remove("event_title"); }
+            else if (parseNode.GetChildNode("event_title") is { } nullNodeEventTitle && nullNodeEventTitle.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) EventTitle = null;
+            if (parseNode.GetChildNode("invitees") is null) { _explicitNullValueInvitees = default!; _explicitNullProperties?.Remove("invitees"); }
+            else if (parseNode.GetChildNode("invitees") is { } nullNodeInvitees && nullNodeInvitees.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Invitees = null;
+            if (parseNode.GetChildNode("organiser") is null) { _explicitNullValueOrganiser = default!; _explicitNullProperties?.Remove("organiser"); }
+            else if (parseNode.GetChildNode("organiser") is { } nullNodeOrganiser && nullNodeOrganiser.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Organiser = null;
+            if (parseNode.GetChildNode("scheduled_end_time") is null) { _explicitNullValueScheduledEndTime = default!; _explicitNullProperties?.Remove("scheduled_end_time"); }
+            else if (parseNode.GetChildNode("scheduled_end_time") is { } nullNodeScheduledEndTime && nullNodeScheduledEndTime.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) ScheduledEndTime = null;
+            if (parseNode.GetChildNode("scheduled_start_time") is null) { _explicitNullValueScheduledStartTime = default!; _explicitNullProperties?.Remove("scheduled_start_time"); }
+            else if (parseNode.GetChildNode("scheduled_start_time") is { } nullNodeScheduledStartTime && nullNodeScheduledStartTime.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) ScheduledStartTime = null;
         }
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
@@ -30,48 +36,48 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <summary>The id of the calendar event</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? CalendarEventId { get => _explicitNullValueCalendarEventId; set { _explicitNullValueCalendarEventId = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("calendar_event_id"); else _explicitNullProperties?.Remove("calendar_event_id"); } }
+        public string? CalendarEventId { get => _explicitNullValueCalendarEventId; set { _explicitNullValueCalendarEventId = value; AdditionalData?.Remove("calendar_event_id"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("calendar_event_id"); else _explicitNullProperties?.Remove("calendar_event_id"); } }
         private string? _explicitNullValueCalendarEventId = default!;
 #nullable restore
 #else
-        public string CalendarEventId { get => _explicitNullValueCalendarEventId; set { _explicitNullValueCalendarEventId = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("calendar_event_id"); else _explicitNullProperties?.Remove("calendar_event_id"); } }
+        public string CalendarEventId { get => _explicitNullValueCalendarEventId; set { _explicitNullValueCalendarEventId = value; AdditionalData?.Remove("calendar_event_id"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("calendar_event_id"); else _explicitNullProperties?.Remove("calendar_event_id"); } }
         private string _explicitNullValueCalendarEventId = default!;
 #endif
         /// <summary>The title of the calendar event</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? EventTitle { get => _explicitNullValueEventTitle; set { _explicitNullValueEventTitle = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("event_title"); else _explicitNullProperties?.Remove("event_title"); } }
+        public string? EventTitle { get => _explicitNullValueEventTitle; set { _explicitNullValueEventTitle = value; AdditionalData?.Remove("event_title"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("event_title"); else _explicitNullProperties?.Remove("event_title"); } }
         private string? _explicitNullValueEventTitle = default!;
 #nullable restore
 #else
-        public string EventTitle { get => _explicitNullValueEventTitle; set { _explicitNullValueEventTitle = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("event_title"); else _explicitNullProperties?.Remove("event_title"); } }
+        public string EventTitle { get => _explicitNullValueEventTitle; set { _explicitNullValueEventTitle = value; AdditionalData?.Remove("event_title"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("event_title"); else _explicitNullProperties?.Remove("event_title"); } }
         private string _explicitNullValueEventTitle = default!;
 #endif
         /// <summary>The invitees property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Soenneker.Granola.OpenApiClient.Models.CalendarInvitee>? Invitees { get => _explicitNullValueInvitees; set { _explicitNullValueInvitees = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("invitees"); else _explicitNullProperties?.Remove("invitees"); } }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.CalendarInvitee>? Invitees { get => _explicitNullValueInvitees; set { _explicitNullValueInvitees = value; AdditionalData?.Remove("invitees"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("invitees"); else _explicitNullProperties?.Remove("invitees"); } }
         private List<global::Soenneker.Granola.OpenApiClient.Models.CalendarInvitee>? _explicitNullValueInvitees = default!;
 #nullable restore
 #else
-        public List<global::Soenneker.Granola.OpenApiClient.Models.CalendarInvitee> Invitees { get => _explicitNullValueInvitees; set { _explicitNullValueInvitees = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("invitees"); else _explicitNullProperties?.Remove("invitees"); } }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.CalendarInvitee> Invitees { get => _explicitNullValueInvitees; set { _explicitNullValueInvitees = value; AdditionalData?.Remove("invitees"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("invitees"); else _explicitNullProperties?.Remove("invitees"); } }
         private List<global::Soenneker.Granola.OpenApiClient.Models.CalendarInvitee> _explicitNullValueInvitees = default!;
 #endif
         /// <summary>The email of the organiser</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? Organiser { get => _explicitNullValueOrganiser; set { _explicitNullValueOrganiser = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("organiser"); else _explicitNullProperties?.Remove("organiser"); } }
+        public string? Organiser { get => _explicitNullValueOrganiser; set { _explicitNullValueOrganiser = value; AdditionalData?.Remove("organiser"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("organiser"); else _explicitNullProperties?.Remove("organiser"); } }
         private string? _explicitNullValueOrganiser = default!;
 #nullable restore
 #else
-        public string Organiser { get => _explicitNullValueOrganiser; set { _explicitNullValueOrganiser = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("organiser"); else _explicitNullProperties?.Remove("organiser"); } }
+        public string Organiser { get => _explicitNullValueOrganiser; set { _explicitNullValueOrganiser = value; AdditionalData?.Remove("organiser"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("organiser"); else _explicitNullProperties?.Remove("organiser"); } }
         private string _explicitNullValueOrganiser = default!;
 #endif
         /// <summary>The end time of the calendar event</summary>
-        public DateTimeOffset? ScheduledEndTime { get => _explicitNullValueScheduledEndTime; set { _explicitNullValueScheduledEndTime = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("scheduled_end_time"); else _explicitNullProperties?.Remove("scheduled_end_time"); } }
+        public DateTimeOffset? ScheduledEndTime { get => _explicitNullValueScheduledEndTime; set { _explicitNullValueScheduledEndTime = value; AdditionalData?.Remove("scheduled_end_time"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("scheduled_end_time"); else _explicitNullProperties?.Remove("scheduled_end_time"); } }
         private DateTimeOffset? _explicitNullValueScheduledEndTime = default!;
         /// <summary>The start time of the calendar event</summary>
-        public DateTimeOffset? ScheduledStartTime { get => _explicitNullValueScheduledStartTime; set { _explicitNullValueScheduledStartTime = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("scheduled_start_time"); else _explicitNullProperties?.Remove("scheduled_start_time"); } }
+        public DateTimeOffset? ScheduledStartTime { get => _explicitNullValueScheduledStartTime; set { _explicitNullValueScheduledStartTime = value; AdditionalData?.Remove("scheduled_start_time"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("scheduled_start_time"); else _explicitNullProperties?.Remove("scheduled_start_time"); } }
         private DateTimeOffset? _explicitNullValueScheduledStartTime = default!;
         /// <summary>
         /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent"/> and sets the default values.

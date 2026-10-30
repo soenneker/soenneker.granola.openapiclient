@@ -17,39 +17,43 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         public virtual void CaptureExplicitNulls(global::Microsoft.Kiota.Abstractions.Serialization.IParseNode parseNode)
         {
-            if (parseNode.GetChildNode("attribution") is { } nullNodeAttribution && nullNodeAttribution.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Attribution = null;
-            if (parseNode.GetChildNode("diarization_label") is { } nullNodeDiarizationLabel && nullNodeDiarizationLabel.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) DiarizationLabel = null;
-            if (parseNode.GetChildNode("name") is { } nullNodeName && nullNodeName.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Name = null;
-            if (parseNode.GetChildNode("source") is { } nullNodeSource && nullNodeSource.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Source = null;
+            if (parseNode.GetChildNode("attribution") is null) { _explicitNullValueAttribution = default!; _explicitNullProperties?.Remove("attribution"); }
+            else if (parseNode.GetChildNode("attribution") is { } nullNodeAttribution && nullNodeAttribution.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Attribution = null;
+            if (parseNode.GetChildNode("diarization_label") is null) { _explicitNullValueDiarizationLabel = default!; _explicitNullProperties?.Remove("diarization_label"); }
+            else if (parseNode.GetChildNode("diarization_label") is { } nullNodeDiarizationLabel && nullNodeDiarizationLabel.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) DiarizationLabel = null;
+            if (parseNode.GetChildNode("name") is null) { _explicitNullValueName = default!; _explicitNullProperties?.Remove("name"); }
+            else if (parseNode.GetChildNode("name") is { } nullNodeName && nullNodeName.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Name = null;
+            if (parseNode.GetChildNode("source") is null) { _explicitNullValueSource = default!; _explicitNullProperties?.Remove("source"); }
+            else if (parseNode.GetChildNode("source") is { } nullNodeSource && nullNodeSource.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Source = null;
         }
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>Who said this relative to the note: `me` is the note-taker (the note&apos;s owner), `them` is other meeting participants. Omitted when the attribution is unknown, such as iOS transcript items that only carry an anonymous `diarization_label`.</summary>
-        public global::Soenneker.Granola.OpenApiClient.Models.SpeakerAttribution? Attribution { get => _explicitNullValueAttribution; set { _explicitNullValueAttribution = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("attribution"); else _explicitNullProperties?.Remove("attribution"); } }
+        public global::Soenneker.Granola.OpenApiClient.Models.SpeakerAttribution? Attribution { get => _explicitNullValueAttribution; set { _explicitNullValueAttribution = value; AdditionalData?.Remove("attribution"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("attribution"); else _explicitNullProperties?.Remove("attribution"); } }
         private global::Soenneker.Granola.OpenApiClient.Models.SpeakerAttribution? _explicitNullValueAttribution = default!;
         /// <summary>The diarized anonymous speaker label assigned in the transcript, such as `Speaker A`. This is currently only present on iOS transcripts when diarization is available.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? DiarizationLabel { get => _explicitNullValueDiarizationLabel; set { _explicitNullValueDiarizationLabel = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("diarization_label"); else _explicitNullProperties?.Remove("diarization_label"); } }
+        public string? DiarizationLabel { get => _explicitNullValueDiarizationLabel; set { _explicitNullValueDiarizationLabel = value; AdditionalData?.Remove("diarization_label"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("diarization_label"); else _explicitNullProperties?.Remove("diarization_label"); } }
         private string? _explicitNullValueDiarizationLabel = default!;
 #nullable restore
 #else
-        public string DiarizationLabel { get => _explicitNullValueDiarizationLabel; set { _explicitNullValueDiarizationLabel = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("diarization_label"); else _explicitNullProperties?.Remove("diarization_label"); } }
+        public string DiarizationLabel { get => _explicitNullValueDiarizationLabel; set { _explicitNullValueDiarizationLabel = value; AdditionalData?.Remove("diarization_label"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("diarization_label"); else _explicitNullProperties?.Remove("diarization_label"); } }
         private string _explicitNullValueDiarizationLabel = default!;
 #endif
         /// <summary>The resolved name of the identified speaker, such as `Alice Smith`. This is only present when a speaker could be identified for the transcript item.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? Name { get => _explicitNullValueName; set { _explicitNullValueName = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("name"); else _explicitNullProperties?.Remove("name"); } }
+        public string? Name { get => _explicitNullValueName; set { _explicitNullValueName = value; AdditionalData?.Remove("name"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("name"); else _explicitNullProperties?.Remove("name"); } }
         private string? _explicitNullValueName = default!;
 #nullable restore
 #else
-        public string Name { get => _explicitNullValueName; set { _explicitNullValueName = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("name"); else _explicitNullProperties?.Remove("name"); } }
+        public string Name { get => _explicitNullValueName; set { _explicitNullValueName = value; AdditionalData?.Remove("name"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("name"); else _explicitNullProperties?.Remove("name"); } }
         private string _explicitNullValueName = default!;
 #endif
         /// <summary>The source of the speaker. For iOS transcripts, Granola currently returns `microphone` for all transcript items because iOS currently captures a single audio stream. Clients should not assume this will never expand in the future.</summary>
-        public global::Soenneker.Granola.OpenApiClient.Models.SpeakerSource? Source { get => _explicitNullValueSource; set { _explicitNullValueSource = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("source"); else _explicitNullProperties?.Remove("source"); } }
+        public global::Soenneker.Granola.OpenApiClient.Models.SpeakerSource? Source { get => _explicitNullValueSource; set { _explicitNullValueSource = value; AdditionalData?.Remove("source"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("source"); else _explicitNullProperties?.Remove("source"); } }
         private global::Soenneker.Granola.OpenApiClient.Models.SpeakerSource? _explicitNullValueSource = default!;
         /// <summary>
         /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.Speaker"/> and sets the default values.
@@ -76,10 +80,10 @@ namespace Soenneker.Granola.OpenApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
-                { "attribution", n => { Attribution = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.SpeakerAttribution>(); } },
+                { "attribution", n => { var parsed = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.SpeakerAttribution>(); if (parsed == null && n.GetStringValue() is string unknown) { _explicitNullValueAttribution = default; _explicitNullProperties?.Remove("attribution"); AdditionalData["attribution"] = unknown; } else { Attribution = parsed; AdditionalData.Remove("attribution"); } } },
                 { "diarization_label", n => { DiarizationLabel = n.GetStringValue(); } },
                 { "name", n => { Name = n.GetStringValue(); } },
-                { "source", n => { Source = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.SpeakerSource>(); } },
+                { "source", n => { var parsed = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.SpeakerSource>(); if (parsed == null && n.GetStringValue() is string unknown) { _explicitNullValueSource = default; _explicitNullProperties?.Remove("source"); AdditionalData["source"] = unknown; } else { Source = parsed; AdditionalData.Remove("source"); } } },
             };
         }
         /// <summary>

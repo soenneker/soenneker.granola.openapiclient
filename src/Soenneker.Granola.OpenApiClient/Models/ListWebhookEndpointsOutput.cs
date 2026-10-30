@@ -17,7 +17,8 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         public virtual void CaptureExplicitNulls(global::Microsoft.Kiota.Abstractions.Serialization.IParseNode parseNode)
         {
-            if (parseNode.GetChildNode("webhook_endpoints") is { } nullNodeWebhookEndpoints && nullNodeWebhookEndpoints.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) WebhookEndpoints = null;
+            if (parseNode.GetChildNode("webhook_endpoints") is null) { _explicitNullValueWebhookEndpoints = default!; _explicitNullProperties?.Remove("webhook_endpoints"); }
+            else if (parseNode.GetChildNode("webhook_endpoints") is { } nullNodeWebhookEndpoints && nullNodeWebhookEndpoints.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) WebhookEndpoints = null;
         }
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
@@ -25,11 +26,11 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <summary>The webhook_endpoints property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint>? WebhookEndpoints { get => _explicitNullValueWebhookEndpoints; set { _explicitNullValueWebhookEndpoints = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("webhook_endpoints"); else _explicitNullProperties?.Remove("webhook_endpoints"); } }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint>? WebhookEndpoints { get => _explicitNullValueWebhookEndpoints; set { _explicitNullValueWebhookEndpoints = value; AdditionalData?.Remove("webhook_endpoints"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("webhook_endpoints"); else _explicitNullProperties?.Remove("webhook_endpoints"); } }
         private List<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint>? _explicitNullValueWebhookEndpoints = default!;
 #nullable restore
 #else
-        public List<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint> WebhookEndpoints { get => _explicitNullValueWebhookEndpoints; set { _explicitNullValueWebhookEndpoints = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("webhook_endpoints"); else _explicitNullProperties?.Remove("webhook_endpoints"); } }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint> WebhookEndpoints { get => _explicitNullValueWebhookEndpoints; set { _explicitNullValueWebhookEndpoints = value; AdditionalData?.Remove("webhook_endpoints"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("webhook_endpoints"); else _explicitNullProperties?.Remove("webhook_endpoints"); } }
         private List<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint> _explicitNullValueWebhookEndpoints = default!;
 #endif
         /// <summary>

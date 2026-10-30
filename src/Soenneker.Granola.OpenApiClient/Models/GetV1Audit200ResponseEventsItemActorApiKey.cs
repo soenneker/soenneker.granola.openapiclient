@@ -18,8 +18,10 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         public virtual void CaptureExplicitNulls(global::Microsoft.Kiota.Abstractions.Serialization.IParseNode parseNode)
         {
-            if (parseNode.GetChildNode("id_suffix") is { } nullNodeIdSuffix && nullNodeIdSuffix.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) IdSuffix = null;
-            if (parseNode.GetChildNode("object") is { } nullNodeObject && nullNodeObject.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Object = null;
+            if (parseNode.GetChildNode("id_suffix") is null) { _explicitNullValueIdSuffix = default!; _explicitNullProperties?.Remove("id_suffix"); }
+            else if (parseNode.GetChildNode("id_suffix") is { } nullNodeIdSuffix && nullNodeIdSuffix.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) IdSuffix = null;
+            if (parseNode.GetChildNode("object") is null) { _explicitNullValueObject = default!; _explicitNullProperties?.Remove("object"); }
+            else if (parseNode.GetChildNode("object") is { } nullNodeObject && nullNodeObject.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Object = null;
         }
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
@@ -27,15 +29,15 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <summary>The final eight characters of the non-secret API key identifier.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? IdSuffix { get => _explicitNullValueIdSuffix; set { _explicitNullValueIdSuffix = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("id_suffix"); else _explicitNullProperties?.Remove("id_suffix"); } }
+        public string? IdSuffix { get => _explicitNullValueIdSuffix; set { _explicitNullValueIdSuffix = value; AdditionalData?.Remove("id_suffix"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("id_suffix"); else _explicitNullProperties?.Remove("id_suffix"); } }
         private string? _explicitNullValueIdSuffix = default!;
 #nullable restore
 #else
-        public string IdSuffix { get => _explicitNullValueIdSuffix; set { _explicitNullValueIdSuffix = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("id_suffix"); else _explicitNullProperties?.Remove("id_suffix"); } }
+        public string IdSuffix { get => _explicitNullValueIdSuffix; set { _explicitNullValueIdSuffix = value; AdditionalData?.Remove("id_suffix"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("id_suffix"); else _explicitNullProperties?.Remove("id_suffix"); } }
         private string _explicitNullValueIdSuffix = default!;
 #endif
         /// <summary>The object type of the actor</summary>
-        public global::Soenneker.Granola.OpenApiClient.Models.ApiKeyObject? Object { get => _explicitNullValueObject; set { _explicitNullValueObject = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("object"); else _explicitNullProperties?.Remove("object"); } }
+        public global::Soenneker.Granola.OpenApiClient.Models.ApiKeyObject? Object { get => _explicitNullValueObject; set { _explicitNullValueObject = value; AdditionalData?.Remove("object"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("object"); else _explicitNullProperties?.Remove("object"); } }
         private global::Soenneker.Granola.OpenApiClient.Models.ApiKeyObject? _explicitNullValueObject = default!;
         /// <summary>
         /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKey"/> and sets the default values.
@@ -63,7 +65,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "id_suffix", n => { IdSuffix = n.GetStringValue(); } },
-                { "object", n => { Object = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.ApiKeyObject>(); } },
+                { "object", n => { var parsed = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.ApiKeyObject>(); if (parsed == null && n.GetStringValue() is string unknown) { _explicitNullValueObject = default; _explicitNullProperties?.Remove("object"); AdditionalData["object"] = unknown; } else { Object = parsed; AdditionalData.Remove("object"); } } },
             };
         }
         /// <summary>
