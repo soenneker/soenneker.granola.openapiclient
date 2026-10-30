@@ -49,7 +49,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints.Item
         {
 #endif
             var requestInfo = ToDeleteRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.DeleteWebhookEndpointOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.DeleteWebhookEndpointOutput.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.DeleteWebhookEndpointOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.DeleteWebhookEndpointOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Update webhook endpoint
@@ -69,7 +69,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints.Item
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPatchRequestInformation(body, requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Delete webhook endpoint

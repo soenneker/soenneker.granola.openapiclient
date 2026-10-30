@@ -62,7 +62,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListWebhookEndpointsOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListWebhookEndpointsOutput.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListWebhookEndpointsOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListWebhookEndpointsOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Registers an HTTPS URL to receive event deliveries. With a Workspace API key the endpoint is workspace-managed: pass `scopes: [&quot;workspace&quot;]` (the key&apos;s own scope), and `folder_ids` may only reference folders the key can list.
@@ -82,7 +82,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.CreateWebhookEndpointOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.CreateWebhookEndpointOutput.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.CreateWebhookEndpointOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.CreateWebhookEndpointOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// List webhook endpoints

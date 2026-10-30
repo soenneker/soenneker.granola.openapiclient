@@ -49,7 +49,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.LegalHolds.Item.Custodians.Item
         {
 #endif
             var requestInfo = ToDeleteRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.RemoveLegalHoldCustodianOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.RemoveLegalHoldCustodianOutput.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.RemoveLegalHoldCustodianOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.RemoveLegalHoldCustodianOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Removes a custodian from a hold. The record of who was held survives: the entry is returned by the list endpoint with `removed_at` set. A custodian id that was never issued returns 404.

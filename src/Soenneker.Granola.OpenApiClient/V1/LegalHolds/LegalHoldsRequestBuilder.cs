@@ -62,7 +62,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.LegalHolds
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListLegalHoldsOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListLegalHoldsOutput.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListLegalHoldsOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListLegalHoldsOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Places a named legal hold on custodians in your workspace. Granola preserves a custodian&apos;s notes, transcripts and attachments while any hold covering them is active. Custodians see no change in the product.
@@ -82,7 +82,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.LegalHolds
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.LegalHold>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.LegalHold.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.LegalHold>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.LegalHold.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Lists every legal hold in your workspace, newest first. Released holds are returned alongside active ones, each carrying `released_at`.

@@ -49,7 +49,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.GetTranscriptOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.GetTranscriptOutput.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.GetTranscriptOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.GetTranscriptOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`.

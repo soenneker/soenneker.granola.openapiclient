@@ -12,7 +12,12 @@ namespace Soenneker.Granola.OpenApiClient.Models
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class GetV1Audit200ResponseEventsItemActor : IComposedTypeWrapper, IParsable
-    {
+    , global::Microsoft.Kiota.Abstractions.Serialization.IAdditionalDataHolder {
+        // Preserve ambiguous union payloads without inventing a discriminator.
+        /// <summary>The complete payload when no unique typed union branch can be selected.</summary>
+        public global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode UnrecognizedValue { get; set; } = null!;
+        public global::System.Collections.Generic.IDictionary<string, object> AdditionalData { get; set; } = new global::System.Collections.Generic.Dictionary<string, object>();
+
         /// <summary>Composed type representation for type <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymous"/></summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
@@ -57,21 +62,32 @@ namespace Soenneker.Granola.OpenApiClient.Models
             var result = new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActor();
             if("anonymous".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
             {
-                result.GetV1Audit200ResponseEventsItemActorAnonymous = new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymous();
+                
             }
             else if("api_key".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
             {
-                result.GetV1Audit200ResponseEventsItemActorApiKey = new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKey();
+                
             }
             else if("system".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
             {
-                result.GetV1Audit200ResponseEventsItemActorSystem = new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystem();
+                
             }
             else if("user".Equals(mappingValue, StringComparison.OrdinalIgnoreCase))
             {
-                result.GetV1Audit200ResponseEventsItemActorUser = new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorUser();
+                
             }
-            return result;
+            
+            var unionPayload = parseNode.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue);
+            bool matchesUnionBranch0 = unionPayload is global::Microsoft.Kiota.Abstractions.Serialization.UntypedObject && ((global::System.Func<bool>)(() => parseNode.GetChildNode("object") != null && (parseNode.GetChildNode("object")?.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is global::Microsoft.Kiota.Abstractions.Serialization.UntypedString tag1 && ("api_key".Equals(tag1.GetValue(), global::System.StringComparison.Ordinal))) && parseNode.GetChildNode("id_suffix") != null))();
+            bool matchesUnionBranch1 = unionPayload is global::Microsoft.Kiota.Abstractions.Serialization.UntypedObject && ((global::System.Func<bool>)(() => parseNode.GetChildNode("object") != null && (parseNode.GetChildNode("object")?.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is global::Microsoft.Kiota.Abstractions.Serialization.UntypedString tag1 && ("user".Equals(tag1.GetValue(), global::System.StringComparison.Ordinal))) && parseNode.GetChildNode("id") != null && parseNode.GetChildNode("email") != null))();
+            bool matchesUnionBranch2 = unionPayload is global::Microsoft.Kiota.Abstractions.Serialization.UntypedObject && ((global::System.Func<bool>)(() => parseNode.GetChildNode("object") != null && (parseNode.GetChildNode("object")?.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is global::Microsoft.Kiota.Abstractions.Serialization.UntypedString tag1 && ("system".Equals(tag1.GetValue(), global::System.StringComparison.Ordinal)))))();
+            bool matchesUnionBranch3 = unionPayload is global::Microsoft.Kiota.Abstractions.Serialization.UntypedObject && ((global::System.Func<bool>)(() => parseNode.GetChildNode("object") != null && (parseNode.GetChildNode("object")?.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is global::Microsoft.Kiota.Abstractions.Serialization.UntypedString tag1 && ("anonymous".Equals(tag1.GetValue(), global::System.StringComparison.Ordinal)))))();
+            if (result.GetV1Audit200ResponseEventsItemActorAnonymous == null && result.GetV1Audit200ResponseEventsItemActorApiKey == null && result.GetV1Audit200ResponseEventsItemActorSystem == null && result.GetV1Audit200ResponseEventsItemActorUser == null && matchesUnionBranch0 && !matchesUnionBranch1 && !matchesUnionBranch2 && !matchesUnionBranch3) result.GetV1Audit200ResponseEventsItemActorApiKey = global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKey(), parseNode);
+            if (result.GetV1Audit200ResponseEventsItemActorAnonymous == null && result.GetV1Audit200ResponseEventsItemActorApiKey == null && result.GetV1Audit200ResponseEventsItemActorSystem == null && result.GetV1Audit200ResponseEventsItemActorUser == null && matchesUnionBranch1 && !matchesUnionBranch0 && !matchesUnionBranch2 && !matchesUnionBranch3) result.GetV1Audit200ResponseEventsItemActorUser = global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorUser(), parseNode);
+            if (result.GetV1Audit200ResponseEventsItemActorAnonymous == null && result.GetV1Audit200ResponseEventsItemActorApiKey == null && result.GetV1Audit200ResponseEventsItemActorSystem == null && result.GetV1Audit200ResponseEventsItemActorUser == null && matchesUnionBranch2 && !matchesUnionBranch0 && !matchesUnionBranch1 && !matchesUnionBranch3) result.GetV1Audit200ResponseEventsItemActorSystem = global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystem(), parseNode);
+            if (result.GetV1Audit200ResponseEventsItemActorAnonymous == null && result.GetV1Audit200ResponseEventsItemActorApiKey == null && result.GetV1Audit200ResponseEventsItemActorSystem == null && result.GetV1Audit200ResponseEventsItemActorUser == null && matchesUnionBranch3 && !matchesUnionBranch0 && !matchesUnionBranch1 && !matchesUnionBranch2) result.GetV1Audit200ResponseEventsItemActorAnonymous = global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymous(), parseNode);
+            if (result.GetV1Audit200ResponseEventsItemActorAnonymous == null && result.GetV1Audit200ResponseEventsItemActorApiKey == null && result.GetV1Audit200ResponseEventsItemActorSystem == null && result.GetV1Audit200ResponseEventsItemActorUser == null) result.UnrecognizedValue = unionPayload;
+return result;
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -103,21 +119,32 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <param name="writer">Serialization writer to use to serialize this model</param>
         public virtual void Serialize(ISerializationWriter writer)
         {
+            if (global::System.Object.ReferenceEquals(writer, null)) throw new global::System.ArgumentNullException(nameof(writer));
+            if (GetV1Audit200ResponseEventsItemActorAnonymous == null && GetV1Audit200ResponseEventsItemActorApiKey == null && GetV1Audit200ResponseEventsItemActorSystem == null && GetV1Audit200ResponseEventsItemActorUser == null) { if (UnrecognizedValue is global::Microsoft.Kiota.Abstractions.Serialization.UntypedObject rawObject) writer.WriteObjectValue(null, new global::Soenneker.OpenApi.Generated.OpenApiUnionAdditionalData(AdditionalData, rawObject)); else if (UnrecognizedValue != null) writer.WriteObjectValue(null, UnrecognizedValue); else if (AdditionalData.Count > 0) writer.WriteObjectValue(null, new global::Soenneker.OpenApi.Generated.OpenApiUnionAdditionalData(AdditionalData)); else writer.WriteNullValue(null); return; }
+            if (GetV1Audit200ResponseEventsItemActorAnonymous != null && GetV1Audit200ResponseEventsItemActorApiKey == null && GetV1Audit200ResponseEventsItemActorSystem == null && GetV1Audit200ResponseEventsItemActorUser == null) { if (GetV1Audit200ResponseEventsItemActorAnonymous is global::Microsoft.Kiota.Abstractions.Serialization.IAdditionalDataHolder selectedData) foreach (var entry in AdditionalData) selectedData.AdditionalData[entry.Key] = entry.Value; writer.WriteObjectValue(null, GetV1Audit200ResponseEventsItemActorAnonymous); return; }
+            if (GetV1Audit200ResponseEventsItemActorApiKey != null && GetV1Audit200ResponseEventsItemActorAnonymous == null && GetV1Audit200ResponseEventsItemActorSystem == null && GetV1Audit200ResponseEventsItemActorUser == null) { if (GetV1Audit200ResponseEventsItemActorApiKey is global::Microsoft.Kiota.Abstractions.Serialization.IAdditionalDataHolder selectedData) foreach (var entry in AdditionalData) selectedData.AdditionalData[entry.Key] = entry.Value; writer.WriteObjectValue(null, GetV1Audit200ResponseEventsItemActorApiKey); return; }
+            if (GetV1Audit200ResponseEventsItemActorSystem != null && GetV1Audit200ResponseEventsItemActorAnonymous == null && GetV1Audit200ResponseEventsItemActorApiKey == null && GetV1Audit200ResponseEventsItemActorUser == null) { if (GetV1Audit200ResponseEventsItemActorSystem is global::Microsoft.Kiota.Abstractions.Serialization.IAdditionalDataHolder selectedData) foreach (var entry in AdditionalData) selectedData.AdditionalData[entry.Key] = entry.Value; writer.WriteObjectValue(null, GetV1Audit200ResponseEventsItemActorSystem); return; }
+            if (GetV1Audit200ResponseEventsItemActorUser != null && GetV1Audit200ResponseEventsItemActorAnonymous == null && GetV1Audit200ResponseEventsItemActorApiKey == null && GetV1Audit200ResponseEventsItemActorSystem == null) { if (GetV1Audit200ResponseEventsItemActorUser is global::Microsoft.Kiota.Abstractions.Serialization.IAdditionalDataHolder selectedData) foreach (var entry in AdditionalData) selectedData.AdditionalData[entry.Key] = entry.Value; writer.WriteObjectValue(null, GetV1Audit200ResponseEventsItemActorUser); return; }
+
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             if(GetV1Audit200ResponseEventsItemActorAnonymous != null)
             {
+                if (GetV1Audit200ResponseEventsItemActorAnonymous is global::Microsoft.Kiota.Abstractions.Serialization.IAdditionalDataHolder unionData) foreach (var entry in AdditionalData) unionData.AdditionalData[entry.Key] = entry.Value;
                 writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymous>(null, GetV1Audit200ResponseEventsItemActorAnonymous);
             }
             else if(GetV1Audit200ResponseEventsItemActorApiKey != null)
             {
+                if (GetV1Audit200ResponseEventsItemActorApiKey is global::Microsoft.Kiota.Abstractions.Serialization.IAdditionalDataHolder unionData) foreach (var entry in AdditionalData) unionData.AdditionalData[entry.Key] = entry.Value;
                 writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKey>(null, GetV1Audit200ResponseEventsItemActorApiKey);
             }
             else if(GetV1Audit200ResponseEventsItemActorSystem != null)
             {
+                if (GetV1Audit200ResponseEventsItemActorSystem is global::Microsoft.Kiota.Abstractions.Serialization.IAdditionalDataHolder unionData) foreach (var entry in AdditionalData) unionData.AdditionalData[entry.Key] = entry.Value;
                 writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystem>(null, GetV1Audit200ResponseEventsItemActorSystem);
             }
             else if(GetV1Audit200ResponseEventsItemActorUser != null)
             {
+                if (GetV1Audit200ResponseEventsItemActorUser is global::Microsoft.Kiota.Abstractions.Serialization.IAdditionalDataHolder unionData) foreach (var entry in AdditionalData) unionData.AdditionalData[entry.Key] = entry.Value;
                 writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorUser>(null, GetV1Audit200ResponseEventsItemActorUser);
             }
         }

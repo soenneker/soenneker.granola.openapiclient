@@ -11,128 +11,185 @@ namespace Soenneker.Granola.OpenApiClient.Models
     #pragma warning disable CS1591
     public partial class Note : IAdditionalDataHolder, IParsable
     #pragma warning restore CS1591
-    {
+    , global::Soenneker.OpenApi.Generated.IOpenApiExplicitNulls {
+        // Track explicitly assigned nulls separately from absent properties.
+        private global::System.Collections.Generic.HashSet<string> _explicitNullProperties = null!;
+
+        public virtual void CaptureExplicitNulls(global::Microsoft.Kiota.Abstractions.Serialization.IParseNode parseNode)
+        {
+            if (parseNode.GetChildNode("attachments") is { } nullNodeAttachments && nullNodeAttachments.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Attachments = null;
+            if (parseNode.GetChildNode("attendees") is { } nullNodeAttendees && nullNodeAttendees.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Attendees = null;
+            if (parseNode.GetChildNode("calendar_event") is { } nullNodeCalendarEvent && nullNodeCalendarEvent.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) CalendarEvent = null;
+            if (parseNode.GetChildNode("created_at") is { } nullNodeCreatedAt && nullNodeCreatedAt.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) CreatedAt = null;
+            if (parseNode.GetChildNode("deleted_at") is { } nullNodeDeletedAt && nullNodeDeletedAt.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) DeletedAt = null;
+            if (parseNode.GetChildNode("folder_membership") is { } nullNodeFolderMembership && nullNodeFolderMembership.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) FolderMembership = null;
+            if (parseNode.GetChildNode("id") is { } nullNodeId && nullNodeId.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Id = null;
+            if (parseNode.GetChildNode("object") is { } nullNodeObject && nullNodeObject.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Object = null;
+            if (parseNode.GetChildNode("owner") is { } nullNodeOwner && nullNodeOwner.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Owner = null;
+            if (parseNode.GetChildNode("private_notes_markdown") is { } nullNodePrivateNotesMarkdown && nullNodePrivateNotesMarkdown.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) PrivateNotesMarkdown = null;
+            if (parseNode.GetChildNode("private_notes_text") is { } nullNodePrivateNotesText && nullNodePrivateNotesText.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) PrivateNotesText = null;
+            if (parseNode.GetChildNode("space_membership") is { } nullNodeSpaceMembership && nullNodeSpaceMembership.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) SpaceMembership = null;
+            if (parseNode.GetChildNode("summary_markdown") is { } nullNodeSummaryMarkdown && nullNodeSummaryMarkdown.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) SummaryMarkdown = null;
+            if (parseNode.GetChildNode("summary_text") is { } nullNodeSummaryText && nullNodeSummaryText.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) SummaryText = null;
+            if (parseNode.GetChildNode("title") is { } nullNodeTitle && nullNodeTitle.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Title = null;
+            if (parseNode.GetChildNode("transcript") is { } nullNodeTranscript && nullNodeTranscript.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Transcript = null;
+            if (parseNode.GetChildNode("updated_at") is { } nullNodeUpdatedAt && nullNodeUpdatedAt.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) UpdatedAt = null;
+            if (parseNode.GetChildNode("web_url") is { } nullNodeWebUrl && nullNodeWebUrl.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) WebUrl = null;
+        }
+
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>Manually attached photos, in stored order. Empty when no photos are available.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment>? Attachments { get; set; }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment>? Attachments { get => _explicitNullValueAttachments; set { _explicitNullValueAttachments = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("attachments"); else _explicitNullProperties?.Remove("attachments"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment>? _explicitNullValueAttachments = default!;
 #nullable restore
 #else
-        public List<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment> Attachments { get; set; }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment> Attachments { get => _explicitNullValueAttachments; set { _explicitNullValueAttachments = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("attachments"); else _explicitNullProperties?.Remove("attachments"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment> _explicitNullValueAttachments = default!;
 #endif
         /// <summary>The attendees of the meeting</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Soenneker.Granola.OpenApiClient.Models.User>? Attendees { get; set; }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.User>? Attendees { get => _explicitNullValueAttendees; set { _explicitNullValueAttendees = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("attendees"); else _explicitNullProperties?.Remove("attendees"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.User>? _explicitNullValueAttendees = default!;
 #nullable restore
 #else
-        public List<global::Soenneker.Granola.OpenApiClient.Models.User> Attendees { get; set; }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.User> Attendees { get => _explicitNullValueAttendees; set { _explicitNullValueAttendees = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("attendees"); else _explicitNullProperties?.Remove("attendees"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.User> _explicitNullValueAttendees = default!;
 #endif
         /// <summary>The calendar_event property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent? CalendarEvent { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent? CalendarEvent { get => _explicitNullValueCalendarEvent; set { _explicitNullValueCalendarEvent = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("calendar_event"); else _explicitNullProperties?.Remove("calendar_event"); } }
+        private global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent? _explicitNullValueCalendarEvent = default!;
 #nullable restore
 #else
-        public global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent CalendarEvent { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent CalendarEvent { get => _explicitNullValueCalendarEvent; set { _explicitNullValueCalendarEvent = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("calendar_event"); else _explicitNullProperties?.Remove("calendar_event"); } }
+        private global::Soenneker.Granola.OpenApiClient.Models.NoteCalendarEvent _explicitNullValueCalendarEvent = default!;
 #endif
         /// <summary>The creation time of the note</summary>
-        public DateTimeOffset? CreatedAt { get; set; }
+        public DateTimeOffset? CreatedAt { get => _explicitNullValueCreatedAt; set { _explicitNullValueCreatedAt = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("created_at"); else _explicitNullProperties?.Remove("created_at"); } }
+        private DateTimeOffset? _explicitNullValueCreatedAt = default!;
         /// <summary>When the note was deleted, or null if it has not been. Only keys with access to all workspace notes can see deleted notes.</summary>
-        public DateTimeOffset? DeletedAt { get; set; }
+        public DateTimeOffset? DeletedAt { get => _explicitNullValueDeletedAt; set { _explicitNullValueDeletedAt = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("deleted_at"); else _explicitNullProperties?.Remove("deleted_at"); } }
+        private DateTimeOffset? _explicitNullValueDeletedAt = default!;
         /// <summary>The folder membership of the note</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Soenneker.Granola.OpenApiClient.Models.Folder>? FolderMembership { get; set; }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.Folder>? FolderMembership { get => _explicitNullValueFolderMembership; set { _explicitNullValueFolderMembership = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("folder_membership"); else _explicitNullProperties?.Remove("folder_membership"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.Folder>? _explicitNullValueFolderMembership = default!;
 #nullable restore
 #else
-        public List<global::Soenneker.Granola.OpenApiClient.Models.Folder> FolderMembership { get; set; }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.Folder> FolderMembership { get => _explicitNullValueFolderMembership; set { _explicitNullValueFolderMembership = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("folder_membership"); else _explicitNullProperties?.Remove("folder_membership"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.Folder> _explicitNullValueFolderMembership = default!;
 #endif
         /// <summary>The ID of the note</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? Id { get; set; }
+        public string? Id { get => _explicitNullValueId; set { _explicitNullValueId = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("id"); else _explicitNullProperties?.Remove("id"); } }
+        private string? _explicitNullValueId = default!;
 #nullable restore
 #else
-        public string Id { get; set; }
+        public string Id { get => _explicitNullValueId; set { _explicitNullValueId = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("id"); else _explicitNullProperties?.Remove("id"); } }
+        private string _explicitNullValueId = default!;
 #endif
         /// <summary>The object type of the note</summary>
-        public global::Soenneker.Granola.OpenApiClient.Models.NoteObject? Object { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.NoteObject? Object { get => _explicitNullValueObject; set { _explicitNullValueObject = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("object"); else _explicitNullProperties?.Remove("object"); } }
+        private global::Soenneker.Granola.OpenApiClient.Models.NoteObject? _explicitNullValueObject = default!;
         /// <summary>The owner property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public global::Soenneker.Granola.OpenApiClient.Models.User? Owner { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.User? Owner { get => _explicitNullValueOwner; set { _explicitNullValueOwner = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("owner"); else _explicitNullProperties?.Remove("owner"); } }
+        private global::Soenneker.Granola.OpenApiClient.Models.User? _explicitNullValueOwner = default!;
 #nullable restore
 #else
-        public global::Soenneker.Granola.OpenApiClient.Models.User Owner { get; set; }
+        public global::Soenneker.Granola.OpenApiClient.Models.User Owner { get => _explicitNullValueOwner; set { _explicitNullValueOwner = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("owner"); else _explicitNullProperties?.Remove("owner"); } }
+        private global::Soenneker.Granola.OpenApiClient.Models.User _explicitNullValueOwner = default!;
 #endif
         /// <summary>The private notes the note&apos;s owner wrote themselves, in markdown format. Only returned when the API key belongs to the user who created the note; `null` otherwise (including for shared notes and workspace-scoped keys).</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? PrivateNotesMarkdown { get; set; }
+        public string? PrivateNotesMarkdown { get => _explicitNullValuePrivateNotesMarkdown; set { _explicitNullValuePrivateNotesMarkdown = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("private_notes_markdown"); else _explicitNullProperties?.Remove("private_notes_markdown"); } }
+        private string? _explicitNullValuePrivateNotesMarkdown = default!;
 #nullable restore
 #else
-        public string PrivateNotesMarkdown { get; set; }
+        public string PrivateNotesMarkdown { get => _explicitNullValuePrivateNotesMarkdown; set { _explicitNullValuePrivateNotesMarkdown = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("private_notes_markdown"); else _explicitNullProperties?.Remove("private_notes_markdown"); } }
+        private string _explicitNullValuePrivateNotesMarkdown = default!;
 #endif
         /// <summary>The private notes the note&apos;s owner wrote themselves, as plain text. Only returned when the API key belongs to the user who created the note; `null` otherwise (including for shared notes and workspace-scoped keys).</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? PrivateNotesText { get; set; }
+        public string? PrivateNotesText { get => _explicitNullValuePrivateNotesText; set { _explicitNullValuePrivateNotesText = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("private_notes_text"); else _explicitNullProperties?.Remove("private_notes_text"); } }
+        private string? _explicitNullValuePrivateNotesText = default!;
 #nullable restore
 #else
-        public string PrivateNotesText { get; set; }
+        public string PrivateNotesText { get => _explicitNullValuePrivateNotesText; set { _explicitNullValuePrivateNotesText = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("private_notes_text"); else _explicitNullProperties?.Remove("private_notes_text"); } }
+        private string _explicitNullValuePrivateNotesText = default!;
 #endif
         /// <summary>The spaces the note is in that the API key can access, through the folders it belongs to.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Soenneker.Granola.OpenApiClient.Models.Space>? SpaceMembership { get; set; }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.Space>? SpaceMembership { get => _explicitNullValueSpaceMembership; set { _explicitNullValueSpaceMembership = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("space_membership"); else _explicitNullProperties?.Remove("space_membership"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.Space>? _explicitNullValueSpaceMembership = default!;
 #nullable restore
 #else
-        public List<global::Soenneker.Granola.OpenApiClient.Models.Space> SpaceMembership { get; set; }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.Space> SpaceMembership { get => _explicitNullValueSpaceMembership; set { _explicitNullValueSpaceMembership = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("space_membership"); else _explicitNullProperties?.Remove("space_membership"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.Space> _explicitNullValueSpaceMembership = default!;
 #endif
         /// <summary>The summary of the note in markdown format. Can be null if the note has no summary.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? SummaryMarkdown { get; set; }
+        public string? SummaryMarkdown { get => _explicitNullValueSummaryMarkdown; set { _explicitNullValueSummaryMarkdown = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("summary_markdown"); else _explicitNullProperties?.Remove("summary_markdown"); } }
+        private string? _explicitNullValueSummaryMarkdown = default!;
 #nullable restore
 #else
-        public string SummaryMarkdown { get; set; }
+        public string SummaryMarkdown { get => _explicitNullValueSummaryMarkdown; set { _explicitNullValueSummaryMarkdown = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("summary_markdown"); else _explicitNullProperties?.Remove("summary_markdown"); } }
+        private string _explicitNullValueSummaryMarkdown = default!;
 #endif
         /// <summary>The summary text of the note</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? SummaryText { get; set; }
+        public string? SummaryText { get => _explicitNullValueSummaryText; set { _explicitNullValueSummaryText = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("summary_text"); else _explicitNullProperties?.Remove("summary_text"); } }
+        private string? _explicitNullValueSummaryText = default!;
 #nullable restore
 #else
-        public string SummaryText { get; set; }
+        public string SummaryText { get => _explicitNullValueSummaryText; set { _explicitNullValueSummaryText = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("summary_text"); else _explicitNullProperties?.Remove("summary_text"); } }
+        private string _explicitNullValueSummaryText = default!;
 #endif
         /// <summary>The title of the note</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? Title { get; set; }
+        public string? Title { get => _explicitNullValueTitle; set { _explicitNullValueTitle = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("title"); else _explicitNullProperties?.Remove("title"); } }
+        private string? _explicitNullValueTitle = default!;
 #nullable restore
 #else
-        public string Title { get; set; }
+        public string Title { get => _explicitNullValueTitle; set { _explicitNullValueTitle = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("title"); else _explicitNullProperties?.Remove("title"); } }
+        private string _explicitNullValueTitle = default!;
 #endif
         /// <summary>The inline transcript of the note. If it is too large to return inline, Get Note returns `TRANSCRIPT_TOO_LARGE`; retrieve it in pages from `/v1/notes/{note_id}/transcript`. The example below shows a macOS transcript. On iOS, Granola currently returns `speaker.source` as `microphone`, and `diarization_label` can carry anonymous `Speaker A/B/...` buckets when diarization is available.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Soenneker.Granola.OpenApiClient.Models.Transcript>? Transcript { get; set; }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.Transcript>? Transcript { get => _explicitNullValueTranscript; set { _explicitNullValueTranscript = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("transcript"); else _explicitNullProperties?.Remove("transcript"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.Transcript>? _explicitNullValueTranscript = default!;
 #nullable restore
 #else
-        public List<global::Soenneker.Granola.OpenApiClient.Models.Transcript> Transcript { get; set; }
+        public List<global::Soenneker.Granola.OpenApiClient.Models.Transcript> Transcript { get => _explicitNullValueTranscript; set { _explicitNullValueTranscript = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("transcript"); else _explicitNullProperties?.Remove("transcript"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.Transcript> _explicitNullValueTranscript = default!;
 #endif
         /// <summary>The last update time of the note</summary>
-        public DateTimeOffset? UpdatedAt { get; set; }
+        public DateTimeOffset? UpdatedAt { get => _explicitNullValueUpdatedAt; set { _explicitNullValueUpdatedAt = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("updated_at"); else _explicitNullProperties?.Remove("updated_at"); } }
+        private DateTimeOffset? _explicitNullValueUpdatedAt = default!;
         /// <summary>The URL to view the note in the Granola web app</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public string? WebUrl { get; set; }
+        public string? WebUrl { get => _explicitNullValueWebUrl; set { _explicitNullValueWebUrl = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("web_url"); else _explicitNullProperties?.Remove("web_url"); } }
+        private string? _explicitNullValueWebUrl = default!;
 #nullable restore
 #else
-        public string WebUrl { get; set; }
+        public string WebUrl { get => _explicitNullValueWebUrl; set { _explicitNullValueWebUrl = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("web_url"); else _explicitNullProperties?.Remove("web_url"); } }
+        private string _explicitNullValueWebUrl = default!;
 #endif
         /// <summary>
         /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.Note"/> and sets the default values.
@@ -149,7 +206,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public static global::Soenneker.Granola.OpenApiClient.Models.Note CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return new global::Soenneker.Granola.OpenApiClient.Models.Note();
+            return global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.Note(), parseNode);
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -204,6 +261,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
             writer.WriteCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.Transcript>("transcript", Transcript);
             writer.WriteDateTimeOffsetValue("updated_at", UpdatedAt);
             writer.WriteStringValue("web_url", WebUrl);
+            if (_explicitNullProperties != null) foreach (string name in _explicitNullProperties) writer.WriteNullValue(name);
             writer.WriteAdditionalData(AdditionalData);
         }
     }

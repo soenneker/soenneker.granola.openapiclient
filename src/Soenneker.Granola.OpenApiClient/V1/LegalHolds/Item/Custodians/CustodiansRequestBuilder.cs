@@ -62,7 +62,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.LegalHolds.Item.Custodians
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListLegalHoldCustodiansOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListLegalHoldCustodiansOutput.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListLegalHoldCustodiansOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListLegalHoldCustodiansOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Names users on a hold, by email or by Granola user id. Idempotent: the response carries the request&apos;s full resolved set, whether each entry was newly added or already present.
@@ -82,7 +82,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.LegalHolds.Item.Custodians
 #endif
             if(ReferenceEquals(body, null)) throw new ArgumentNullException(nameof(body));
             var requestInfo = ToPostRequestInformation(body, requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.AddLegalHoldCustodiansOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.AddLegalHoldCustodiansOutput.CreateFromDiscriminatorValue, default, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.AddLegalHoldCustodiansOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.AddLegalHoldCustodiansOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
         /// Lists the users a hold names, oldest first. Removed custodians are returned alongside active ones, each carrying `removed_at`.
