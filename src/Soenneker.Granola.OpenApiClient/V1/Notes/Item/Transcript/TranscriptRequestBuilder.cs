@@ -65,7 +65,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript
         public RequestInformation ToGetRequestInformation(Action<RequestConfiguration<global::Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript.TranscriptRequestBuilder.TranscriptRequestBuilderGetQueryParameters>> requestConfiguration = default)
         {
 #endif
-            var requestInfo = new RequestInformation(Method.GET, global::Soenneker.OpenApi.Generated.OpenApiServiceRoutes.Resolve(UrlTemplate, RequestAdapter.BaseUrl, "https://public-api.granola.ai", "/v1/notes/{noteId}/transcript", PathParameters.ContainsKey("request-raw-url")), PathParameters);
+            var requestInfo = new RequestInformation(Method.GET, UrlTemplate, PathParameters);
             requestInfo.Configure(requestConfiguration);
             requestInfo.Headers.TryAdd("Accept", "application/json");
             return requestInfo;
