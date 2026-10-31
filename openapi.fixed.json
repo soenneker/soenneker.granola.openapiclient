@@ -513,6 +513,17 @@
           },
           "404": {
             "description": "Not found - The webhooks API is not available for this workspace"
+          },
+          "200": {
+            "description": "Webhook endpoint created. The signing secret is only returned here.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateWebhookEndpointOutput"
+                }
+              }
+            },
+            "x-client-success-response-status": "201"
           }
         },
         "security": [
@@ -682,6 +693,17 @@
           },
           "409": {
             "description": "A live legal hold with this name already exists in your workspace"
+          },
+          "200": {
+            "description": "The legal hold that was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalHold"
+                }
+              }
+            },
+            "x-client-success-response-status": "201"
           }
         },
         "security": [
