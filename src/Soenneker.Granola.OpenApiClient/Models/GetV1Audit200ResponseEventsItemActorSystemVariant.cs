@@ -8,10 +8,10 @@ using System;
 namespace Soenneker.Granola.OpenApiClient.Models
 {
     /// <summary>
-    /// A person performed the action without signing in, so there is no account to name — for example, someone opening a note through a shared link. Distinct from `system`, which means no person was involved at all. This variant carries no other fields; the `ip_address` and `user_agent` in `context` are the only attribution available.
+    /// No identifiable user performed the action — it came from an automated process, such as a scheduled job or an inbound webhook from a connected service. This variant carries no other fields.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-    public partial class GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorAnonymous : global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActor, IParsable
+    public partial class GetV1Audit200ResponseEventsItemActorSystemVariant : global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActor, IParsable
     {
         // Track explicitly assigned nulls separately from absent properties.
         private global::System.Collections.Generic.HashSet<string> _explicitNullProperties = null!;
@@ -24,12 +24,12 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorAnonymous"/></returns>
+        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystemVariant"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorAnonymous CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystemVariant CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorAnonymous(), parseNode);
+            return global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystemVariant(), parseNode);
         }
         /// <summary>
         /// The deserialization information for the current model

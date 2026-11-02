@@ -52,10 +52,10 @@ namespace Soenneker.Granola.OpenApiClient.Models
             var mappingValue = parseNode.GetChildNode("object")?.GetStringValue();
             return mappingValue switch
             {
-                "anonymous" => new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorAnonymous(),
-                "api_key" => new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorApiKey(),
-                "system" => new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorSystem(),
-                "user" => new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorUser(),
+                "anonymous" => new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorAnonymousVariant(),
+                "api_key" => new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKeyVariant(),
+                "system" => new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorSystemVariant(),
+                "user" => new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorUserVariant(),
                 _ => new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActor(),
             };
         }

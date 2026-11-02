@@ -11,7 +11,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
     /// A public API key authenticated the request.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-    public partial class GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorApiKey : global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActor, IParsable
+    public partial class GetV1Audit200ResponseEventsItemActorApiKeyVariant : global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActor, IParsable
     {
         // Track explicitly assigned nulls separately from absent properties.
         private global::System.Collections.Generic.HashSet<string> _explicitNullProperties = null!;
@@ -36,12 +36,12 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorApiKey"/></returns>
+        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKeyVariant"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorApiKey CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKeyVariant CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorGetV1Audit200ResponseEventsItemActorApiKey(), parseNode);
+            return global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemActorApiKeyVariant(), parseNode);
         }
         /// <summary>
         /// The deserialization information for the current model
