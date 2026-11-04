@@ -258,6 +258,9 @@
           "401": {
             "description": "Unauthorized - Invalid API key"
           },
+          "403": {
+            "description": "Forbidden - A workspace admin has turned off transcript access over the API"
+          },
           "404": {
             "description": "Not found"
           }
@@ -1575,7 +1578,7 @@
             "items": {
               "$ref": "#/components/schemas/Transcript"
             },
-            "description": "The inline transcript of the note. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060. The example below shows a macOS transcript. On iOS, Granola currently returns \u0060speaker.source\u0060 as \u0060microphone\u0060, and \u0060diarization_label\u0060 can carry anonymous \u0060Speaker A/B/...\u0060 buckets when diarization is available."
+            "description": "The inline transcript of the note. It is null unless you pass \u0060include=transcript\u0060, or when a workspace admin has turned off transcript access over the API. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060. The example below shows a macOS transcript. On iOS, Granola currently returns \u0060speaker.source\u0060 as \u0060microphone\u0060, and \u0060diarization_label\u0060 can carry anonymous \u0060Speaker A/B/...\u0060 buckets when diarization is available."
           }
         }
       },
@@ -2941,7 +2944,7 @@
           "transcript"
         ],
         "type": "string",
-        "description": "Include the note transcript in the response. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060.",
+        "description": "Include the note transcript in the response. If a workspace admin has turned off transcript access over the API, \u0060transcript\u0060 is null. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060.",
         "example": "transcript",
         "x-ms-enum": {
           "name": "TranscriptInclude",
@@ -3600,7 +3603,7 @@
           "items": {
             "$ref": "#/components/schemas/Transcript"
           },
-          "description": "The inline transcript of the note. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060. The example below shows a macOS transcript. On iOS, Granola currently returns \u0060speaker.source\u0060 as \u0060microphone\u0060, and \u0060diarization_label\u0060 can carry anonymous \u0060Speaker A/B/...\u0060 buckets when diarization is available."
+          "description": "The inline transcript of the note. It is null unless you pass \u0060include=transcript\u0060, or when a workspace admin has turned off transcript access over the API. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060. The example below shows a macOS transcript. On iOS, Granola currently returns \u0060speaker.source\u0060 as \u0060microphone\u0060, and \u0060diarization_label\u0060 can carry anonymous \u0060Speaker A/B/...\u0060 buckets when diarization is available."
         }
       }
     },
