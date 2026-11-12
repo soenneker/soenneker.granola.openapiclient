@@ -34,7 +34,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Folders
         {
         }
         /// <summary>
-        /// List folders
+        /// Lists the folders the API key can read, ordered by name.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.ListFoldersOutput"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -52,7 +52,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Folders
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListFoldersOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListFoldersOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// List folders
+        /// Lists the folders the API key can read, ordered by name.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -80,7 +80,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Folders
             return new global::Soenneker.Granola.OpenApiClient.V1.Folders.FoldersRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// List folders
+        /// Lists the folders the API key can read, ordered by name.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class FoldersRequestBuilderGetQueryParameters 

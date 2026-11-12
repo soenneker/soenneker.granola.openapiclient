@@ -37,7 +37,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>True when the hold covers every member of your workspace, current and future. Additive with `custodian_count` — a hold may do both.</summary>
+        /// <summary>True when the hold covers every member of your workspace, current and future. Additive with `custodian_count`: a hold may do both.</summary>
         public bool? CoversEntireWorkspace { get => _explicitNullValueCoversEntireWorkspace; set { _explicitNullValueCoversEntireWorkspace = value; AdditionalData?.Remove("covers_entire_workspace"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("covers_entire_workspace"); else _explicitNullProperties?.Remove("covers_entire_workspace"); } }
         private bool? _explicitNullValueCoversEntireWorkspace = default!;
         /// <summary>When the hold was placed</summary>

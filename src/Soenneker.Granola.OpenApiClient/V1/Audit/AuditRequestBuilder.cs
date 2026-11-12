@@ -34,25 +34,25 @@ namespace Soenneker.Granola.OpenApiClient.V1.Audit
         {
         }
         /// <summary>
-        /// List audit events
+        /// Lists your workspace&apos;s audit events, newest first. Requires an Audit API key.
         /// </summary>
-        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200Response"/></returns>
+        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200Response"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public async Task<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200Response?> GetAsync(Action<RequestConfiguration<global::Soenneker.Granola.OpenApiClient.V1.Audit.AuditRequestBuilder.AuditRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200Response?> GetAsync(Action<RequestConfiguration<global::Soenneker.Granola.OpenApiClient.V1.Audit.AuditRequestBuilder.AuditRequestBuilderGetQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #nullable restore
 #else
-        public async Task<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200Response> GetAsync(Action<RequestConfiguration<global::Soenneker.Granola.OpenApiClient.V1.Audit.AuditRequestBuilder.AuditRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        public async Task<global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200Response> GetAsync(Action<RequestConfiguration<global::Soenneker.Granola.OpenApiClient.V1.Audit.AuditRequestBuilder.AuditRequestBuilderGetQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
         {
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
-            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200Response>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200Response.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200Response>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200Response.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// List audit events
+        /// Lists your workspace&apos;s audit events, newest first. Requires an Audit API key.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -80,7 +80,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Audit
             return new global::Soenneker.Granola.OpenApiClient.V1.Audit.AuditRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// List audit events
+        /// Lists your workspace&apos;s audit events, newest first. Requires an Audit API key.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class AuditRequestBuilderGetQueryParameters 

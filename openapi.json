@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Granola API",
-    "version": "1.0.0",
+    "version": "1.7.0",
     "description": "API for accessing meeting data from Granola"
   },
   "servers": [
@@ -934,7 +934,7 @@
               "enum": ["personal", "public", "workspace"]
             },
             "minItems": 1,
-            "description": "Which notes to receive events for. `personal` covers notes you own, notes shared directly with you, and notes in private folders shared with you. `public` covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace's API settings. With a Workspace API key, pass exactly `[\"workspace\"]` — the key's own scope: public workspace notes plus notes in spaces with Granola API access enabled.",
+            "description": "Which notes to receive events for. `personal` covers notes you own, notes shared directly with you, and notes in private folders shared with you. `public` covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace's API settings. With a Workspace API key, pass exactly `[\"workspace\"]`, the key's own scope: public workspace notes plus notes in spaces with Granola API access enabled.",
             "example": ["personal", "public"]
           },
           "events": {
@@ -972,7 +972,7 @@
             "properties": {
               "signing_secret": {
                 "type": "string",
-                "description": "Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response — store it securely.",
+                "description": "Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response, so store it securely.",
                 "example": "whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
               }
             },
@@ -1109,7 +1109,7 @@
           },
           "covers_entire_workspace": {
             "type": "boolean",
-            "description": "True when the hold covers every member of your workspace, current and future. Additive with `custodian_count` — a hold may do both.",
+            "description": "True when the hold covers every member of your workspace, current and future. Additive with `custodian_count`: a hold may do both.",
             "example": false
           },
           "custodian_count": {
@@ -1455,6 +1455,8 @@
     "/v1/notes": {
       "get": {
         "summary": "List notes",
+        "operationId": "list_notes",
+        "description": "Lists the notes the API key can read, newest first by creation time. Only notes with a generated summary are returned.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -1580,6 +1582,12 @@
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -1587,6 +1595,8 @@
     "/v1/notes/{note_id}": {
       "get": {
         "summary": "Get note",
+        "operationId": "get_note",
+        "description": "Returns one note with its summary, attendees, calendar event and folders. Pass `include=transcript` to add the transcript. A note the key cannot read, or one without a generated summary, returns `NOTE_NOT_FOUND`.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -1638,6 +1648,12 @@
           },
           "413": {
             "description": "Transcript is too large to return inline. Retrieve it in pages from `/v1/notes/{note_id}/transcript`."
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -1645,6 +1661,7 @@
     "/v1/notes/{note_id}/transcript": {
       "get": {
         "summary": "Get transcript",
+        "operationId": "get_transcript",
         "description": "Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`.",
         "security": [
           {
@@ -1709,6 +1726,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -1716,6 +1739,8 @@
     "/v1/folders": {
       "get": {
         "summary": "List folders",
+        "operationId": "list_folders",
+        "description": "Lists the folders the API key can read, ordered by name.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -1762,6 +1787,12 @@
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -1769,6 +1800,8 @@
     "/v1/spaces": {
       "get": {
         "summary": "List spaces",
+        "operationId": "list_spaces",
+        "description": "Lists the spaces the API key can access, ordered by name.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -1815,6 +1848,15 @@
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Spaces are not enabled for this workspace"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -1822,6 +1864,8 @@
     "/v1/audit": {
       "get": {
         "summary": "List audit events",
+        "operationId": "list_audit_events",
+        "description": "Lists your workspace's audit events, newest first. Requires an Audit API key.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -1939,7 +1983,7 @@
                           "collected_at": {
                             "type": "string",
                             "format": "date-time",
-                            "description": "When Granola recorded the event. Usually the same moment as `occurred_at`, but later for events we learn about after the fact — a meeting recording is recorded once its summary finishes, and a note viewed offline is recorded when that device next reaches us. Events are returned in `collected_at` order, so this is the field that never moves under a cursor, and it carries microseconds to keep events that share a millisecond ordered.",
+                            "description": "When Granola recorded the event. Usually the same moment as `occurred_at`, but later for events we learn about after the fact: a meeting recording is recorded once its summary finishes, and a note viewed offline is recorded when that device next reaches us. Events are returned in `collected_at` order, so this is the field that never moves under a cursor, and it carries microseconds to keep events that share a millisecond ordered.",
                             "example": "2026-01-27T15:30:04.109733Z"
                           },
                           "actor": {
@@ -2007,7 +2051,7 @@
                                   }
                                 },
                                 "required": ["object"],
-                                "description": "No identifiable user performed the action — it came from an automated process, such as a scheduled job or an inbound webhook from a connected service. This variant carries no other fields.",
+                                "description": "No identifiable user performed the action: it came from an automated process, such as a scheduled job or an inbound webhook from a connected service. This variant carries no other fields.",
                                 "title": "System",
                                 "example": {
                                   "object": "system"
@@ -2023,7 +2067,7 @@
                                   }
                                 },
                                 "required": ["object"],
-                                "description": "A person performed the action without signing in, so there is no account to name — for example, someone opening a note through a shared link. Distinct from `system`, which means no person was involved at all. This variant carries no other fields; the `ip_address` and `user_agent` in `context` are the only attribution available.",
+                                "description": "A person performed the action without signing in, so there is no account to name, for example someone opening a note through a shared link. Distinct from `system`, which means no person was involved at all. This variant carries no other fields; the `ip_address` and `user_agent` in `context` are the only attribution available.",
                                 "title": "Anonymous",
                                 "example": {
                                   "object": "anonymous"
@@ -2105,6 +2149,12 @@
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -2112,6 +2162,7 @@
     "/v1/webhook-endpoints": {
       "post": {
         "summary": "Create webhook endpoint",
+        "operationId": "create_webhook_endpoint",
         "description": "Registers an HTTPS URL to receive event deliveries. With a Workspace API key the endpoint is workspace-managed: pass `scopes: [\"workspace\"]` (the key's own scope), and `folder_ids` may only reference folders the key can list.",
         "security": [
           {
@@ -2149,11 +2200,19 @@
           },
           "404": {
             "description": "Not found - The webhooks API is not available for this workspace"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       },
       "get": {
         "summary": "List webhook endpoints",
+        "operationId": "list_webhook_endpoints",
+        "description": "Lists the webhook endpoints the API key can manage, oldest first.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -2175,6 +2234,12 @@
           },
           "404": {
             "description": "Not found - The webhooks API is not available for this workspace"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -2182,6 +2247,8 @@
     "/v1/webhook-endpoints/{webhook_endpoint_id}": {
       "patch": {
         "summary": "Update webhook endpoint",
+        "operationId": "update_webhook_endpoint",
+        "description": "Changes an endpoint's URL, scopes, events, folder filter or enabled state. Fields you leave out stay as they are.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -2231,11 +2298,19 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       },
       "delete": {
         "summary": "Delete webhook endpoint",
+        "operationId": "delete_webhook_endpoint",
+        "description": "Deletes a webhook endpoint. Granola stops sending it events.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -2273,6 +2348,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -2280,6 +2361,7 @@
     "/v1/legal-holds": {
       "post": {
         "summary": "Create legal hold",
+        "operationId": "create_legal_hold",
         "description": "Places a named legal hold on custodians in your workspace. Granola preserves a custodian's notes, transcripts and attachments while any hold covering them is active. Custodians see no change in the product.",
         "security": [
           {
@@ -2314,11 +2396,18 @@
           },
           "409": {
             "description": "A live legal hold with this name already exists in your workspace"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       },
       "get": {
         "summary": "List legal holds",
+        "operationId": "list_legal_holds",
         "description": "Lists every legal hold in your workspace, newest first. Released holds are returned alongside active ones, each carrying `released_at`.",
         "security": [
           {
@@ -2366,6 +2455,12 @@
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -2373,6 +2468,8 @@
     "/v1/legal-holds/{hold_id}": {
       "get": {
         "summary": "Get legal hold",
+        "operationId": "get_legal_hold",
+        "description": "Returns one legal hold. A released hold is still returned, carrying `released_at`.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -2410,11 +2507,18 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       },
       "patch": {
         "summary": "Update legal hold",
+        "operationId": "update_legal_hold",
         "description": "Renames or re-describes a hold, or widens and narrows its workspace-wide coverage. Toggling coverage never touches the custodians the hold names. A released hold cannot be updated.",
         "security": [
           {
@@ -2465,11 +2569,18 @@
           },
           "409": {
             "description": "A live legal hold with this name already exists in your workspace"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       },
       "delete": {
         "summary": "Release legal hold",
+        "operationId": "release_legal_hold",
         "description": "Releases a hold. Release is terminal: the hold is never deleted, there is no un-release, and a matter that reopens is a new hold. Releasing an already-released hold returns its original `released_at`.",
         "security": [
           {
@@ -2508,6 +2619,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -2515,6 +2632,7 @@
     "/v1/legal-holds/{hold_id}/custodians": {
       "post": {
         "summary": "Add legal hold custodians",
+        "operationId": "add_legal_hold_custodians",
         "description": "Names users on a hold, by email or by Granola user id. Idempotent: the response carries the request's full resolved set, whether each entry was newly added or already present.",
         "security": [
           {
@@ -2562,11 +2680,18 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       },
       "get": {
         "summary": "List legal hold custodians",
+        "operationId": "list_legal_hold_custodians",
         "description": "Lists the users a hold names, oldest first. Removed custodians are returned alongside active ones, each carrying `removed_at`.",
         "security": [
           {
@@ -2628,6 +2753,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -2635,6 +2766,7 @@
     "/v1/legal-holds/{hold_id}/custodians/{custodian_id}": {
       "delete": {
         "summary": "Remove legal hold custodian",
+        "operationId": "remove_legal_hold_custodian",
         "description": "Removes a custodian from a hold. The record of who was held survives: the entry is returned by the list endpoint with `removed_at` set. A custodian id that was never issued returns 404.",
         "security": [
           {
@@ -2684,6 +2816,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         }
       }
@@ -2692,7 +2830,7 @@
       "post": {
         "summary": "Search notes",
         "operationId": "search_notes",
-        "description": "Search indexed note titles and shared summaries by keyword, or filter by calendar participant. Results contain the standard note summary plus meeting_at; use Get note to retrieve content. Filter by space_id to search a space and its folders; when folder_id is also provided, both filters apply. Each recording is a separate note. Private notes and transcripts are not searched. Only live notes with generated summaries are returned, including for compliance keys. Search coverage depends on indexing; use List notes for a complete listing. An empty body browses indexed notes without a default date window. Pages examine up to 100 index candidates, so access checks and filters may produce short or empty pages even when hasMore is true. Continue with cursor while hasMore is true. Cursors expire after 15 minutes and are bound to the API key and scope; access is rechecked on every page. After 10,000 examined candidates, completion_status is incomplete, hasMore is false, and cursor is null; narrow the search. Fetch-only keys return an empty result.",
+        "description": "Search notes by keyword in their titles and summaries, or filter them by participant, folder, space or date. Private notes and transcripts are not searched.\n\nRecent notes can be missing until their summary is generated; use List notes for a complete listing. Keys with the Notes by ID scope get no results.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -2714,22 +2852,23 @@
                     },
                     "minItems": 1,
                     "maxItems": 20,
-                    "description": "Alternative keyword searches in titles and shared summaries. All tokens of at least one entry must match."
+                    "description": "Words to search for in titles and summaries. An entry matches when all its words appear in the title or in the summary, in any order; a note needs only one entry to match."
                   },
                   "participant": {
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 200,
-                    "description": "Participant name, email, company or domain from calendar metadata. Filters attendance, not mentions in notes."
+                    "description": "Only meetings with this person or company on the calendar invite: a name, email, company or domain. It does not match names mentioned in the notes."
                   },
                   "folder_id": {
                     "type": "string",
-                    "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$"
+                    "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$",
+                    "description": "Only notes in this folder and its child folders. Use List folders to find folder IDs."
                   },
                   "space_id": {
                     "type": "string",
                     "pattern": "^[Ss][Pp][Aa]_[a-zA-Z0-9]{14}$",
-                    "description": "Return notes in this space and its folders. Space IDs are case-insensitive. Use List spaces to discover accessible spaces. When folder_id is also provided, both filters apply.",
+                    "description": "Only notes in this space and its folders. Use List spaces to find space IDs. Combines with folder_id.",
                     "example": "spa_8kTq2mWxLp4Rz7"
                   },
                   "from_date": {
@@ -2743,7 +2882,7 @@
                         "format": "date-time"
                       }
                     ],
-                    "description": "Inclusive meeting start time, falling back to note creation time. Accepts a date or UTC timestamp; a date means midnight UTC.",
+                    "description": "Only meetings that started at or after this date or UTC timestamp. A date means midnight UTC. Notes without a calendar event use their creation time.",
                     "examples": ["2026-01-27", "2026-01-27T15:30:00Z"]
                   },
                   "to_date": {
@@ -2757,7 +2896,7 @@
                         "format": "date-time"
                       }
                     ],
-                    "description": "Inclusive meeting end bound, using calendar start or note creation time. Accepts a date or UTC timestamp; a date means midnight UTC, not the end of that day.",
+                    "description": "Only meetings that started at or before this date or UTC timestamp. A date means midnight UTC at the start of that day, so it leaves out meetings later that day.",
                     "examples": ["2026-01-27", "2026-01-27T15:30:00Z"]
                   },
                   "updated_after": {
@@ -2771,7 +2910,7 @@
                         "format": "date-time"
                       }
                     ],
-                    "description": "Only notes whose content or shared summary changed after this date or UTC timestamp. A date means midnight UTC.",
+                    "description": "Only notes whose content or summary changed after this date or UTC timestamp. A date means midnight UTC.",
                     "examples": ["2026-01-27", "2026-01-27T15:30:00Z"]
                   },
                   "page_size": {
@@ -2786,7 +2925,7 @@
                     "type": "string",
                     "minLength": 1,
                     "maxLength": 2048,
-                    "description": "Continue a search. Only page_size may accompany a cursor."
+                    "description": "The cursor from the previous response, to fetch the next page. Send it alone or with page_size. Cursors expire after 15 minutes."
                   }
                 },
                 "additionalProperties": false
@@ -2808,7 +2947,7 @@
                   }
                 },
                 "browse": {
-                  "summary": "Browse indexed notes without a date filter",
+                  "summary": "List notes newest first, with no filters",
                   "value": {}
                 }
               }
@@ -2817,7 +2956,7 @@
         },
         "responses": {
           "200": {
-            "description": "Matching note metadata and search continuation status",
+            "description": "Matching notes and whether there are more pages",
             "content": {
               "application/json": {
                 "schema": {
@@ -2836,7 +2975,8 @@
                               "meeting_at": {
                                 "type": "string",
                                 "format": "date-time",
-                                "description": "Calendar start time, falling back to note creation time."
+                                "description": "When the meeting started according to the calendar, or the note's creation time if it has no calendar event.",
+                                "example": "2026-01-27T15:30:00Z"
                               }
                             },
                             "required": ["meeting_at"]
@@ -2846,7 +2986,7 @@
                     },
                     "hasMore": {
                       "type": "boolean",
-                      "description": "Whether another page can be fetched using cursor."
+                      "description": "Whether there is another page. A page can hold fewer notes than page_size, or none, and still have more, so keep requesting with cursor until this is false."
                     },
                     "cursor": {
                       "type": ["string", "null"],
@@ -2855,7 +2995,7 @@
                     "completion_status": {
                       "type": "string",
                       "enum": ["more_available", "exhausted", "incomplete"],
-                      "description": "more_available: continue with cursor. exhausted: no more matches. incomplete: the scan limit was reached; hasMore is false and cursor is null. Start a narrower search."
+                      "description": "more_available: fetch the next page with cursor. exhausted: there are no more matches. incomplete: the search stopped after examining 10,000 notes without finishing; narrow it and search again."
                     }
                   },
                   "required": [
@@ -2869,13 +3009,221 @@
             }
           },
           "400": {
-            "description": "Invalid search filters or expired/mismatched cursor"
+            "description": "Invalid request body, or an expired cursor"
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
           },
           "404": {
-            "description": "Folder or space not found, spaces API unavailable, or scope not allowed"
+            "description": "Folder or space not found, or the API key's access scope cannot use this endpoint"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Search unavailable"
+          }
+        }
+      }
+    },
+    "/v1/notes/transcripts/search": {
+      "post": {
+        "summary": "Search transcripts",
+        "operationId": "search_transcripts",
+        "description": "Search meeting transcripts by keyword to find where something was said. Each result is a note with up to two short excerpts from its transcript; use Get transcript to read the conversation around them.\n\nRecent meetings can be missing until their note's summary is generated. Keys with the Notes by ID scope get no results.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "description": "Words to search for. Required unless cursor is set. An entry matches when all its words are said close together, in any order; a note needs only one entry to match. Synonyms and other spellings are not matched, so add them as separate entries."
+                  },
+                  "participant": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "description": "Only meetings with this person or company on the calendar invite, or where they are named as a speaker: a name, email, company or domain. A meeting matched only by speaker name returns just the parts where they spoke."
+                  },
+                  "from_date": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    ],
+                    "description": "Only meetings that started at or after this date or UTC timestamp. A date means midnight UTC. Notes without a calendar event use their creation time.",
+                    "examples": ["2026-01-27", "2026-01-27T15:30:00Z"]
+                  },
+                  "to_date": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date"
+                      },
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    ],
+                    "description": "Only meetings that started at or before this date or UTC timestamp. A date means midnight UTC at the start of that day, so it leaves out meetings later that day.",
+                    "examples": ["2026-01-27", "2026-01-27T15:30:00Z"]
+                  },
+                  "page_size": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 30,
+                    "default": 10,
+                    "description": "Maximum number of notes to return per page",
+                    "example": 10
+                  },
+                  "cursor": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2048,
+                    "description": "The cursor from the previous response, to fetch the next page. Send it alone or with page_size. Cursors expire after 15 minutes."
+                  }
+                },
+                "additionalProperties": false
+              },
+              "examples": {
+                "keywords": {
+                  "summary": "Find where pricing came up in meetings with Acme",
+                  "value": {
+                    "keywords": ["pricing", "price increase", "cost"],
+                    "participant": "acme.com",
+                    "from_date": "2026-10-01",
+                    "page_size": 10
+                  }
+                },
+                "nextPage": {
+                  "summary": "Continue with the cursor from the previous response",
+                  "value": {
+                    "cursor": "CURSOR_FROM_PREVIOUS_RESPONSE",
+                    "page_size": 10
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Matching notes with transcript excerpts, and whether there are more pages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notes": {
+                      "type": "array",
+                      "items": {
+                        "allOf": [
+                          {
+                            "$ref": "#/components/schemas/NoteSummary"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "meeting_at": {
+                                "type": "string",
+                                "format": "date-time",
+                                "description": "When the meeting started according to the calendar, or the note's creation time if it has no calendar event.",
+                                "example": "2026-01-27T15:30:00Z"
+                              },
+                              "passages": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "text": {
+                                      "type": "string",
+                                      "description": "An excerpt of up to 240 characters around a matching word. It can start or end mid-sentence and does not name the speaker.",
+                                      "example": "so the pricing for the Greek range goes up in January, and we tell the retailers next week"
+                                    },
+                                    "start_time": {
+                                      "type": ["string", "null"],
+                                      "format": "date-time",
+                                      "description": "Approximately when the excerpt was spoken, or null when unknown. Use it to find the excerpt in Get transcript.",
+                                      "example": "2026-01-27T15:42:10Z"
+                                    },
+                                    "matched_keywords": {
+                                      "type": "array",
+                                      "items": {
+                                        "type": "string"
+                                      },
+                                      "description": "Every keywords entry found in the section of the transcript the excerpt is cut from. The excerpt shows only part of that section, so it may not contain them all.",
+                                      "example": ["pricing"]
+                                    }
+                                  },
+                                  "required": [
+                                    "text",
+                                    "start_time",
+                                    "matched_keywords"
+                                  ]
+                                },
+                                "description": "Up to two of the note's best-matching transcript excerpts."
+                              }
+                            },
+                            "required": ["meeting_at", "passages"]
+                          }
+                        ]
+                      }
+                    },
+                    "hasMore": {
+                      "type": "boolean",
+                      "description": "Whether there is another page. A page can hold fewer notes than page_size, or none, and still have more, so keep requesting with cursor until this is false."
+                    },
+                    "cursor": {
+                      "type": ["string", "null"],
+                      "description": "The next-page cursor, or null when hasMore is false."
+                    },
+                    "completion_status": {
+                      "type": "string",
+                      "enum": ["more_available", "exhausted", "incomplete"],
+                      "description": "more_available: fetch the next page with cursor. exhausted: there are no more matches. incomplete: the search stopped after examining 10,000 notes without finishing; narrow it and search again."
+                    }
+                  },
+                  "required": [
+                    "notes",
+                    "hasMore",
+                    "cursor",
+                    "completion_status"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body, or an expired cursor"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "403": {
+            "description": "A workspace admin has turned off transcript access over the API"
+          },
+          "404": {
+            "description": "The API key's access scope cannot use this endpoint"
           },
           "429": {
             "description": "Rate limited"

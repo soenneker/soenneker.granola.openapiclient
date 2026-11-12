@@ -9,7 +9,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
 {
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     #pragma warning disable CS1591
-    public partial class GetV1Audit200Response : IAdditionalDataHolder, IParsable
+    public partial class ListAuditEvents200Response : IAdditionalDataHolder, IParsable
     #pragma warning restore CS1591
     , global::Soenneker.OpenApi.Generated.IOpenApiExplicitNulls {
         // Track explicitly assigned nulls separately from absent properties.
@@ -40,32 +40,32 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <summary>The events property</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
-        public List<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItem>? Events { get => _explicitNullValueEvents; set { _explicitNullValueEvents = value; AdditionalData?.Remove("events"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("events"); else _explicitNullProperties?.Remove("events"); } }
-        private List<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItem>? _explicitNullValueEvents = default!;
+        public List<global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItem>? Events { get => _explicitNullValueEvents; set { _explicitNullValueEvents = value; AdditionalData?.Remove("events"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("events"); else _explicitNullProperties?.Remove("events"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItem>? _explicitNullValueEvents = default!;
 #nullable restore
 #else
-        public List<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItem> Events { get => _explicitNullValueEvents; set { _explicitNullValueEvents = value; AdditionalData?.Remove("events"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("events"); else _explicitNullProperties?.Remove("events"); } }
-        private List<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItem> _explicitNullValueEvents = default!;
+        public List<global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItem> Events { get => _explicitNullValueEvents; set { _explicitNullValueEvents = value; AdditionalData?.Remove("events"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("events"); else _explicitNullProperties?.Remove("events"); } }
+        private List<global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItem> _explicitNullValueEvents = default!;
 #endif
         /// <summary>Whether there are more audit events to fetch. A page can hold fewer than `page_size` events and still not be the last one, so page on this and `cursor` rather than on the number of events returned.</summary>
         public bool? HasMore { get => _explicitNullValueHasMore; set { _explicitNullValueHasMore = value; AdditionalData?.Remove("hasMore"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("hasMore"); else _explicitNullProperties?.Remove("hasMore"); } }
         private bool? _explicitNullValueHasMore = default!;
         /// <summary>
-        /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200Response"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200Response"/> and sets the default values.
         /// </summary>
-        public GetV1Audit200Response()
+        public ListAuditEvents200Response()
         {
             AdditionalData = new Dictionary<string, object>();
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200Response"/></returns>
+        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200Response"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200Response CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200Response CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200Response(), parseNode);
+            return global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200Response(), parseNode);
         }
         /// <summary>
         /// The deserialization information for the current model
@@ -76,7 +76,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
             return new Dictionary<string, Action<IParseNode>>
             {
                 { "cursor", n => { Cursor = n.GetStringValue(); } },
-                { "events", n => { Events = n.GetCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItem>(global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItem.CreateFromDiscriminatorValue)?.AsList(); } },
+                { "events", n => { Events = n.GetCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItem>(global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItem.CreateFromDiscriminatorValue)?.AsList(); } },
                 { "hasMore", n => { HasMore = n.GetBoolValue(); } },
             };
         }
@@ -88,7 +88,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
             writer.WriteStringValue("cursor", Cursor);
-            writer.WriteCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItem>("events", Events);
+            writer.WriteCollectionOfObjectValues<global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItem>("events", Events);
             writer.WriteBoolValue("hasMore", HasMore);
             if (_explicitNullProperties != null) foreach (string name in _explicitNullProperties) writer.WriteNullValue(name);
             writer.WriteAdditionalData(AdditionalData);

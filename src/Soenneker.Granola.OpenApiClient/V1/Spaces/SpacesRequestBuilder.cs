@@ -34,7 +34,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Spaces
         {
         }
         /// <summary>
-        /// List spaces
+        /// Lists the spaces the API key can access, ordered by name.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.ListSpacesOutput"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -52,7 +52,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Spaces
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListSpacesOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListSpacesOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// List spaces
+        /// Lists the spaces the API key can access, ordered by name.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -80,7 +80,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Spaces
             return new global::Soenneker.Granola.OpenApiClient.V1.Spaces.SpacesRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// List spaces
+        /// Lists the spaces the API key can access, ordered by name.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class SpacesRequestBuilderGetQueryParameters 

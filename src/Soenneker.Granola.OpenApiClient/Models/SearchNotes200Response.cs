@@ -29,7 +29,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>more_available: continue with cursor. exhausted: no more matches. incomplete: the scan limit was reached; hasMore is false and cursor is null. Start a narrower search.</summary>
+        /// <summary>more_available: fetch the next page with cursor. exhausted: there are no more matches. incomplete: the search stopped after examining 10,000 notes without finishing; narrow it and search again.</summary>
         public global::Soenneker.Granola.OpenApiClient.Models.SearchNotes200ResponseCompletionStatus? CompletionStatus { get => _explicitNullValueCompletionStatus; set { _explicitNullValueCompletionStatus = value; AdditionalData?.Remove("completion_status"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("completion_status"); else _explicitNullProperties?.Remove("completion_status"); } }
         private global::Soenneker.Granola.OpenApiClient.Models.SearchNotes200ResponseCompletionStatus? _explicitNullValueCompletionStatus = default!;
         /// <summary>The next-page cursor, or null when hasMore is false.</summary>
@@ -42,7 +42,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public string Cursor { get => _explicitNullValueCursor; set { _explicitNullValueCursor = value; AdditionalData?.Remove("cursor"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("cursor"); else _explicitNullProperties?.Remove("cursor"); } }
         private string _explicitNullValueCursor = default!;
 #endif
-        /// <summary>Whether another page can be fetched using cursor.</summary>
+        /// <summary>Whether there is another page. A page can hold fewer notes than page_size, or none, and still have more, so keep requesting with cursor until this is false.</summary>
         public bool? HasMore { get => _explicitNullValueHasMore; set { _explicitNullValueHasMore = value; AdditionalData?.Remove("hasMore"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("hasMore"); else _explicitNullProperties?.Remove("hasMore"); } }
         private bool? _explicitNullValueHasMore = default!;
         /// <summary>The notes property</summary>

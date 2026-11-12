@@ -58,7 +58,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.LegalHolds.Item
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ReleaseLegalHoldOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ReleaseLegalHoldOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Get legal hold
+        /// Returns one legal hold. A released hold is still returned, carrying `released_at`.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.LegalHold"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -115,7 +115,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.LegalHolds.Item
             return requestInfo;
         }
         /// <summary>
-        /// Get legal hold
+        /// Returns one legal hold. A released hold is still returned, carrying `released_at`.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>

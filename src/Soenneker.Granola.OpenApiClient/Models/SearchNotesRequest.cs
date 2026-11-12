@@ -37,7 +37,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
             else if (parseNode.GetChildNode("updated_after") is { } nullNodeUpdatedAfter && nullNodeUpdatedAfter.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) UpdatedAfter = null;
         }
 
-        /// <summary>Continue a search. Only page_size may accompany a cursor.</summary>
+        /// <summary>The cursor from the previous response, to fetch the next page. Send it alone or with page_size. Cursors expire after 15 minutes.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Cursor { get => _explicitNullValueCursor; set { _explicitNullValueCursor = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("cursor"); else _explicitNullProperties?.Remove("cursor"); } }
@@ -47,7 +47,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public string Cursor { get => _explicitNullValueCursor; set { _explicitNullValueCursor = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("cursor"); else _explicitNullProperties?.Remove("cursor"); } }
         private string _explicitNullValueCursor = default!;
 #endif
-        /// <summary>The folder_id property</summary>
+        /// <summary>Only notes in this folder and its child folders. Use List folders to find folder IDs.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? FolderId { get => _explicitNullValueFolderId; set { _explicitNullValueFolderId = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("folder_id"); else _explicitNullProperties?.Remove("folder_id"); } }
@@ -57,7 +57,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public string FolderId { get => _explicitNullValueFolderId; set { _explicitNullValueFolderId = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("folder_id"); else _explicitNullProperties?.Remove("folder_id"); } }
         private string _explicitNullValueFolderId = default!;
 #endif
-        /// <summary>Inclusive meeting start time, falling back to note creation time. Accepts a date or UTC timestamp; a date means midnight UTC.</summary>
+        /// <summary>Only meetings that started at or after this date or UTC timestamp. A date means midnight UTC. Notes without a calendar event use their creation time.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestFromDate? FromDate { get => _explicitNullValueFromDate; set { _explicitNullValueFromDate = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("from_date"); else _explicitNullProperties?.Remove("from_date"); } }
@@ -67,7 +67,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestFromDate FromDate { get => _explicitNullValueFromDate; set { _explicitNullValueFromDate = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("from_date"); else _explicitNullProperties?.Remove("from_date"); } }
         private global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestFromDate _explicitNullValueFromDate = default!;
 #endif
-        /// <summary>Alternative keyword searches in titles and shared summaries. All tokens of at least one entry must match.</summary>
+        /// <summary>Words to search for in titles and summaries. An entry matches when all its words appear in the title or in the summary, in any order; a note needs only one entry to match.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<string>? Keywords { get => _explicitNullValueKeywords; set { _explicitNullValueKeywords = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("keywords"); else _explicitNullProperties?.Remove("keywords"); } }
@@ -80,7 +80,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <summary>Maximum number of notes to return per page</summary>
         public int? PageSize { get => _explicitNullValuePageSize; set { _explicitNullValuePageSize = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("page_size"); else _explicitNullProperties?.Remove("page_size"); } }
         private int? _explicitNullValuePageSize = default!;
-        /// <summary>Participant name, email, company or domain from calendar metadata. Filters attendance, not mentions in notes.</summary>
+        /// <summary>Only meetings with this person or company on the calendar invite: a name, email, company or domain. It does not match names mentioned in the notes.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Participant { get => _explicitNullValueParticipant; set { _explicitNullValueParticipant = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("participant"); else _explicitNullProperties?.Remove("participant"); } }
@@ -90,7 +90,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public string Participant { get => _explicitNullValueParticipant; set { _explicitNullValueParticipant = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("participant"); else _explicitNullProperties?.Remove("participant"); } }
         private string _explicitNullValueParticipant = default!;
 #endif
-        /// <summary>Return notes in this space and its folders. Space IDs are case-insensitive. Use List spaces to discover accessible spaces. When folder_id is also provided, both filters apply.</summary>
+        /// <summary>Only notes in this space and its folders. Use List spaces to find space IDs. Combines with folder_id.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? SpaceId { get => _explicitNullValueSpaceId; set { _explicitNullValueSpaceId = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("space_id"); else _explicitNullProperties?.Remove("space_id"); } }
@@ -100,7 +100,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public string SpaceId { get => _explicitNullValueSpaceId; set { _explicitNullValueSpaceId = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("space_id"); else _explicitNullProperties?.Remove("space_id"); } }
         private string _explicitNullValueSpaceId = default!;
 #endif
-        /// <summary>Inclusive meeting end bound, using calendar start or note creation time. Accepts a date or UTC timestamp; a date means midnight UTC, not the end of that day.</summary>
+        /// <summary>Only meetings that started at or before this date or UTC timestamp. A date means midnight UTC at the start of that day, so it leaves out meetings later that day.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestToDate? ToDate { get => _explicitNullValueToDate; set { _explicitNullValueToDate = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("to_date"); else _explicitNullProperties?.Remove("to_date"); } }
@@ -110,7 +110,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestToDate ToDate { get => _explicitNullValueToDate; set { _explicitNullValueToDate = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("to_date"); else _explicitNullProperties?.Remove("to_date"); } }
         private global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestToDate _explicitNullValueToDate = default!;
 #endif
-        /// <summary>Only notes whose content or shared summary changed after this date or UTC timestamp. A date means midnight UTC.</summary>
+        /// <summary>Only notes whose content or summary changed after this date or UTC timestamp. A date means midnight UTC.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestUpdatedAfter? UpdatedAfter { get => _explicitNullValueUpdatedAfter; set { _explicitNullValueUpdatedAfter = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("updated_after"); else _explicitNullProperties?.Remove("updated_after"); } }

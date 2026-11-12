@@ -102,7 +102,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public List<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpointScopesItem?> Scopes { get => _explicitNullValueScopes; set { _explicitNullValueScopes = value; AdditionalData?.Remove("scopes"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("scopes"); else _explicitNullProperties?.Remove("scopes"); } }
         private List<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpointScopesItem?> _explicitNullValueScopes = default!;
 #endif
-        /// <summary>Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response — store it securely.</summary>
+        /// <summary>Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response, so store it securely.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? SigningSecret { get => _explicitNullValueSigningSecret; set { _explicitNullValueSigningSecret = value; AdditionalData?.Remove("signing_secret"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("signing_secret"); else _explicitNullProperties?.Remove("signing_secret"); } }

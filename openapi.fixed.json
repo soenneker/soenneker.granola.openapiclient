@@ -3,7 +3,7 @@
   "info": {
     "title": "Granola API",
     "description": "API for accessing meeting data from Granola",
-    "version": "1.0.0"
+    "version": "1.7.0"
   },
   "servers": [
     {
@@ -15,7 +15,8 @@
     "/v1/notes": {
       "get": {
         "summary": "List notes",
-        "operationId": "GetV1Notes",
+        "description": "Lists the notes the API key can read, newest first by creation time. Only notes with a generated summary are returned.",
+        "operationId": "ListNotes",
         "parameters": [
           {
             "name": "created_before",
@@ -138,6 +139,12 @@
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -150,7 +157,8 @@
     "/v1/notes/{noteId}": {
       "get": {
         "summary": "Get note",
-        "operationId": "GetV1NotesByNoteId",
+        "description": "Returns one note with its summary, attendees, calendar event and folders. Pass \u0060include=transcript\u0060 to add the transcript. A note the key cannot read, or one without a generated summary, returns \u0060NOTE_NOT_FOUND\u0060.",
+        "operationId": "GetNote",
         "parameters": [
           {
             "name": "noteId",
@@ -193,6 +201,12 @@
           },
           "413": {
             "description": "Transcript is too large to return inline. Retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060."
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -206,7 +220,7 @@
       "get": {
         "summary": "Get transcript",
         "description": "Retrieve a meeting transcript in pages, including when Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060.",
-        "operationId": "GetV1NotesByNoteIdTranscript",
+        "operationId": "GetTranscript",
         "parameters": [
           {
             "name": "noteId",
@@ -263,6 +277,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -275,7 +295,8 @@
     "/v1/folders": {
       "get": {
         "summary": "List folders",
-        "operationId": "GetV1Folders",
+        "description": "Lists the folders the API key can read, ordered by name.",
+        "operationId": "ListFolders",
         "parameters": [
           {
             "name": "cursor",
@@ -315,6 +336,12 @@
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -327,7 +354,8 @@
     "/v1/spaces": {
       "get": {
         "summary": "List spaces",
-        "operationId": "GetV1Spaces",
+        "description": "Lists the spaces the API key can access, ordered by name.",
+        "operationId": "ListSpaces",
         "parameters": [
           {
             "name": "cursor",
@@ -367,6 +395,15 @@
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
+          },
+          "404": {
+            "description": "Spaces are not enabled for this workspace"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -379,7 +416,8 @@
     "/v1/audit": {
       "get": {
         "summary": "List audit events",
-        "operationId": "GetV1Audit",
+        "description": "Lists your workspace\u0027s audit events, newest first. Requires an Audit API key.",
+        "operationId": "ListAuditEvents",
         "parameters": [
           {
             "name": "action",
@@ -461,7 +499,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetV1Audit200Response"
+                  "$ref": "#/components/schemas/ListAuditEvents200Response"
                 }
               }
             }
@@ -471,6 +509,12 @@
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -484,7 +528,7 @@
       "post": {
         "summary": "Create webhook endpoint",
         "description": "Registers an HTTPS URL to receive event deliveries. With a Workspace API key the endpoint is workspace-managed: pass \u0060scopes: [\u0022workspace\u0022]\u0060 (the key\u0027s own scope), and \u0060folder_ids\u0060 may only reference folders the key can list.",
-        "operationId": "PostV1WebhookEndpoints",
+        "operationId": "CreateWebhookEndpoint",
         "requestBody": {
           "content": {
             "application/json": {
@@ -517,6 +561,12 @@
           "404": {
             "description": "Not found - The webhooks API is not available for this workspace"
           },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
+          },
           "200": {
             "description": "Webhook endpoint created. The signing secret is only returned here.",
             "content": {
@@ -537,7 +587,8 @@
       },
       "get": {
         "summary": "List webhook endpoints",
-        "operationId": "GetV1WebhookEndpoints",
+        "description": "Lists the webhook endpoints the API key can manage, oldest first.",
+        "operationId": "ListWebhookEndpoints",
         "responses": {
           "200": {
             "description": "List of webhook endpoints",
@@ -554,6 +605,12 @@
           },
           "404": {
             "description": "Not found - The webhooks API is not available for this workspace"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -566,7 +623,8 @@
     "/v1/webhook-endpoints/{webhookEndpointId}": {
       "patch": {
         "summary": "Update webhook endpoint",
-        "operationId": "PatchV1WebhookEndpointsByWebhookEndpointId",
+        "description": "Changes an endpoint\u0027s URL, scopes, events, folder filter or enabled state. Fields you leave out stay as they are.",
+        "operationId": "UpdateWebhookEndpoint",
         "parameters": [
           {
             "name": "webhookEndpointId",
@@ -611,6 +669,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -621,7 +685,8 @@
       },
       "delete": {
         "summary": "Delete webhook endpoint",
-        "operationId": "DeleteV1WebhookEndpointsByWebhookEndpointId",
+        "description": "Deletes a webhook endpoint. Granola stops sending it events.",
+        "operationId": "DeleteWebhookEndpoint",
         "parameters": [
           {
             "name": "webhookEndpointId",
@@ -654,6 +719,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -667,7 +738,7 @@
       "post": {
         "summary": "Create legal hold",
         "description": "Places a named legal hold on custodians in your workspace. Granola preserves a custodian\u0027s notes, transcripts and attachments while any hold covering them is active. Custodians see no change in the product.",
-        "operationId": "PostV1LegalHolds",
+        "operationId": "CreateLegalHold",
         "requestBody": {
           "content": {
             "application/json": {
@@ -697,6 +768,12 @@
           "409": {
             "description": "A live legal hold with this name already exists in your workspace"
           },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
+          },
           "200": {
             "description": "The legal hold that was created",
             "content": {
@@ -718,7 +795,7 @@
       "get": {
         "summary": "List legal holds",
         "description": "Lists every legal hold in your workspace, newest first. Released holds are returned alongside active ones, each carrying \u0060released_at\u0060.",
-        "operationId": "GetV1LegalHolds",
+        "operationId": "ListLegalHolds",
         "parameters": [
           {
             "name": "cursor",
@@ -758,6 +835,12 @@
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -770,7 +853,8 @@
     "/v1/legal-holds/{holdId}": {
       "get": {
         "summary": "Get legal hold",
-        "operationId": "GetV1LegalHoldsByHoldId",
+        "description": "Returns one legal hold. A released hold is still returned, carrying \u0060released_at\u0060.",
+        "operationId": "GetLegalHold",
         "parameters": [
           {
             "name": "holdId",
@@ -803,6 +887,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -814,7 +904,7 @@
       "patch": {
         "summary": "Update legal hold",
         "description": "Renames or re-describes a hold, or widens and narrows its workspace-wide coverage. Toggling coverage never touches the custodians the hold names. A released hold cannot be updated.",
-        "operationId": "PatchV1LegalHoldsByHoldId",
+        "operationId": "UpdateLegalHold",
         "parameters": [
           {
             "name": "holdId",
@@ -859,6 +949,12 @@
           },
           "409": {
             "description": "A live legal hold with this name already exists in your workspace"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -870,7 +966,7 @@
       "delete": {
         "summary": "Release legal hold",
         "description": "Releases a hold. Release is terminal: the hold is never deleted, there is no un-release, and a matter that reopens is a new hold. Releasing an already-released hold returns its original \u0060released_at\u0060.",
-        "operationId": "DeleteV1LegalHoldsByHoldId",
+        "operationId": "ReleaseLegalHold",
         "parameters": [
           {
             "name": "holdId",
@@ -903,6 +999,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -916,7 +1018,7 @@
       "post": {
         "summary": "Add legal hold custodians",
         "description": "Names users on a hold, by email or by Granola user id. Idempotent: the response carries the request\u0027s full resolved set, whether each entry was newly added or already present.",
-        "operationId": "PostV1LegalHoldsByHoldIdCustodians",
+        "operationId": "AddLegalHoldCustodians",
         "parameters": [
           {
             "name": "holdId",
@@ -958,6 +1060,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -969,7 +1077,7 @@
       "get": {
         "summary": "List legal hold custodians",
         "description": "Lists the users a hold names, oldest first. Removed custodians are returned alongside active ones, each carrying \u0060removed_at\u0060.",
-        "operationId": "GetV1LegalHoldsByHoldIdCustodians",
+        "operationId": "ListLegalHoldCustodians",
         "parameters": [
           {
             "name": "holdId",
@@ -1023,6 +1131,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -1036,7 +1150,7 @@
       "delete": {
         "summary": "Remove legal hold custodian",
         "description": "Removes a custodian from a hold. The record of who was held survives: the entry is returned by the list endpoint with \u0060removed_at\u0060 set. A custodian id that was never issued returns 404.",
-        "operationId": "DeleteV1LegalHoldsByHoldIdCustodiansByCustodianId",
+        "operationId": "RemoveLegalHoldCustodian",
         "parameters": [
           {
             "name": "holdId",
@@ -1080,6 +1194,12 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
           }
         },
         "security": [
@@ -1092,7 +1212,7 @@
     "/v1/notes/search": {
       "post": {
         "summary": "Search notes",
-        "description": "Search indexed note titles and shared summaries by keyword, or filter by calendar participant. Results contain the standard note summary plus meeting_at; use Get note to retrieve content. Filter by space_id to search a space and its folders; when folder_id is also provided, both filters apply. Each recording is a separate note. Private notes and transcripts are not searched. Only live notes with generated summaries are returned, including for compliance keys. Search coverage depends on indexing; use List notes for a complete listing. An empty body browses indexed notes without a default date window. Pages examine up to 100 index candidates, so access checks and filters may produce short or empty pages even when hasMore is true. Continue with cursor while hasMore is true. Cursors expire after 15 minutes and are bound to the API key and scope; access is rechecked on every page. After 10,000 examined candidates, completion_status is incomplete, hasMore is false, and cursor is null; narrow the search. Fetch-only keys return an empty result.",
+        "description": "Search notes by keyword in their titles and summaries, or filter them by participant, folder, space or date. Private notes and transcripts are not searched.\n\nRecent notes can be missing until their summary is generated; use List notes for a complete listing. Keys with the Notes by ID scope get no results.",
         "operationId": "SearchNotes",
         "requestBody": {
           "content": {
@@ -1120,7 +1240,7 @@
                   }
                 },
                 "browse": {
-                  "summary": "Browse indexed notes without a date filter",
+                  "summary": "List notes newest first, with no filters",
                   "value": {}
                 }
               }
@@ -1129,7 +1249,7 @@
         },
         "responses": {
           "200": {
-            "description": "Matching note metadata and search continuation status",
+            "description": "Matching notes and whether there are more pages",
             "content": {
               "application/json": {
                 "schema": {
@@ -1139,13 +1259,87 @@
             }
           },
           "400": {
-            "description": "Invalid search filters or expired/mismatched cursor"
+            "description": "Invalid request body, or an expired cursor"
           },
           "401": {
             "description": "Unauthorized - Invalid API key"
           },
           "404": {
-            "description": "Folder or space not found, spaces API unavailable, or scope not allowed"
+            "description": "Folder or space not found, or the API key\u0027s access scope cannot use this endpoint"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Search unavailable"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/notes/transcripts/search": {
+      "post": {
+        "summary": "Search transcripts",
+        "description": "Search meeting transcripts by keyword to find where something was said. Each result is a note with up to two short excerpts from its transcript; use Get transcript to read the conversation around them.\n\nRecent meetings can be missing until their note\u0027s summary is generated. Keys with the Notes by ID scope get no results.",
+        "operationId": "SearchTranscripts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchTranscriptsRequest"
+              },
+              "examples": {
+                "keywords": {
+                  "summary": "Find where pricing came up in meetings with Acme",
+                  "value": {
+                    "keywords": [
+                      "pricing",
+                      "price increase",
+                      "cost"
+                    ],
+                    "participant": "acme.com",
+                    "from_date": "2026-10-01",
+                    "page_size": 10
+                  }
+                },
+                "nextPage": {
+                  "summary": "Continue with the cursor from the previous response",
+                  "value": {
+                    "cursor": "CURSOR_FROM_PREVIOUS_RESPONSE",
+                    "page_size": 10
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Matching notes with transcript excerpts, and whether there are more pages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchTranscripts200Response"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body, or an expired cursor"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "403": {
+            "description": "A workspace admin has turned off transcript access over the API"
+          },
+          "404": {
+            "description": "The API key\u0027s access scope cannot use this endpoint"
           },
           "429": {
             "description": "Rate limited"
@@ -1799,7 +1993,7 @@
             "items": {
               "$ref": "#/components/schemas/CreateWebhookEndpointBodyScopesItem"
             },
-            "description": "Which notes to receive events for. \u0060personal\u0060 covers notes you own, notes shared directly with you, and notes in private folders shared with you. \u0060public\u0060 covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace\u0027s API settings. With a Workspace API key, pass exactly \u0060[\u0022workspace\u0022]\u0060 \u2014 the key\u0027s own scope: public workspace notes plus notes in spaces with Granola API access enabled.",
+            "description": "Which notes to receive events for. \u0060personal\u0060 covers notes you own, notes shared directly with you, and notes in private folders shared with you. \u0060public\u0060 covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace\u0027s API settings. With a Workspace API key, pass exactly \u0060[\u0022workspace\u0022]\u0060, the key\u0027s own scope: public workspace notes plus notes in spaces with Granola API access enabled.",
             "example": [
               "personal",
               "public"
@@ -1922,7 +2116,7 @@
           },
           "signing_secret": {
             "type": "string",
-            "description": "Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response \u2014 store it securely.",
+            "description": "Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response, so store it securely.",
             "example": "whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
           }
         }
@@ -2053,7 +2247,7 @@
           },
           "covers_entire_workspace": {
             "type": "boolean",
-            "description": "True when the hold covers every member of your workspace, current and future. Additive with \u0060custodian_count\u0060 \u2014 a hold may do both.",
+            "description": "True when the hold covers every member of your workspace, current and future. Additive with \u0060custodian_count\u0060: a hold may do both.",
             "example": false
           },
           "custodian_count": {
@@ -2457,7 +2651,7 @@
           "email": "person@example.com"
         }
       },
-      "GetV1Audit200Response": {
+      "ListAuditEvents200Response": {
         "required": [
           "events",
           "hasMore",
@@ -2468,7 +2662,7 @@
           "events": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItem"
+              "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItem"
             }
           },
           "hasMore": {
@@ -2498,22 +2692,23 @@
               "minLength": 1,
               "type": "string"
             },
-            "description": "Alternative keyword searches in titles and shared summaries. All tokens of at least one entry must match."
+            "description": "Words to search for in titles and summaries. An entry matches when all its words appear in the title or in the summary, in any order; a note needs only one entry to match."
           },
           "participant": {
             "maxLength": 200,
             "minLength": 1,
             "type": "string",
-            "description": "Participant name, email, company or domain from calendar metadata. Filters attendance, not mentions in notes."
+            "description": "Only meetings with this person or company on the calendar invite: a name, email, company or domain. It does not match names mentioned in the notes."
           },
           "folder_id": {
             "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$",
-            "type": "string"
+            "type": "string",
+            "description": "Only notes in this folder and its child folders. Use List folders to find folder IDs."
           },
           "space_id": {
             "pattern": "^[Ss][Pp][Aa]_[a-zA-Z0-9]{14}$",
             "type": "string",
-            "description": "Return notes in this space and its folders. Space IDs are case-insensitive. Use List spaces to discover accessible spaces. When folder_id is also provided, both filters apply.",
+            "description": "Only notes in this space and its folders. Use List spaces to find space IDs. Combines with folder_id.",
             "example": "spa_8kTq2mWxLp4Rz7"
           },
           "from_date": {
@@ -2537,7 +2732,7 @@
             "maxLength": 2048,
             "minLength": 1,
             "type": "string",
-            "description": "Continue a search. Only page_size may accompany a cursor."
+            "description": "The cursor from the previous response, to fetch the next page. Send it alone or with page_size. Cursors expire after 15 minutes."
           }
         },
         "additionalProperties": false
@@ -2559,7 +2754,7 @@
           },
           "hasMore": {
             "type": "boolean",
-            "description": "Whether another page can be fetched using cursor."
+            "description": "Whether there is another page. A page can hold fewer notes than page_size, or none, and still have more, so keep requesting with cursor until this is false."
           },
           "cursor": {
             "type": [
@@ -2573,40 +2768,114 @@
           }
         }
       },
-      "GetV1Audit200ResponseEventsItemActor": {
+      "SearchTranscriptsRequest": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "maxItems": 20,
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "string"
+            },
+            "description": "Words to search for. Required unless cursor is set. An entry matches when all its words are said close together, in any order; a note needs only one entry to match. Synonyms and other spellings are not matched, so add them as separate entries."
+          },
+          "participant": {
+            "maxLength": 200,
+            "minLength": 1,
+            "type": "string",
+            "description": "Only meetings with this person or company on the calendar invite, or where they are named as a speaker: a name, email, company or domain. A meeting matched only by speaker name returns just the parts where they spoke."
+          },
+          "from_date": {
+            "$ref": "#/components/schemas/SearchNotesRequestFromDate"
+          },
+          "to_date": {
+            "$ref": "#/components/schemas/SearchNotesRequestToDate"
+          },
+          "page_size": {
+            "maximum": 30,
+            "minimum": 1,
+            "type": "integer",
+            "description": "Maximum number of notes to return per page",
+            "default": 10,
+            "example": 10
+          },
+          "cursor": {
+            "maxLength": 2048,
+            "minLength": 1,
+            "type": "string",
+            "description": "The cursor from the previous response, to fetch the next page. Send it alone or with page_size. Cursors expire after 15 minutes."
+          }
+        },
+        "additionalProperties": false
+      },
+      "SearchTranscripts200Response": {
+        "required": [
+          "notes",
+          "hasMore",
+          "cursor",
+          "completion_status"
+        ],
+        "type": "object",
+        "properties": {
+          "notes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchTranscripts200ResponseNotesItem"
+            }
+          },
+          "hasMore": {
+            "type": "boolean",
+            "description": "Whether there is another page. A page can hold fewer notes than page_size, or none, and still have more, so keep requesting with cursor until this is false."
+          },
+          "cursor": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The next-page cursor, or null when hasMore is false."
+          },
+          "completion_status": {
+            "$ref": "#/components/schemas/SearchTranscripts200ResponseCompletionStatus"
+          }
+        }
+      },
+      "ListAuditEvents200ResponseEventsItemActor": {
         "description": "Who performed the action",
         "discriminator": {
           "propertyName": "object",
           "mapping": {
-            "api_key": "#/components/schemas/GetV1Audit200ResponseEventsItemActorApiKeyVariant",
-            "user": "#/components/schemas/GetV1Audit200ResponseEventsItemActorUserVariant",
-            "system": "#/components/schemas/GetV1Audit200ResponseEventsItemActorSystemVariant",
-            "anonymous": "#/components/schemas/GetV1Audit200ResponseEventsItemActorAnonymousVariant"
+            "api_key": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorApiKeyVariant",
+            "user": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorUserVariant",
+            "system": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorSystemVariant",
+            "anonymous": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorAnonymousVariant"
           }
         },
         "x-client-original-tagged-union": {
           "oneOf": [
             {
-              "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActorApiKey"
+              "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorApiKey"
             },
             {
-              "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActorUser"
+              "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorUser"
             },
             {
-              "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActorSystem"
+              "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorSystem"
             },
             {
-              "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActorAnonymous"
+              "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorAnonymous"
             }
           ],
           "description": "Who performed the action",
           "discriminator": {
             "propertyName": "object",
             "mapping": {
-              "api_key": "#/components/schemas/GetV1Audit200ResponseEventsItemActorApiKey",
-              "user": "#/components/schemas/GetV1Audit200ResponseEventsItemActorUser",
-              "system": "#/components/schemas/GetV1Audit200ResponseEventsItemActorSystem",
-              "anonymous": "#/components/schemas/GetV1Audit200ResponseEventsItemActorAnonymous"
+              "api_key": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorApiKey",
+              "user": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorUser",
+              "system": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorSystem",
+              "anonymous": "#/components/schemas/ListAuditEvents200ResponseEventsItemActorAnonymous"
             }
           }
         },
@@ -2635,7 +2904,7 @@
             "format": "date-time"
           }
         ],
-        "description": "Inclusive meeting start time, falling back to note creation time. Accepts a date or UTC timestamp; a date means midnight UTC."
+        "description": "Only meetings that started at or after this date or UTC timestamp. A date means midnight UTC. Notes without a calendar event use their creation time."
       },
       "SearchNotesRequestToDate": {
         "examples": [
@@ -2652,7 +2921,7 @@
             "format": "date-time"
           }
         ],
-        "description": "Inclusive meeting end bound, using calendar start or note creation time. Accepts a date or UTC timestamp; a date means midnight UTC, not the end of that day."
+        "description": "Only meetings that started at or before this date or UTC timestamp. A date means midnight UTC at the start of that day, so it leaves out meetings later that day."
       },
       "SearchNotesRequestUpdatedAfter": {
         "examples": [
@@ -2669,9 +2938,9 @@
             "format": "date-time"
           }
         ],
-        "description": "Only notes whose content or shared summary changed after this date or UTC timestamp. A date means midnight UTC."
+        "description": "Only notes whose content or summary changed after this date or UTC timestamp. A date means midnight UTC."
       },
-      "GetV1Audit200ResponseEventsItem": {
+      "ListAuditEvents200ResponseEventsItem": {
         "required": [
           "id",
           "object",
@@ -2706,18 +2975,18 @@
           },
           "collected_at": {
             "type": "string",
-            "description": "When Granola recorded the event. Usually the same moment as \u0060occurred_at\u0060, but later for events we learn about after the fact \u2014 a meeting recording is recorded once its summary finishes, and a note viewed offline is recorded when that device next reaches us. Events are returned in \u0060collected_at\u0060 order, so this is the field that never moves under a cursor, and it carries microseconds to keep events that share a millisecond ordered.",
+            "description": "When Granola recorded the event. Usually the same moment as \u0060occurred_at\u0060, but later for events we learn about after the fact: a meeting recording is recorded once its summary finishes, and a note viewed offline is recorded when that device next reaches us. Events are returned in \u0060collected_at\u0060 order, so this is the field that never moves under a cursor, and it carries microseconds to keep events that share a millisecond ordered.",
             "format": "date-time",
             "example": "2026-01-27T15:30:04.109733Z"
           },
           "actor": {
-            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActor"
+            "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemActor"
           },
           "data": {
-            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemData"
+            "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemData"
           },
           "context": {
-            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemContext"
+            "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemContext"
           }
         }
       },
@@ -2777,19 +3046,90 @@
           },
           "meeting_at": {
             "type": "string",
-            "description": "Calendar start time, falling back to note creation time.",
-            "format": "date-time"
+            "description": "When the meeting started according to the calendar, or the note\u0027s creation time if it has no calendar event.",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
           }
         }
       },
-      "GetV1Audit200ResponseEventsItemData": {
+      "SearchTranscripts200ResponseNotesItem": {
+        "required": [
+          "id",
+          "object",
+          "title",
+          "owner",
+          "created_at",
+          "updated_at",
+          "deleted_at",
+          "meeting_at",
+          "passages"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^not_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the note",
+            "example": "not_1d3tmYTlCICgjy"
+          },
+          "object": {
+            "$ref": "#/components/schemas/NoteObject"
+          },
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "The title of the note",
+            "example": "Quarterly yoghurt budget review"
+          },
+          "owner": {
+            "$ref": "#/components/schemas/User"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The creation time of the note",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "The last update time of the note",
+            "format": "date-time",
+            "example": "2026-01-27T16:45:00Z"
+          },
+          "deleted_at": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "When the note was deleted, or null if it has not been. Only keys with access to all workspace notes can see deleted notes.",
+            "format": "date-time",
+            "example": null
+          },
+          "meeting_at": {
+            "type": "string",
+            "description": "When the meeting started according to the calendar, or the note\u0027s creation time if it has no calendar event.",
+            "format": "date-time",
+            "example": "2026-01-27T15:30:00Z"
+          },
+          "passages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchTranscripts200ResponseNotesItemPassagesItem"
+            },
+            "description": "Up to two of the note\u0027s best-matching transcript excerpts."
+          }
+        }
+      },
+      "ListAuditEvents200ResponseEventsItemData": {
         "type": "object",
         "description": "Details of the action. The fields depend on the action, and their names are the ones Granola records internally, so they are camelCase rather than snake_case. See the [audit events reference](/audit-events) for the fields each action carries.",
         "example": {
           "role": "member"
         }
       },
-      "GetV1Audit200ResponseEventsItemContext": {
+      "ListAuditEvents200ResponseEventsItemContext": {
         "required": [
           "ip_address",
           "user_agent",
@@ -2827,6 +3167,40 @@
           "ip_address": "203.0.113.42",
           "user_agent": "Granola/7.400.0 (macOS 15.3)",
           "client_version": "7.400.0"
+        }
+      },
+      "SearchTranscripts200ResponseNotesItemPassagesItem": {
+        "required": [
+          "text",
+          "start_time",
+          "matched_keywords"
+        ],
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "An excerpt of up to 240 characters around a matching word. It can start or end mid-sentence and does not name the speaker.",
+            "example": "so the pricing for the Greek range goes up in January, and we tell the retailers next week"
+          },
+          "start_time": {
+            "type": [
+              "null",
+              "string"
+            ],
+            "description": "Approximately when the excerpt was spoken, or null when unknown. Use it to find the excerpt in Get transcript.",
+            "format": "date-time",
+            "example": "2026-01-27T15:42:10Z"
+          },
+          "matched_keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Every keywords entry found in the section of the transcript the excerpt is cut from. The excerpt shows only part of that section, so it may not contain them all.",
+            "example": [
+              "pricing"
+            ]
+          }
         }
       },
       "SpaceObject": {
@@ -3206,9 +3580,36 @@
           "incomplete"
         ],
         "type": "string",
-        "description": "more_available: continue with cursor. exhausted: no more matches. incomplete: the scan limit was reached; hasMore is false and cursor is null. Start a narrower search.",
+        "description": "more_available: fetch the next page with cursor. exhausted: there are no more matches. incomplete: the search stopped after examining 10,000 notes without finishing; narrow it and search again.",
         "x-ms-enum": {
           "name": "SearchNotes200ResponseCompletionStatus",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "more_available",
+              "name": "MoreAvailable"
+            },
+            {
+              "value": "exhausted",
+              "name": "Exhausted"
+            },
+            {
+              "value": "incomplete",
+              "name": "Incomplete"
+            }
+          ]
+        }
+      },
+      "SearchTranscripts200ResponseCompletionStatus": {
+        "enum": [
+          "more_available",
+          "exhausted",
+          "incomplete"
+        ],
+        "type": "string",
+        "description": "more_available: fetch the next page with cursor. exhausted: there are no more matches. incomplete: the search stopped after examining 10,000 notes without finishing; narrow it and search again.",
+        "x-ms-enum": {
+          "name": "SearchTranscripts200ResponseCompletionStatus",
           "modelAsString": false,
           "values": [
             {
@@ -3294,10 +3695,10 @@
           ]
         }
       },
-      "GetV1Audit200ResponseEventsItemActorApiKeyVariant": {
+      "ListAuditEvents200ResponseEventsItemActorApiKeyVariant": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActor"
+            "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemActor"
           },
           {
             "title": "API key",
@@ -3325,10 +3726,10 @@
           }
         ]
       },
-      "GetV1Audit200ResponseEventsItemActorUserVariant": {
+      "ListAuditEvents200ResponseEventsItemActorUserVariant": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActor"
+            "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemActor"
           },
           {
             "title": "User",
@@ -3370,10 +3771,10 @@
           }
         ]
       },
-      "GetV1Audit200ResponseEventsItemActorSystemVariant": {
+      "ListAuditEvents200ResponseEventsItemActorSystemVariant": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActor"
+            "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemActor"
           },
           {
             "title": "System",
@@ -3386,17 +3787,17 @@
                 "$ref": "#/components/schemas/SystemObject"
               }
             },
-            "description": "No identifiable user performed the action \u2014 it came from an automated process, such as a scheduled job or an inbound webhook from a connected service. This variant carries no other fields.",
+            "description": "No identifiable user performed the action: it came from an automated process, such as a scheduled job or an inbound webhook from a connected service. This variant carries no other fields.",
             "example": {
               "object": "system"
             }
           }
         ]
       },
-      "GetV1Audit200ResponseEventsItemActorAnonymousVariant": {
+      "ListAuditEvents200ResponseEventsItemActorAnonymousVariant": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/GetV1Audit200ResponseEventsItemActor"
+            "$ref": "#/components/schemas/ListAuditEvents200ResponseEventsItemActor"
           },
           {
             "title": "Anonymous",
@@ -3409,7 +3810,7 @@
                 "$ref": "#/components/schemas/AnonymousObject"
               }
             },
-            "description": "A person performed the action without signing in, so there is no account to name \u2014 for example, someone opening a note through a shared link. Distinct from \u0060system\u0060, which means no person was involved at all. This variant carries no other fields; the \u0060ip_address\u0060 and \u0060user_agent\u0060 in \u0060context\u0060 are the only attribution available.",
+            "description": "A person performed the action without signing in, so there is no account to name, for example someone opening a note through a shared link. Distinct from \u0060system\u0060, which means no person was involved at all. This variant carries no other fields; the \u0060ip_address\u0060 and \u0060user_agent\u0060 in \u0060context\u0060 are the only attribution available.",
             "example": {
               "object": "anonymous"
             }
@@ -3936,7 +4337,7 @@
       "properties": {
         "signing_secret": {
           "type": "string",
-          "description": "Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response \u2014 store it securely.",
+          "description": "Secret for verifying delivery signatures (Standard Webhooks HMAC-SHA256). Shown only once, in this response, so store it securely.",
           "example": "whsec_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
         }
       }
@@ -3945,7 +4346,41 @@
       "type": "object",
       "description": "Placeholder schema for path example refs"
     },
-    "GetV1Audit200ResponseEventsItemActorApiKey": {
+    "SearchTranscriptsRequestFromDate": {
+      "examples": [
+        "2026-01-27",
+        "2026-01-27T15:30:00Z"
+      ],
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date"
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ],
+      "description": "Only meetings that started at or after this date or UTC timestamp. A date means midnight UTC. Notes without a calendar event use their creation time."
+    },
+    "SearchTranscriptsRequestToDate": {
+      "examples": [
+        "2026-01-27",
+        "2026-01-27T15:30:00Z"
+      ],
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date"
+        },
+        {
+          "type": "string",
+          "format": "date-time"
+        }
+      ],
+      "description": "Only meetings that started at or before this date or UTC timestamp. A date means midnight UTC at the start of that day, so it leaves out meetings later that day."
+    },
+    "ListAuditEvents200ResponseEventsItemActorApiKey": {
       "title": "API key",
       "required": [
         "object",
@@ -3969,7 +4404,7 @@
         "id_suffix": "aB3dE7hK"
       }
     },
-    "GetV1Audit200ResponseEventsItemActorUser": {
+    "ListAuditEvents200ResponseEventsItemActorUser": {
       "title": "User",
       "required": [
         "object",
@@ -4007,7 +4442,7 @@
         "email": "oat@granola.ai"
       }
     },
-    "GetV1Audit200ResponseEventsItemActorSystem": {
+    "ListAuditEvents200ResponseEventsItemActorSystem": {
       "title": "System",
       "required": [
         "object"
@@ -4018,12 +4453,12 @@
           "$ref": "#/components/schemas/SystemObject"
         }
       },
-      "description": "No identifiable user performed the action \u2014 it came from an automated process, such as a scheduled job or an inbound webhook from a connected service. This variant carries no other fields.",
+      "description": "No identifiable user performed the action: it came from an automated process, such as a scheduled job or an inbound webhook from a connected service. This variant carries no other fields.",
       "example": {
         "object": "system"
       }
     },
-    "GetV1Audit200ResponseEventsItemActorAnonymous": {
+    "ListAuditEvents200ResponseEventsItemActorAnonymous": {
       "title": "Anonymous",
       "required": [
         "object"
@@ -4034,7 +4469,7 @@
           "$ref": "#/components/schemas/AnonymousObject"
         }
       },
-      "description": "A person performed the action without signing in, so there is no account to name \u2014 for example, someone opening a note through a shared link. Distinct from \u0060system\u0060, which means no person was involved at all. This variant carries no other fields; the \u0060ip_address\u0060 and \u0060user_agent\u0060 in \u0060context\u0060 are the only attribution available.",
+      "description": "A person performed the action without signing in, so there is no account to name, for example someone opening a note through a shared link. Distinct from \u0060system\u0060, which means no person was involved at all. This variant carries no other fields; the \u0060ip_address\u0060 and \u0060user_agent\u0060 in \u0060context\u0060 are the only attribution available.",
       "example": {
         "object": "anonymous"
       }

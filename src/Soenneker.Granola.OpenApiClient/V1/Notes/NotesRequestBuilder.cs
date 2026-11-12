@@ -6,6 +6,7 @@ using Microsoft.Kiota.Abstractions;
 using Soenneker.Granola.OpenApiClient.Models;
 using Soenneker.Granola.OpenApiClient.V1.Notes.Item;
 using Soenneker.Granola.OpenApiClient.V1.Notes.Search;
+using Soenneker.Granola.OpenApiClient.V1.Notes.Transcripts;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -23,6 +24,11 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes
         public global::Soenneker.Granola.OpenApiClient.V1.Notes.Search.SearchRequestBuilder Search
         {
             get => new global::Soenneker.Granola.OpenApiClient.V1.Notes.Search.SearchRequestBuilder(PathParameters, RequestAdapter);
+        }
+        /// <summary>The transcripts property</summary>
+        public global::Soenneker.Granola.OpenApiClient.V1.Notes.Transcripts.TranscriptsRequestBuilder Transcripts
+        {
+            get => new global::Soenneker.Granola.OpenApiClient.V1.Notes.Transcripts.TranscriptsRequestBuilder(PathParameters, RequestAdapter);
         }
         /// <summary>Gets an item from the Soenneker.Granola.OpenApiClient.v1.notes.item collection</summary>
         /// <param name="position">Unique identifier of the item</param>
@@ -53,7 +59,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes
         {
         }
         /// <summary>
-        /// List notes
+        /// Lists the notes the API key can read, newest first by creation time. Only notes with a generated summary are returned.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.ListNotesOutput"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -71,7 +77,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListNotesOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListNotesOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// List notes
+        /// Lists the notes the API key can read, newest first by creation time. Only notes with a generated summary are returned.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -99,7 +105,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes
             return new global::Soenneker.Granola.OpenApiClient.V1.Notes.NotesRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// List notes
+        /// Lists the notes the API key can read, newest first by creation time. Only notes with a generated summary are returned.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class NotesRequestBuilderGetQueryParameters 

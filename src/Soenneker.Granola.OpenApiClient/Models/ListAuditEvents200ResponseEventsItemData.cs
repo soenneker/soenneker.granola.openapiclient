@@ -11,7 +11,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
     /// Details of the action. The fields depend on the action, and their names are the ones Granola records internally, so they are camelCase rather than snake_case. See the [audit events reference](/audit-events) for the fields each action carries.
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
-    public partial class GetV1Audit200ResponseEventsItemData : IAdditionalDataHolder, IParsable
+    public partial class ListAuditEvents200ResponseEventsItemData : IAdditionalDataHolder, IParsable
     , global::Soenneker.OpenApi.Generated.IOpenApiExplicitNulls {
         // Track explicitly assigned nulls separately from absent properties.
         private global::System.Collections.Generic.HashSet<string> _explicitNullProperties = null!;
@@ -23,21 +23,21 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
         /// <summary>
-        /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemData"/> and sets the default values.
+        /// Instantiates a new <see cref="global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItemData"/> and sets the default values.
         /// </summary>
-        public GetV1Audit200ResponseEventsItemData()
+        public ListAuditEvents200ResponseEventsItemData()
         {
             AdditionalData = new Dictionary<string, object>();
         }
         /// <summary>
         /// Creates a new instance of the appropriate class based on discriminator value
         /// </summary>
-        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemData"/></returns>
+        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItemData"/></returns>
         /// <param name="parseNode">The parse node to use to read the discriminator value and create the object</param>
-        public static global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemData CreateFromDiscriminatorValue(IParseNode parseNode)
+        public static global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItemData CreateFromDiscriminatorValue(IParseNode parseNode)
         {
             if(ReferenceEquals(parseNode, null)) throw new ArgumentNullException(nameof(parseNode));
-            return global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.GetV1Audit200ResponseEventsItemData(), parseNode);
+            return global::Soenneker.OpenApi.Generated.OpenApiNullTracking.Capture(new global::Soenneker.Granola.OpenApiClient.Models.ListAuditEvents200ResponseEventsItemData(), parseNode);
         }
         /// <summary>
         /// The deserialization information for the current model

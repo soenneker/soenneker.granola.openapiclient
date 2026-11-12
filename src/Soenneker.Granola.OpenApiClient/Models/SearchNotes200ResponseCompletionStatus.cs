@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System;
 namespace Soenneker.Granola.OpenApiClient.Models
 {
-    /// <summary>more_available: continue with cursor. exhausted: no more matches. incomplete: the scan limit was reached; hasMore is false and cursor is null. Start a narrower search.</summary>
+    /// <summary>more_available: fetch the next page with cursor. exhausted: there are no more matches. incomplete: the search stopped after examining 10,000 notes without finishing; narrow it and search again.</summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum SearchNotes200ResponseCompletionStatus
     {

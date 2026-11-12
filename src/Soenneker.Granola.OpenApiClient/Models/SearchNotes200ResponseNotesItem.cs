@@ -53,7 +53,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public string Id { get => _explicitNullValueId; set { _explicitNullValueId = value; AdditionalData?.Remove("id"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("id"); else _explicitNullProperties?.Remove("id"); } }
         private string _explicitNullValueId = default!;
 #endif
-        /// <summary>Calendar start time, falling back to note creation time.</summary>
+        /// <summary>When the meeting started according to the calendar, or the note&apos;s creation time if it has no calendar event.</summary>
         public DateTimeOffset? MeetingAt { get => _explicitNullValueMeetingAt; set { _explicitNullValueMeetingAt = value; AdditionalData?.Remove("meeting_at"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("meeting_at"); else _explicitNullProperties?.Remove("meeting_at"); } }
         private DateTimeOffset? _explicitNullValueMeetingAt = default!;
         /// <summary>The object type of the note</summary>

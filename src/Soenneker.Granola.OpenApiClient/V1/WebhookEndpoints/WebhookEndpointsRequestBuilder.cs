@@ -47,7 +47,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints
         {
         }
         /// <summary>
-        /// List webhook endpoints
+        /// Lists the webhook endpoints the API key can manage, oldest first.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.ListWebhookEndpointsOutput"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -85,7 +85,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.CreateWebhookEndpointOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.CreateWebhookEndpointOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// List webhook endpoints
+        /// Lists the webhook endpoints the API key can manage, oldest first.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
