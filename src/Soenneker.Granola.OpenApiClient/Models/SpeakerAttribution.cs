@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System;
 namespace Soenneker.Granola.OpenApiClient.Models
 {
-    /// <summary>Who said this relative to the note: `me` is the note-taker (the note&apos;s owner), `them` is other meeting participants. Omitted when the attribution is unknown, such as iOS transcript items that only carry an anonymous `diarization_label`.</summary>
+    /// <summary>Who said this relative to the note: `me` is the note-taker (the note&apos;s owner), `them` is other meeting participants. Omitted when the attribution is unknown, such as phone and watch transcript items that only carry an anonymous `diarization_label`.</summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum SpeakerAttribution
     {

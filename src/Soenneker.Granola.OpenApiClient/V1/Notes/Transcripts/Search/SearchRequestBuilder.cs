@@ -34,7 +34,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Transcripts.Search
         {
         }
         /// <summary>
-        /// Search meeting transcripts by keyword to find where something was said. Each result is a note with up to two short excerpts from its transcript; use Get transcript to read the conversation around them.Recent meetings can be missing until their note&apos;s summary is generated. Keys with the Notes by ID scope get no results.
+        /// Search meeting transcripts by keyword to find where something was said. Each result is a note with up to two short excerpts from its transcript; pass an excerpt&apos;s start_time to Get transcript as from_time to read the conversation from there.Recent meetings can be missing until their note&apos;s summary is generated. Keys with the Notes by ID scope get no results.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.SearchTranscripts200Response"/></returns>
         /// <param name="body">The request body</param>
@@ -54,7 +54,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Transcripts.Search
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.SearchTranscripts200Response>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.SearchTranscripts200Response.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Search meeting transcripts by keyword to find where something was said. Each result is a note with up to two short excerpts from its transcript; use Get transcript to read the conversation around them.Recent meetings can be missing until their note&apos;s summary is generated. Keys with the Notes by ID scope get no results.
+        /// Search meeting transcripts by keyword to find where something was said. Each result is a note with up to two short excerpts from its transcript; pass an excerpt&apos;s start_time to Get transcript as from_time to read the conversation from there.Recent meetings can be missing until their note&apos;s summary is generated. Keys with the Notes by ID scope get no results.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

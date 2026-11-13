@@ -97,17 +97,17 @@
           "source": {
             "type": "string",
             "enum": ["microphone", "speaker"],
-            "description": "The source of the speaker. For iOS transcripts, Granola currently returns `microphone` for all transcript items because iOS currently captures a single audio stream. Clients should not assume this will never expand in the future."
+            "description": "The source of the speaker. For recordings made on a phone or watch, Granola currently returns `microphone` for all transcript items because they capture a single audio stream. Clients should not assume this will never expand in the future."
           },
           "attribution": {
             "type": "string",
             "enum": ["me", "them"],
-            "description": "Who said this relative to the note: `me` is the note-taker (the note's owner), `them` is other meeting participants. Omitted when the attribution is unknown, such as iOS transcript items that only carry an anonymous `diarization_label`.",
+            "description": "Who said this relative to the note: `me` is the note-taker (the note's owner), `them` is other meeting participants. Omitted when the attribution is unknown, such as phone and watch transcript items that only carry an anonymous `diarization_label`.",
             "example": "me"
           },
           "diarization_label": {
             "type": "string",
-            "description": "The diarized anonymous speaker label assigned in the transcript, such as `Speaker A`. This is currently only present on iOS transcripts when diarization is available.",
+            "description": "The diarized anonymous speaker label assigned in the transcript, such as `Speaker A`. This is currently only present on transcripts recorded on a phone or watch, when diarization is available.",
             "example": "Speaker A"
           },
           "name": {
@@ -131,12 +131,12 @@
           "start_time": {
             "type": "string",
             "format": "date-time",
-            "description": "The start time of the transcript"
+            "description": "The start time of the transcript item. Most recordings made on a phone or watch are transcribed in one piece after they end. Their item times are approximate, measured from when the note was created. When Granola has no timings for such a recording, every item has the same time, which is when the transcript was written."
           },
           "end_time": {
             "type": "string",
             "format": "date-time",
-            "description": "The end time of the transcript"
+            "description": "The end time of the transcript item. For a recording transcribed in one piece that Granola has no timings for, it equals `start_time`."
           }
         },
         "required": ["speaker", "text", "start_time", "end_time"]
@@ -266,7 +266,7 @@
           },
           "type": {
             "type": "string",
-            "description": "The attachment type: `photo` for manually attached images. Clients should ignore types they do not recognize.",
+            "description": "The attachment type: `photo` for manually attached images, or `screenshot` for snapshots of a shared screen. Clients should ignore types they do not recognize.",
             "example": "photo"
           },
           "url": {
@@ -281,6 +281,15 @@
           "height": {
             "type": "number",
             "description": "The image height in pixels"
+          },
+          "captured_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the snapshot was taken. Omitted for photos."
+          },
+          "description": {
+            "type": "string",
+            "description": "A generated description of what the snapshot shows. Omitted for photos."
           }
         },
         "required": ["id", "object", "type", "url", "width", "height"]
@@ -309,7 +318,7 @@
             "items": {
               "$ref": "#/components/schemas/NoteAttachment"
             },
-            "description": "Manually attached photos, in stored order. Empty when no photos are available."
+            "description": "Manually attached photos and snapshots of shared screens, in stored order. On Enterprise plans, snapshots are returned only while a workspace admin has Take snapshots of shared screens turned on. Empty when no attachments are available."
           },
           "attendees": {
             "type": "array",
@@ -383,7 +392,7 @@
             "items": {
               "$ref": "#/components/schemas/Transcript"
             },
-            "description": "The inline transcript of the note. It is null unless you pass `include=transcript`, or when a workspace admin has turned off transcript access over the API. If it is too large to return inline, Get Note returns `TRANSCRIPT_TOO_LARGE`; retrieve it in pages from `/v1/notes/{note_id}/transcript`. The example below shows a macOS transcript. On iOS, Granola currently returns `speaker.source` as `microphone`, and `diarization_label` can carry anonymous `Speaker A/B/...` buckets when diarization is available.",
+            "description": "The inline transcript of the note. It is null unless you pass `include=transcript`, or when a workspace admin has turned off transcript access over the API. If it is too large to return inline, Get Note returns `TRANSCRIPT_TOO_LARGE`; retrieve it in pages from `/v1/notes/{note_id}/transcript`. The example below shows a macOS transcript. For recordings made on a phone or watch, Granola currently returns `speaker.source` as `microphone`, and `diarization_label` can carry anonymous `Speaker A/B/...` buckets when diarization is available.",
             "example": [
               {
                 "speaker": {
@@ -480,7 +489,7 @@
             "items": {
               "$ref": "#/components/schemas/NoteAttachment"
             },
-            "description": "Manually attached photos, in stored order. Empty when no photos are available."
+            "description": "Manually attached photos and snapshots of shared screens, in stored order. On Enterprise plans, snapshots are returned only while a workspace admin has Take snapshots of shared screens turned on. Empty when no attachments are available."
           },
           "attendees": {
             "type": "array",
@@ -554,7 +563,7 @@
             "items": {
               "$ref": "#/components/schemas/Transcript"
             },
-            "description": "The inline transcript of the note. It is null unless you pass `include=transcript`, or when a workspace admin has turned off transcript access over the API. If it is too large to return inline, Get Note returns `TRANSCRIPT_TOO_LARGE`; retrieve it in pages from `/v1/notes/{note_id}/transcript`. The example below shows a macOS transcript. On iOS, Granola currently returns `speaker.source` as `microphone`, and `diarization_label` can carry anonymous `Speaker A/B/...` buckets when diarization is available.",
+            "description": "The inline transcript of the note. It is null unless you pass `include=transcript`, or when a workspace admin has turned off transcript access over the API. If it is too large to return inline, Get Note returns `TRANSCRIPT_TOO_LARGE`; retrieve it in pages from `/v1/notes/{note_id}/transcript`. The example below shows a macOS transcript. For recordings made on a phone or watch, Granola currently returns `speaker.source` as `microphone`, and `diarization_label` can carry anonymous `Speaker A/B/...` buckets when diarization is available.",
             "example": [
               {
                 "speaker": {
@@ -627,6 +636,12 @@
             "type": "string",
             "description": "The opaque cursor returned by the previous page",
             "example": "eyJyb3dfb2Zmc2V0Ijo1MCwiaXRlbV9vZmZzZXQiOjB9"
+          },
+          "from_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Start at the first transcript item that ends after this UTC timestamp, skipping everything earlier. Pass a passage's `start_time` from Search transcripts to read the conversation from that point. It only sets where the first page starts: it is ignored when `cursor` is set, so it is safe to send on every page. A recording transcribed in one piece that Granola has no timings for is returned from the beginning.",
+            "example": "2026-01-27T15:42:10Z"
           },
           "page_size": {
             "type": "integer",
@@ -875,7 +890,7 @@
               "type": "string",
               "enum": ["personal", "public", "workspace"]
             },
-            "description": "Which notes this endpoint receives events for. `personal` covers notes the creating user owns, notes shared directly with them, and notes in private folders shared with them. `public` covers notes visible to everyone in the workspace. `workspace` is reported for endpoints created with a workspace API key: public workspace notes plus notes in spaces with Granola API access enabled.",
+            "description": "Which notes this endpoint receives events for. `personal` covers notes the creating user owns, notes shared directly with them, and notes in private folders shared with them. `public` covers notes visible to everyone in the workspace. `workspace` follows the creating Workspace API key's space limits. With All spaces, it covers public workspace notes and spaces with Granola API access enabled; a key limited to selected spaces only receives events for those spaces.",
             "example": ["personal", "public"]
           },
           "created_by": {
@@ -934,7 +949,7 @@
               "enum": ["personal", "public", "workspace"]
             },
             "minItems": 1,
-            "description": "Which notes to receive events for. `personal` covers notes you own, notes shared directly with you, and notes in private folders shared with you. `public` covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace's API settings. With a Workspace API key, pass exactly `[\"workspace\"]`, the key's own scope: public workspace notes plus notes in spaces with Granola API access enabled.",
+            "description": "Which notes to receive events for. `personal` covers notes you own, notes shared directly with you, and notes in private folders shared with you. `public` covers notes visible to everyone in the workspace. Pass both for both sets of notes. Workspace admins can disable scopes for non-admin members in the workspace's API settings. With a Workspace API key, pass exactly `[\"workspace\"]`; the endpoint uses that key's space limits.",
             "example": ["personal", "public"]
           },
           "events": {
@@ -956,7 +971,7 @@
             },
             "minItems": 1,
             "maxItems": 100,
-            "description": "Restrict delivery to notes in these folders or any of their subfolders. Accepts folder IDs returned by `GET /v1/folders`, in any casing. Omit to receive events for every note matching `scopes`. The same filter applies to all subscribed `events`.",
+            "description": "Restrict delivery to notes in these folders or any of their subfolders. Accepts folder IDs returned by `GET /v1/folders`, in any casing. Omit to receive events for every note matching `scopes`. With a Workspace API key, folders must also be within that key's space limits. The same filter applies to all subscribed `events`.",
             "example": ["fol_2mKr8fQxLp7Ta3"]
           }
         },
@@ -1040,7 +1055,7 @@
               "pattern": "^[Ff][Oo][Ll]_[a-zA-Z0-9]{14}$"
             },
             "maxItems": 100,
-            "description": "Restrict delivery to notes in these folders or any of their subfolders; replaces the current folder filter. Accepts folder IDs returned by `GET /v1/folders`, in any casing. Pass an empty array to remove the filter. Omit to leave unchanged.",
+            "description": "Restrict delivery to notes in these folders or any of their subfolders; replaces the current folder filter. Accepts folder IDs returned by `GET /v1/folders`, in any casing. For a workspace-managed endpoint, folders must be within the creating key's space limits, even when another key edits the endpoint. Pass an empty array to remove the folder filter; the key's space limits still apply. Omit to leave unchanged.",
             "example": ["fol_2mKr8fQxLp7Ta3"]
           },
           "enabled": {
@@ -1662,7 +1677,7 @@
       "get": {
         "summary": "Get transcript",
         "operationId": "get_transcript",
-        "description": "Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`.",
+        "description": "Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`. Pass `from_time` to start partway through, for example at an excerpt from Search transcripts.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -1688,6 +1703,17 @@
             },
             "required": false,
             "name": "cursor",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Start at the first transcript item that ends after this UTC timestamp, skipping everything earlier. Pass a passage's `start_time` from Search transcripts to read the conversation from that point. It only sets where the first page starts: it is ignored when `cursor` is set, so it is safe to send on every page. A recording transcribed in one piece that Granola has no timings for is returned from the beginning.",
+              "example": "2026-01-27T15:42:10Z"
+            },
+            "required": false,
+            "name": "from_time",
             "in": "query"
           },
           {
@@ -2163,7 +2189,7 @@
       "post": {
         "summary": "Create webhook endpoint",
         "operationId": "create_webhook_endpoint",
-        "description": "Registers an HTTPS URL to receive event deliveries. With a Workspace API key the endpoint is workspace-managed: pass `scopes: [\"workspace\"]` (the key's own scope), and `folder_ids` may only reference folders the key can list.",
+        "description": "Registers an HTTPS URL to receive event deliveries. With a Workspace API key the endpoint is workspace-managed: pass `scopes: [\"workspace\"]`. Delivery follows that key's space limits, and `folder_ids` may only reference folders the key can list.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -2212,7 +2238,7 @@
       "get": {
         "summary": "List webhook endpoints",
         "operationId": "list_webhook_endpoints",
-        "description": "Lists the webhook endpoints the API key can manage, oldest first.",
+        "description": "Lists the webhook endpoints the API key can manage, oldest first. A Workspace API key limited to selected spaces only lists endpoints created with that exact key. An unrestricted Workspace API key can also list endpoints created by other keys in the same workspace.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -2248,7 +2274,7 @@
       "patch": {
         "summary": "Update webhook endpoint",
         "operationId": "update_webhook_endpoint",
-        "description": "Changes an endpoint's URL, scopes, events, folder filter or enabled state. Fields you leave out stay as they are.",
+        "description": "Changes an endpoint's URL, scopes, events, folder filter or enabled state. Fields you leave out stay as they are. A space-limited Workspace API key can only update endpoints created with that exact key. A workspace-managed endpoint keeps its creating key's space limits, regardless of which authorized key edits it.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -2310,7 +2336,7 @@
       "delete": {
         "summary": "Delete webhook endpoint",
         "operationId": "delete_webhook_endpoint",
-        "description": "Deletes a webhook endpoint. Granola stops sending it events.",
+        "description": "Deletes a webhook endpoint. Granola stops sending it events. A space-limited Workspace API key can only delete endpoints created with that exact key. An unrestricted Workspace API key can delete endpoints created by other keys in the same workspace.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -3030,7 +3056,7 @@
       "post": {
         "summary": "Search transcripts",
         "operationId": "search_transcripts",
-        "description": "Search meeting transcripts by keyword to find where something was said. Each result is a note with up to two short excerpts from its transcript; use Get transcript to read the conversation around them.\n\nRecent meetings can be missing until their note's summary is generated. Keys with the Notes by ID scope get no results.",
+        "description": "Search meeting transcripts by keyword to find where something was said. Each result is a note with up to two short excerpts from its transcript; pass an excerpt's start_time to Get transcript as from_time to read the conversation from there.\n\nRecent meetings can be missing until their note's summary is generated. Keys with the Notes by ID scope get no results.",
         "security": [
           {
             "ApiKeyAuth": []
@@ -3053,6 +3079,17 @@
                     "minItems": 1,
                     "maxItems": 20,
                     "description": "Words to search for. Required unless cursor is set. An entry matches when all its words are said close together, in any order; a note needs only one entry to match. Synonyms and other spellings are not matched, so add them as separate entries."
+                  },
+                  "note_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[Nn][Oo][Tt]_[a-zA-Z0-9]{14}$"
+                    },
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "description": "Only search these notes. An ID is ignored when no note has it or the API key cannot read that note.",
+                    "example": ["not_1d3tmYTlCICgjy"]
                   },
                   "participant": {
                     "type": "string",
@@ -3163,7 +3200,7 @@
                                     "start_time": {
                                       "type": ["string", "null"],
                                       "format": "date-time",
-                                      "description": "Approximately when the excerpt was spoken, or null when unknown. Use it to find the excerpt in Get transcript.",
+                                      "description": "Approximately when the excerpt was spoken, or null when unknown. Pass it to Get transcript as from_time to read the conversation from there.",
                                       "example": "2026-01-27T15:42:10Z"
                                     },
                                     "matched_keywords": {

@@ -29,7 +29,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>The end time of the transcript</summary>
+        /// <summary>The end time of the transcript item. For a recording transcribed in one piece that Granola has no timings for, it equals `start_time`.</summary>
         public DateTimeOffset? EndTime { get => _explicitNullValueEndTime; set { _explicitNullValueEndTime = value; AdditionalData?.Remove("end_time"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("end_time"); else _explicitNullProperties?.Remove("end_time"); } }
         private DateTimeOffset? _explicitNullValueEndTime = default!;
         /// <summary>The speaker property</summary>
@@ -42,7 +42,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public global::Soenneker.Granola.OpenApiClient.Models.Speaker Speaker { get => _explicitNullValueSpeaker; set { _explicitNullValueSpeaker = value; AdditionalData?.Remove("speaker"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("speaker"); else _explicitNullProperties?.Remove("speaker"); } }
         private global::Soenneker.Granola.OpenApiClient.Models.Speaker _explicitNullValueSpeaker = default!;
 #endif
-        /// <summary>The start time of the transcript</summary>
+        /// <summary>The start time of the transcript item. Most recordings made on a phone or watch are transcribed in one piece after they end. Their item times are approximate, measured from when the note was created. When Granola has no timings for such a recording, every item has the same time, which is when the transcript was written.</summary>
         public DateTimeOffset? StartTime { get => _explicitNullValueStartTime; set { _explicitNullValueStartTime = value; AdditionalData?.Remove("start_time"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("start_time"); else _explicitNullProperties?.Remove("start_time"); } }
         private DateTimeOffset? _explicitNullValueStartTime = default!;
         /// <summary>The text of the transcript</summary>

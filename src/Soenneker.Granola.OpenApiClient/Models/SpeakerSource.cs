@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System;
 namespace Soenneker.Granola.OpenApiClient.Models
 {
-    /// <summary>The source of the speaker. For iOS transcripts, Granola currently returns `microphone` for all transcript items because iOS currently captures a single audio stream. Clients should not assume this will never expand in the future.</summary>
+    /// <summary>The source of the speaker. For recordings made on a phone or watch, Granola currently returns `microphone` for all transcript items because they capture a single audio stream. Clients should not assume this will never expand in the future.</summary>
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public enum SpeakerSource
     {

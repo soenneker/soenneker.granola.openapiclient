@@ -34,7 +34,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints.Item
         {
         }
         /// <summary>
-        /// Deletes a webhook endpoint. Granola stops sending it events.
+        /// Deletes a webhook endpoint. Granola stops sending it events. A space-limited Workspace API key can only delete endpoints created with that exact key. An unrestricted Workspace API key can delete endpoints created by other keys in the same workspace.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.DeleteWebhookEndpointOutput"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -52,7 +52,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints.Item
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.DeleteWebhookEndpointOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.DeleteWebhookEndpointOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Changes an endpoint&apos;s URL, scopes, events, folder filter or enabled state. Fields you leave out stay as they are.
+        /// Changes an endpoint&apos;s URL, scopes, events, folder filter or enabled state. Fields you leave out stay as they are. A space-limited Workspace API key can only update endpoints created with that exact key. A workspace-managed endpoint keeps its creating key&apos;s space limits, regardless of which authorized key edits it.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint"/></returns>
         /// <param name="body">The request body</param>
@@ -72,7 +72,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints.Item
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.WebhookEndpoint.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Deletes a webhook endpoint. Granola stops sending it events.
+        /// Deletes a webhook endpoint. Granola stops sending it events. A space-limited Workspace API key can only delete endpoints created with that exact key. An unrestricted Workspace API key can delete endpoints created by other keys in the same workspace.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -91,7 +91,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints.Item
             return requestInfo;
         }
         /// <summary>
-        /// Changes an endpoint&apos;s URL, scopes, events, folder filter or enabled state. Fields you leave out stay as they are.
+        /// Changes an endpoint&apos;s URL, scopes, events, folder filter or enabled state. Fields you leave out stay as they are. A space-limited Workspace API key can only update endpoints created with that exact key. A workspace-managed endpoint keeps its creating key&apos;s space limits, regardless of which authorized key edits it.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

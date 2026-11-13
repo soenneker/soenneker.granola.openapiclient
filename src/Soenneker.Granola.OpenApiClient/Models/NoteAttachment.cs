@@ -17,6 +17,10 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         public virtual void CaptureExplicitNulls(global::Microsoft.Kiota.Abstractions.Serialization.IParseNode parseNode)
         {
+            if (parseNode.GetChildNode("captured_at") is null) { _explicitNullValueCapturedAt = default!; _explicitNullProperties?.Remove("captured_at"); }
+            else if (parseNode.GetChildNode("captured_at") is { } nullNodeCapturedAt && nullNodeCapturedAt.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) CapturedAt = null;
+            if (parseNode.GetChildNode("description") is null) { _explicitNullValueDescription = default!; _explicitNullProperties?.Remove("description"); }
+            else if (parseNode.GetChildNode("description") is { } nullNodeDescription && nullNodeDescription.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Description = null;
             if (parseNode.GetChildNode("height") is null) { _explicitNullValueHeight = default!; _explicitNullProperties?.Remove("height"); }
             else if (parseNode.GetChildNode("height") is { } nullNodeHeight && nullNodeHeight.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Height = null;
             if (parseNode.GetChildNode("id") is null) { _explicitNullValueId = default!; _explicitNullProperties?.Remove("id"); }
@@ -33,6 +37,19 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
+        /// <summary>When the snapshot was taken. Omitted for photos.</summary>
+        public DateTimeOffset? CapturedAt { get => _explicitNullValueCapturedAt; set { _explicitNullValueCapturedAt = value; AdditionalData?.Remove("captured_at"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("captured_at"); else _explicitNullProperties?.Remove("captured_at"); } }
+        private DateTimeOffset? _explicitNullValueCapturedAt = default!;
+        /// <summary>A generated description of what the snapshot shows. Omitted for photos.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public string? Description { get => _explicitNullValueDescription; set { _explicitNullValueDescription = value; AdditionalData?.Remove("description"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("description"); else _explicitNullProperties?.Remove("description"); } }
+        private string? _explicitNullValueDescription = default!;
+#nullable restore
+#else
+        public string Description { get => _explicitNullValueDescription; set { _explicitNullValueDescription = value; AdditionalData?.Remove("description"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("description"); else _explicitNullProperties?.Remove("description"); } }
+        private string _explicitNullValueDescription = default!;
+#endif
         /// <summary>The image height in pixels</summary>
         public double? Height { get => _explicitNullValueHeight; set { _explicitNullValueHeight = value; AdditionalData?.Remove("height"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("height"); else _explicitNullProperties?.Remove("height"); } }
         private double? _explicitNullValueHeight = default!;
@@ -49,7 +66,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <summary>The object property</summary>
         public global::Soenneker.Granola.OpenApiClient.Models.AttachmentObject? Object { get => _explicitNullValueObject; set { _explicitNullValueObject = value; AdditionalData?.Remove("object"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("object"); else _explicitNullProperties?.Remove("object"); } }
         private global::Soenneker.Granola.OpenApiClient.Models.AttachmentObject? _explicitNullValueObject = default!;
-        /// <summary>The attachment type: `photo` for manually attached images. Clients should ignore types they do not recognize.</summary>
+        /// <summary>The attachment type: `photo` for manually attached images, or `screenshot` for snapshots of a shared screen. Clients should ignore types they do not recognize.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? Type { get => _explicitNullValueType; set { _explicitNullValueType = value; AdditionalData?.Remove("type"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("type"); else _explicitNullProperties?.Remove("type"); } }
@@ -97,6 +114,8 @@ namespace Soenneker.Granola.OpenApiClient.Models
         {
             return new Dictionary<string, Action<IParseNode>>
             {
+                { "captured_at", n => { CapturedAt = n.GetDateTimeOffsetValue(); } },
+                { "description", n => { Description = n.GetStringValue(); } },
                 { "height", n => { Height = n.GetDoubleValue(); } },
                 { "id", n => { Id = n.GetStringValue(); } },
                 { "object", n => { var parsed = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.AttachmentObject>(); if (parsed == null && n.GetStringValue() is string unknown) { _explicitNullValueObject = default; _explicitNullProperties?.Remove("object"); AdditionalData["object"] = unknown; } else { Object = parsed; AdditionalData.Remove("object"); } } },
@@ -112,6 +131,8 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public virtual void Serialize(ISerializationWriter writer)
         {
             if(ReferenceEquals(writer, null)) throw new ArgumentNullException(nameof(writer));
+            writer.WriteDateTimeOffsetValue("captured_at", CapturedAt);
+            writer.WriteStringValue("description", Description);
             writer.WriteDoubleValue("height", Height);
             writer.WriteStringValue("id", Id);
             writer.WriteEnumValue<global::Soenneker.Granola.OpenApiClient.Models.AttachmentObject>("object", Object);

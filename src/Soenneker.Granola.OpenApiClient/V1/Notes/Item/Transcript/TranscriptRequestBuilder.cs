@@ -22,7 +22,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript
         /// </summary>
         /// <param name="pathParameters">Path parameters for the request</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public TranscriptRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/v1/notes/{noteId}/transcript{?cursor*,page_size*}", pathParameters)
+        public TranscriptRequestBuilder(Dictionary<string, object> pathParameters, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/v1/notes/{noteId}/transcript{?cursor*,from_time*,page_size*}", pathParameters)
         {
         }
         /// <summary>
@@ -30,11 +30,11 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript
         /// </summary>
         /// <param name="rawUrl">The raw URL to use for the request builder.</param>
         /// <param name="requestAdapter">The request adapter to use to execute the requests.</param>
-        public TranscriptRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/v1/notes/{noteId}/transcript{?cursor*,page_size*}", rawUrl)
+        public TranscriptRequestBuilder(string rawUrl, IRequestAdapter requestAdapter) : base(requestAdapter, "{+baseurl}/v1/notes/{noteId}/transcript{?cursor*,from_time*,page_size*}", rawUrl)
         {
         }
         /// <summary>
-        /// Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`.
+        /// Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`. Pass `from_time` to start partway through, for example at an excerpt from Search transcripts.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetTranscriptOutput"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -52,7 +52,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.GetTranscriptOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.GetTranscriptOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`.
+        /// Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`. Pass `from_time` to start partway through, for example at an excerpt from Search transcripts.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -80,7 +80,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript
             return new global::Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript.TranscriptRequestBuilder(rawUrl, RequestAdapter);
         }
         /// <summary>
-        /// Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`.
+        /// Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`. Pass `from_time` to start partway through, for example at an excerpt from Search transcripts.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
         public partial class TranscriptRequestBuilderGetQueryParameters 
@@ -98,6 +98,10 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript
             public string Cursor { get; set; }
             #pragma warning restore CS1591
 #endif
+            #pragma warning disable CS1591
+            [QueryParameter("from_time")]
+            public DateTimeOffset? FromTime { get; set; }
+            #pragma warning restore CS1591
             #pragma warning disable CS1591
             [QueryParameter("page_size")]
             public int? PageSize { get; set; }

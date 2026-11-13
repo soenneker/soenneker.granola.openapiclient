@@ -29,10 +29,10 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>Who said this relative to the note: `me` is the note-taker (the note&apos;s owner), `them` is other meeting participants. Omitted when the attribution is unknown, such as iOS transcript items that only carry an anonymous `diarization_label`.</summary>
+        /// <summary>Who said this relative to the note: `me` is the note-taker (the note&apos;s owner), `them` is other meeting participants. Omitted when the attribution is unknown, such as phone and watch transcript items that only carry an anonymous `diarization_label`.</summary>
         public global::Soenneker.Granola.OpenApiClient.Models.SpeakerAttribution? Attribution { get => _explicitNullValueAttribution; set { _explicitNullValueAttribution = value; AdditionalData?.Remove("attribution"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("attribution"); else _explicitNullProperties?.Remove("attribution"); } }
         private global::Soenneker.Granola.OpenApiClient.Models.SpeakerAttribution? _explicitNullValueAttribution = default!;
-        /// <summary>The diarized anonymous speaker label assigned in the transcript, such as `Speaker A`. This is currently only present on iOS transcripts when diarization is available.</summary>
+        /// <summary>The diarized anonymous speaker label assigned in the transcript, such as `Speaker A`. This is currently only present on transcripts recorded on a phone or watch, when diarization is available.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public string? DiarizationLabel { get => _explicitNullValueDiarizationLabel; set { _explicitNullValueDiarizationLabel = value; AdditionalData?.Remove("diarization_label"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("diarization_label"); else _explicitNullProperties?.Remove("diarization_label"); } }
@@ -52,7 +52,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public string Name { get => _explicitNullValueName; set { _explicitNullValueName = value; AdditionalData?.Remove("name"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("name"); else _explicitNullProperties?.Remove("name"); } }
         private string _explicitNullValueName = default!;
 #endif
-        /// <summary>The source of the speaker. For iOS transcripts, Granola currently returns `microphone` for all transcript items because iOS currently captures a single audio stream. Clients should not assume this will never expand in the future.</summary>
+        /// <summary>The source of the speaker. For recordings made on a phone or watch, Granola currently returns `microphone` for all transcript items because they capture a single audio stream. Clients should not assume this will never expand in the future.</summary>
         public global::Soenneker.Granola.OpenApiClient.Models.SpeakerSource? Source { get => _explicitNullValueSource; set { _explicitNullValueSource = value; AdditionalData?.Remove("source"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("source"); else _explicitNullProperties?.Remove("source"); } }
         private global::Soenneker.Granola.OpenApiClient.Models.SpeakerSource? _explicitNullValueSource = default!;
         /// <summary>

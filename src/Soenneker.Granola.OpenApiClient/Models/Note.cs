@@ -57,7 +57,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
 
         /// <summary>Stores additional data not described in the OpenAPI description found when deserializing. Can be used for serialization as well.</summary>
         public IDictionary<string, object> AdditionalData { get; set; }
-        /// <summary>Manually attached photos, in stored order. Empty when no photos are available.</summary>
+        /// <summary>Manually attached photos and snapshots of shared screens, in stored order. On Enterprise plans, snapshots are returned only while a workspace admin has Take snapshots of shared screens turned on. Empty when no attachments are available.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<global::Soenneker.Granola.OpenApiClient.Models.NoteAttachment>? Attachments { get => _explicitNullValueAttachments; set { _explicitNullValueAttachments = value; AdditionalData?.Remove("attachments"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("attachments"); else _explicitNullProperties?.Remove("attachments"); } }
@@ -186,7 +186,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public string Title { get => _explicitNullValueTitle; set { _explicitNullValueTitle = value; AdditionalData?.Remove("title"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("title"); else _explicitNullProperties?.Remove("title"); } }
         private string _explicitNullValueTitle = default!;
 #endif
-        /// <summary>The inline transcript of the note. It is null unless you pass `include=transcript`, or when a workspace admin has turned off transcript access over the API. If it is too large to return inline, Get Note returns `TRANSCRIPT_TOO_LARGE`; retrieve it in pages from `/v1/notes/{note_id}/transcript`. The example below shows a macOS transcript. On iOS, Granola currently returns `speaker.source` as `microphone`, and `diarization_label` can carry anonymous `Speaker A/B/...` buckets when diarization is available.</summary>
+        /// <summary>The inline transcript of the note. It is null unless you pass `include=transcript`, or when a workspace admin has turned off transcript access over the API. If it is too large to return inline, Get Note returns `TRANSCRIPT_TOO_LARGE`; retrieve it in pages from `/v1/notes/{note_id}/transcript`. The example below shows a macOS transcript. For recordings made on a phone or watch, Granola currently returns `speaker.source` as `microphone`, and `diarization_label` can carry anonymous `Speaker A/B/...` buckets when diarization is available.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<global::Soenneker.Granola.OpenApiClient.Models.Transcript>? Transcript { get => _explicitNullValueTranscript; set { _explicitNullValueTranscript = value; AdditionalData?.Remove("transcript"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("transcript"); else _explicitNullProperties?.Remove("transcript"); } }

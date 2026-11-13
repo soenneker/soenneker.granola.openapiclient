@@ -44,7 +44,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public List<global::Soenneker.Granola.OpenApiClient.Models.UpdateWebhookEndpointBodyEventsItem?> Events { get => _explicitNullValueEvents; set { _explicitNullValueEvents = value; AdditionalData?.Remove("events"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("events"); else _explicitNullProperties?.Remove("events"); } }
         private List<global::Soenneker.Granola.OpenApiClient.Models.UpdateWebhookEndpointBodyEventsItem?> _explicitNullValueEvents = default!;
 #endif
-        /// <summary>Restrict delivery to notes in these folders or any of their subfolders; replaces the current folder filter. Accepts folder IDs returned by `GET /v1/folders`, in any casing. Pass an empty array to remove the filter. Omit to leave unchanged.</summary>
+        /// <summary>Restrict delivery to notes in these folders or any of their subfolders; replaces the current folder filter. Accepts folder IDs returned by `GET /v1/folders`, in any casing. For a workspace-managed endpoint, folders must be within the creating key&apos;s space limits, even when another key edits the endpoint. Pass an empty array to remove the folder filter; the key&apos;s space limits still apply. Omit to leave unchanged.</summary>
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
 #nullable enable
         public List<string>? FolderIds { get => _explicitNullValueFolderIds; set { _explicitNullValueFolderIds = value; AdditionalData?.Remove("folder_ids"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("folder_ids"); else _explicitNullProperties?.Remove("folder_ids"); } }

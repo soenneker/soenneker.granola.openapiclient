@@ -37,7 +37,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         public List<string> MatchedKeywords { get => _explicitNullValueMatchedKeywords; set { _explicitNullValueMatchedKeywords = value; AdditionalData?.Remove("matched_keywords"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("matched_keywords"); else _explicitNullProperties?.Remove("matched_keywords"); } }
         private List<string> _explicitNullValueMatchedKeywords = default!;
 #endif
-        /// <summary>Approximately when the excerpt was spoken, or null when unknown. Use it to find the excerpt in Get transcript.</summary>
+        /// <summary>Approximately when the excerpt was spoken, or null when unknown. Pass it to Get transcript as from_time to read the conversation from there.</summary>
         public DateTimeOffset? StartTime { get => _explicitNullValueStartTime; set { _explicitNullValueStartTime = value; AdditionalData?.Remove("start_time"); if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("start_time"); else _explicitNullProperties?.Remove("start_time"); } }
         private DateTimeOffset? _explicitNullValueStartTime = default!;
         /// <summary>An excerpt of up to 240 characters around a matching word. It can start or end mid-sentence and does not name the speaker.</summary>

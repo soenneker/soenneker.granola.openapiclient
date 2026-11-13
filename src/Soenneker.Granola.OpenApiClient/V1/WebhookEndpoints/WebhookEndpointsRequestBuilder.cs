@@ -47,7 +47,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints
         {
         }
         /// <summary>
-        /// Lists the webhook endpoints the API key can manage, oldest first.
+        /// Lists the webhook endpoints the API key can manage, oldest first. A Workspace API key limited to selected spaces only lists endpoints created with that exact key. An unrestricted Workspace API key can also list endpoints created by other keys in the same workspace.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.ListWebhookEndpointsOutput"/></returns>
         /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
@@ -65,7 +65,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.ListWebhookEndpointsOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.ListWebhookEndpointsOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Registers an HTTPS URL to receive event deliveries. With a Workspace API key the endpoint is workspace-managed: pass `scopes: [&quot;workspace&quot;]` (the key&apos;s own scope), and `folder_ids` may only reference folders the key can list.
+        /// Registers an HTTPS URL to receive event deliveries. With a Workspace API key the endpoint is workspace-managed: pass `scopes: [&quot;workspace&quot;]`. Delivery follows that key&apos;s space limits, and `folder_ids` may only reference folders the key can list.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.CreateWebhookEndpointOutput"/></returns>
         /// <param name="body">The request body</param>
@@ -85,7 +85,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.CreateWebhookEndpointOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.CreateWebhookEndpointOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
         }
         /// <summary>
-        /// Lists the webhook endpoints the API key can manage, oldest first.
+        /// Lists the webhook endpoints the API key can manage, oldest first. A Workspace API key limited to selected spaces only lists endpoints created with that exact key. An unrestricted Workspace API key can also list endpoints created by other keys in the same workspace.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
@@ -104,7 +104,7 @@ namespace Soenneker.Granola.OpenApiClient.V1.WebhookEndpoints
             return requestInfo;
         }
         /// <summary>
-        /// Registers an HTTPS URL to receive event deliveries. With a Workspace API key the endpoint is workspace-managed: pass `scopes: [&quot;workspace&quot;]` (the key&apos;s own scope), and `folder_ids` may only reference folders the key can list.
+        /// Registers an HTTPS URL to receive event deliveries. With a Workspace API key the endpoint is workspace-managed: pass `scopes: [&quot;workspace&quot;]`. Delivery follows that key&apos;s space limits, and `folder_ids` may only reference folders the key can list.
         /// </summary>
         /// <returns>A <see cref="RequestInformation"/></returns>
         /// <param name="body">The request body</param>

@@ -23,6 +23,8 @@ namespace Soenneker.Granola.OpenApiClient.Models
             else if (parseNode.GetChildNode("from_date") is { } nullNodeFromDate && nullNodeFromDate.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) FromDate = null;
             if (parseNode.GetChildNode("keywords") is null) { _explicitNullValueKeywords = default!; _explicitNullProperties?.Remove("keywords"); }
             else if (parseNode.GetChildNode("keywords") is { } nullNodeKeywords && nullNodeKeywords.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) Keywords = null;
+            if (parseNode.GetChildNode("note_ids") is null) { _explicitNullValueNoteIds = default!; _explicitNullProperties?.Remove("note_ids"); }
+            else if (parseNode.GetChildNode("note_ids") is { } nullNodeNoteIds && nullNodeNoteIds.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) NoteIds = null;
             if (parseNode.GetChildNode("page_size") is null) { _explicitNullValuePageSize = default!; _explicitNullProperties?.Remove("page_size"); }
             else if (parseNode.GetChildNode("page_size") is { } nullNodePageSize && nullNodePageSize.GetObjectValue<global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode>(global::Microsoft.Kiota.Abstractions.Serialization.UntypedNode.CreateFromDiscriminatorValue) is null or global::Microsoft.Kiota.Abstractions.Serialization.UntypedNull) PageSize = null;
             if (parseNode.GetChildNode("participant") is null) { _explicitNullValueParticipant = default!; _explicitNullProperties?.Remove("participant"); }
@@ -60,6 +62,16 @@ namespace Soenneker.Granola.OpenApiClient.Models
 #else
         public List<string> Keywords { get => _explicitNullValueKeywords; set { _explicitNullValueKeywords = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("keywords"); else _explicitNullProperties?.Remove("keywords"); } }
         private List<string> _explicitNullValueKeywords = default!;
+#endif
+        /// <summary>Only search these notes. An ID is ignored when no note has it or the API key cannot read that note.</summary>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public List<string>? NoteIds { get => _explicitNullValueNoteIds; set { _explicitNullValueNoteIds = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("note_ids"); else _explicitNullProperties?.Remove("note_ids"); } }
+        private List<string>? _explicitNullValueNoteIds = default!;
+#nullable restore
+#else
+        public List<string> NoteIds { get => _explicitNullValueNoteIds; set { _explicitNullValueNoteIds = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("note_ids"); else _explicitNullProperties?.Remove("note_ids"); } }
+        private List<string> _explicitNullValueNoteIds = default!;
 #endif
         /// <summary>Maximum number of notes to return per page</summary>
         public int? PageSize { get => _explicitNullValuePageSize; set { _explicitNullValuePageSize = value; if (value is null) (_explicitNullProperties ??= new global::System.Collections.Generic.HashSet<string>()).Add("page_size"); else _explicitNullProperties?.Remove("page_size"); } }
@@ -112,6 +124,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
                 { "cursor", n => { Cursor = n.GetStringValue(); } },
                 { "from_date", n => { FromDate = n.GetObjectValue<global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestFromDate>(global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestFromDate.CreateFromDiscriminatorValue); } },
                 { "keywords", n => { Keywords = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
+                { "note_ids", n => { NoteIds = n.GetCollectionOfPrimitiveValues<string>()?.AsList(); } },
                 { "page_size", n => { PageSize = n.GetIntValue(); } },
                 { "participant", n => { Participant = n.GetStringValue(); } },
                 { "to_date", n => { ToDate = n.GetObjectValue<global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestToDate>(global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestToDate.CreateFromDiscriminatorValue); } },
@@ -127,6 +140,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
             writer.WriteStringValue("cursor", Cursor);
             writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestFromDate>("from_date", FromDate);
             writer.WriteCollectionOfPrimitiveValues<string>("keywords", Keywords);
+            writer.WriteCollectionOfPrimitiveValues<string>("note_ids", NoteIds);
             writer.WriteIntValue("page_size", PageSize);
             writer.WriteStringValue("participant", Participant);
             writer.WriteObjectValue<global::Soenneker.Granola.OpenApiClient.Models.SearchNotesRequestToDate>("to_date", ToDate);if (_explicitNullProperties != null) foreach (string name in _explicitNullProperties) writer.WriteNullValue(name);
