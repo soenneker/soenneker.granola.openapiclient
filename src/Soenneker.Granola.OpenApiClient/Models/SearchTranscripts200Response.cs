@@ -78,7 +78,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <returns>A IDictionary&lt;string, Action&lt;IParseNode&gt;&gt;</returns>
         public virtual IDictionary<string, Action<IParseNode>> GetFieldDeserializers()
         {
-            return new Dictionary<string, Action<IParseNode>>
+            return new Dictionary<string, Action<IParseNode>>(4)
             {
                 { "completion_status", n => { var parsed = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.SearchTranscripts200ResponseCompletionStatus>(); if (parsed == null && n.GetStringValue() is string unknown) { _explicitNullValueCompletionStatus = default; _explicitNullProperties?.Remove("completion_status"); AdditionalData["completion_status"] = unknown; } else { CompletionStatus = parsed; AdditionalData.Remove("completion_status"); } } },
                 { "cursor", n => { Cursor = n.GetStringValue(); } },

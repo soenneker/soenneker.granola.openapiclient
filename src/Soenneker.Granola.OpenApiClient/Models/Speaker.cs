@@ -78,7 +78,7 @@ namespace Soenneker.Granola.OpenApiClient.Models
         /// <returns>A IDictionary&lt;string, Action&lt;IParseNode&gt;&gt;</returns>
         public virtual IDictionary<string, Action<IParseNode>> GetFieldDeserializers()
         {
-            return new Dictionary<string, Action<IParseNode>>
+            return new Dictionary<string, Action<IParseNode>>(4)
             {
                 { "attribution", n => { var parsed = n.GetEnumValue<global::Soenneker.Granola.OpenApiClient.Models.SpeakerAttribution>(); if (parsed == null && n.GetStringValue() is string unknown) { _explicitNullValueAttribution = default; _explicitNullProperties?.Remove("attribution"); AdditionalData["attribution"] = unknown; } else { Attribution = parsed; AdditionalData.Remove("attribution"); } } },
                 { "diarization_label", n => { DiarizationLabel = n.GetStringValue(); } },
