@@ -12,6 +12,88 @@
     }
   ],
   "paths": {
+    "/v1/analytics": {
+      "get": {
+        "summary": "Get workspace analytics",
+        "description": "Read a rolling usage snapshot for current workspace members. Requires an analytics API key. Summary only by default; include_users=true adds paginated member counts. Snapshots refresh approximately every six hours and recalculate the rolling period for current workspace members. Results may change when members leave or source data is deleted.",
+        "operationId": "GetV1Analytics",
+        "parameters": [
+          {
+            "name": "days",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/GetV1AnalyticsDaysParameter"
+            }
+          },
+          {
+            "name": "include_users",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/GetV1AnalyticsIncludeUsersParameter"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer",
+              "description": "Maximum member rows per page when include_users=true.",
+              "default": 100
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "maxLength": 1024,
+              "minLength": 1,
+              "type": "string",
+              "description": "Continue the member breakdown with the same days and include_users=true. If the snapshot refreshes, restart without a cursor."
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workspace usage snapshot",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkspaceAnalytics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters or a cursor from an older snapshot; restart pagination without the cursor."
+          },
+          "401": {
+            "description": "Invalid, revoked, expired or disabled API key."
+          },
+          "403": {
+            "description": "Workspace subscription or network access does not allow this request."
+          },
+          "404": {
+            "description": "The key\u0027s scope cannot access analytics."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          },
+          "500": {
+            "description": "Internal error"
+          },
+          "503": {
+            "description": "Usage snapshot is not available yet."
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    },
     "/v1/notes": {
       "get": {
         "summary": "List notes",
@@ -1368,6 +1450,49 @@
   },
   "components": {
     "schemas": {
+      "WorkspaceAnalytics": {
+        "required": [
+          "period_days",
+          "period_start",
+          "period_end",
+          "summary"
+        ],
+        "type": "object",
+        "properties": {
+          "period_days": {
+            "$ref": "#/components/schemas/WorkspaceAnalyticsPeriodDays"
+          },
+          "period_start": {
+            "type": "string",
+            "description": "Inclusive UTC start of the rolling period.",
+            "format": "date-time"
+          },
+          "period_end": {
+            "type": "string",
+            "description": "Inclusive UTC reporting cutoff for the snapshot.",
+            "format": "date-time"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/WorkspaceAnalyticsSummary"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkspaceAnalyticsUsersItem"
+            },
+            "description": "Omitted unless include_users=true. Summary totals always cover all members, not just this page."
+          },
+          "hasMore": {
+            "type": "boolean"
+          },
+          "cursor": {
+            "type": [
+              "null",
+              "string"
+            ]
+          }
+        }
+      },
       "User": {
         "required": [
           "name",
@@ -2550,6 +2675,14 @@
           }
         }
       },
+      "WorkspaceAnalyticsPeriodDays": {
+        "enum": [
+          30,
+          90,
+          120
+        ],
+        "type": "integer"
+      },
       "NoteCalendarEvent": {
         "required": [
           "event_title",
@@ -2640,6 +2773,98 @@
           "email": "oat@granola.ai"
         }
       },
+      "WorkspaceAnalyticsSummary": {
+        "required": [
+          "total_workspace_users",
+          "meetings",
+          "chat_messages",
+          "mcp_tool_calls",
+          "note_views",
+          "voice_typing"
+        ],
+        "type": "object",
+        "properties": {
+          "total_workspace_users": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Every active workspace member when the snapshot was taken, whether or not they have any recorded activity."
+          },
+          "meetings": {
+            "$ref": "#/components/schemas/WorkspaceAnalyticsSummaryMeetings"
+          },
+          "chat_messages": {
+            "$ref": "#/components/schemas/WorkspaceAnalyticsSummaryChatMessages"
+          },
+          "mcp_tool_calls": {
+            "$ref": "#/components/schemas/WorkspaceAnalyticsSummaryMcpToolCalls"
+          },
+          "note_views": {
+            "$ref": "#/components/schemas/WorkspaceAnalyticsSummaryNoteViews"
+          },
+          "voice_typing": {
+            "$ref": "#/components/schemas/WorkspaceAnalyticsSummaryVoiceTyping"
+          }
+        }
+      },
+      "WorkspaceAnalyticsUsersItem": {
+        "required": [
+          "id",
+          "object",
+          "name",
+          "email",
+          "role",
+          "member_since",
+          "meetings",
+          "chat_messages",
+          "mcp_tool_calls",
+          "note_views",
+          "voice_typing"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^[Uu][Ss][Rr]_[a-zA-Z0-9]{14}$",
+            "type": "string"
+          },
+          "object": {
+            "$ref": "#/components/schemas/UserObject"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/WorkspaceAnalyticsUsersItemRole"
+          },
+          "member_since": {
+            "type": "string",
+            "description": "When the member joined the workspace.",
+            "format": "date-time"
+          },
+          "meetings": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "chat_messages": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "mcp_tool_calls": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "note_views": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "voice_typing": {
+            "minimum": 0,
+            "type": "integer"
+          }
+        }
+      },
       "LegalHoldCustodianUser": {
         "required": [
           "object",
@@ -2669,6 +2894,106 @@
           "id": "usr_9Kd2mPq7Rt4Xyz",
           "email": "person@example.com"
         }
+      },
+      "WorkspaceAnalyticsSummaryMeetings": {
+        "required": [
+          "count",
+          "distinct_users"
+        ],
+        "type": "object",
+        "properties": {
+          "count": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Recorded activity count in the period."
+          },
+          "distinct_users": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Distinct members with at least one activity of this type in the period."
+          }
+        },
+        "description": "Non-deleted meeting notes, counted by creation time; not deduplicated across members."
+      },
+      "WorkspaceAnalyticsSummaryChatMessages": {
+        "required": [
+          "count",
+          "distinct_users"
+        ],
+        "type": "object",
+        "properties": {
+          "count": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Recorded activity count in the period."
+          },
+          "distinct_users": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Distinct members with at least one activity of this type in the period."
+          }
+        },
+        "description": "Saved user messages in user-initiated workspace chats. Excludes deleted chats/messages and background activity."
+      },
+      "WorkspaceAnalyticsSummaryMcpToolCalls": {
+        "required": [
+          "count",
+          "distinct_users"
+        ],
+        "type": "object",
+        "properties": {
+          "count": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Recorded activity count in the period."
+          },
+          "distinct_users": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Distinct members with at least one activity of this type in the period."
+          }
+        },
+        "description": "Successful external MCP tool calls. A single question can cause multiple calls."
+      },
+      "WorkspaceAnalyticsSummaryNoteViews": {
+        "required": [
+          "count",
+          "distinct_users"
+        ],
+        "type": "object",
+        "properties": {
+          "count": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Recorded activity count in the period."
+          },
+          "distinct_users": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Distinct members with at least one activity of this type in the period."
+          }
+        },
+        "description": "Recorded note opens, counting both a member\u0027s own notes and notes shared with them."
+      },
+      "WorkspaceAnalyticsSummaryVoiceTyping": {
+        "required": [
+          "count",
+          "distinct_users"
+        ],
+        "type": "object",
+        "properties": {
+          "count": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Recorded activity count in the period."
+          },
+          "distinct_users": {
+            "minimum": 0,
+            "type": "integer",
+            "description": "Distinct members with at least one activity of this type in the period."
+          }
+        },
+        "description": "Voice typing sessions that inserted text. Voice typing is not tied to a workspace, so this counts each member\u0027s sessions across all their Granola workspaces."
       },
       "ListAuditEvents200Response": {
         "required": [
@@ -3605,6 +3930,28 @@
           ]
         }
       },
+      "WorkspaceAnalyticsUsersItemRole": {
+        "enum": [
+          "admin",
+          "member"
+        ],
+        "type": "string",
+        "description": "Workspace role when the snapshot was taken.",
+        "x-ms-enum": {
+          "name": "WorkspaceAnalyticsUsersItemRole",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "admin",
+              "name": "Admin"
+            },
+            {
+              "value": "member",
+              "name": "Member"
+            }
+          ]
+        }
+      },
       "SearchNotes200ResponseCompletionStatus": {
         "enum": [
           "more_available",
@@ -3723,6 +4070,55 @@
             {
               "value": "audit_event",
               "name": "AuditEvent"
+            }
+          ]
+        }
+      },
+      "GetV1AnalyticsDaysParameter": {
+        "enum": [
+          "30",
+          "90",
+          "120"
+        ],
+        "type": "string",
+        "description": "Rolling period in days, ending at the snapshot timestamp.",
+        "x-ms-enum": {
+          "name": "GetV1AnalyticsDaysParameter",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "30",
+              "name": "Value30"
+            },
+            {
+              "value": "90",
+              "name": "Value90"
+            },
+            {
+              "value": "120",
+              "name": "Value120"
+            }
+          ]
+        }
+      },
+      "GetV1AnalyticsIncludeUsersParameter": {
+        "enum": [
+          "true",
+          "false"
+        ],
+        "type": "string",
+        "description": "Include a page of members with their role and activity counts, including members with no recorded activity.",
+        "x-ms-enum": {
+          "name": "GetV1AnalyticsIncludeUsersParameter",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "true",
+              "name": "TrueValue"
+            },
+            {
+              "value": "false",
+              "name": "FalseValue"
             }
           ]
         }
@@ -4511,6 +4907,24 @@
       "example": {
         "object": "anonymous"
       }
+    },
+    "WorkspaceAnalyticsPeriodDaysAnyOf1": {
+      "enum": [
+        30
+      ],
+      "type": "number"
+    },
+    "WorkspaceAnalyticsPeriodDaysAnyOf2": {
+      "enum": [
+        90
+      ],
+      "type": "number"
+    },
+    "WorkspaceAnalyticsPeriodDaysAnyOf3": {
+      "enum": [
+        120
+      ],
+      "type": "number"
     }
   }
 }

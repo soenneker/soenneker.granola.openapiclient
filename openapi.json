@@ -20,6 +20,213 @@
       }
     },
     "schemas": {
+      "WorkspaceAnalytics": {
+        "type": "object",
+        "properties": {
+          "period_days": {
+            "anyOf": [
+              {
+                "type": "number",
+                "enum": [30]
+              },
+              {
+                "type": "number",
+                "enum": [90]
+              },
+              {
+                "type": "number",
+                "enum": [120]
+              }
+            ]
+          },
+          "period_start": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Inclusive UTC start of the rolling period."
+          },
+          "period_end": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Inclusive UTC reporting cutoff for the snapshot."
+          },
+          "summary": {
+            "type": "object",
+            "properties": {
+              "total_workspace_users": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Every active workspace member when the snapshot was taken, whether or not they have any recorded activity."
+              },
+              "meetings": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Recorded activity count in the period."
+                  },
+                  "distinct_users": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Distinct members with at least one activity of this type in the period."
+                  }
+                },
+                "required": ["count", "distinct_users"],
+                "description": "Non-deleted meeting notes, counted by creation time; not deduplicated across members."
+              },
+              "chat_messages": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Recorded activity count in the period."
+                  },
+                  "distinct_users": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Distinct members with at least one activity of this type in the period."
+                  }
+                },
+                "required": ["count", "distinct_users"],
+                "description": "Saved user messages in user-initiated workspace chats. Excludes deleted chats/messages and background activity."
+              },
+              "mcp_tool_calls": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Recorded activity count in the period."
+                  },
+                  "distinct_users": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Distinct members with at least one activity of this type in the period."
+                  }
+                },
+                "required": ["count", "distinct_users"],
+                "description": "Successful external MCP tool calls. A single question can cause multiple calls."
+              },
+              "note_views": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Recorded activity count in the period."
+                  },
+                  "distinct_users": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Distinct members with at least one activity of this type in the period."
+                  }
+                },
+                "required": ["count", "distinct_users"],
+                "description": "Recorded note opens, counting both a member's own notes and notes shared with them."
+              },
+              "voice_typing": {
+                "type": "object",
+                "properties": {
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Recorded activity count in the period."
+                  },
+                  "distinct_users": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Distinct members with at least one activity of this type in the period."
+                  }
+                },
+                "required": ["count", "distinct_users"],
+                "description": "Voice typing sessions that inserted text. Voice typing is not tied to a workspace, so this counts each member's sessions across all their Granola workspaces."
+              }
+            },
+            "required": [
+              "total_workspace_users",
+              "meetings",
+              "chat_messages",
+              "mcp_tool_calls",
+              "note_views",
+              "voice_typing"
+            ]
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[Uu][Ss][Rr]_[a-zA-Z0-9]{14}$"
+                },
+                "object": {
+                  "type": "string",
+                  "enum": ["user"]
+                },
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": ["admin", "member"],
+                  "description": "Workspace role when the snapshot was taken."
+                },
+                "member_since": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "When the member joined the workspace."
+                },
+                "meetings": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "chat_messages": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "mcp_tool_calls": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "note_views": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "voice_typing": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "id",
+                "object",
+                "name",
+                "email",
+                "role",
+                "member_since",
+                "meetings",
+                "chat_messages",
+                "mcp_tool_calls",
+                "note_views",
+                "voice_typing"
+              ]
+            },
+            "description": "Omitted unless include_users=true. Summary totals always cover all members, not just this page."
+          },
+          "hasMore": {
+            "type": "boolean"
+          },
+          "cursor": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": ["period_days", "period_start", "period_end", "summary"]
+      },
       "User": {
         "type": "object",
         "properties": {
@@ -1467,6 +1674,97 @@
     "parameters": {}
   },
   "paths": {
+    "/v1/analytics": {
+      "get": {
+        "summary": "Get workspace analytics",
+        "description": "Read a rolling usage snapshot for current workspace members. Requires an analytics API key. Summary only by default; include_users=true adds paginated member counts. Snapshots refresh approximately every six hours and recalculate the rolling period for current workspace members. Results may change when members leave or source data is deleted.",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["30", "90", "120"],
+              "default": "30",
+              "description": "Rolling period in days, ending at the snapshot timestamp."
+            },
+            "required": false,
+            "name": "days",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false"],
+              "default": "false",
+              "description": "Include a page of members with their role and activity counts, including members with no recorded activity."
+            },
+            "required": false,
+            "name": "include_users",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 100,
+              "description": "Maximum member rows per page when include_users=true."
+            },
+            "required": false,
+            "name": "page_size",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024,
+              "description": "Continue the member breakdown with the same days and include_users=true. If the snapshot refreshes, restart without a cursor."
+            },
+            "required": false,
+            "name": "cursor",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Workspace usage snapshot",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkspaceAnalytics"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters or a cursor from an older snapshot; restart pagination without the cursor."
+          },
+          "401": {
+            "description": "Invalid, revoked, expired or disabled API key."
+          },
+          "403": {
+            "description": "Workspace subscription or network access does not allow this request."
+          },
+          "404": {
+            "description": "The key's scope cannot access analytics."
+          },
+          "429": {
+            "description": "Rate limit exceeded."
+          },
+          "500": {
+            "description": "Internal error"
+          },
+          "503": {
+            "description": "Usage snapshot is not available yet."
+          }
+        }
+      }
+    },
     "/v1/notes": {
       "get": {
         "summary": "List notes",

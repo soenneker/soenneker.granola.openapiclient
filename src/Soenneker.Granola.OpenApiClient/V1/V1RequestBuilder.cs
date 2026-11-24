@@ -2,6 +2,7 @@
 #pragma warning disable CS0618
 using Microsoft.Kiota.Abstractions.Extensions;
 using Microsoft.Kiota.Abstractions;
+using Soenneker.Granola.OpenApiClient.V1.Analytics;
 using Soenneker.Granola.OpenApiClient.V1.Audit;
 using Soenneker.Granola.OpenApiClient.V1.Folders;
 using Soenneker.Granola.OpenApiClient.V1.LegalHolds;
@@ -20,6 +21,11 @@ namespace Soenneker.Granola.OpenApiClient.V1
     [global::System.CodeDom.Compiler.GeneratedCode("Kiota", "1.0.0")]
     public partial class V1RequestBuilder : BaseRequestBuilder
     {
+        /// <summary>The analytics property</summary>
+        public global::Soenneker.Granola.OpenApiClient.V1.Analytics.AnalyticsRequestBuilder Analytics
+        {
+            get => new global::Soenneker.Granola.OpenApiClient.V1.Analytics.AnalyticsRequestBuilder(PathParameters, RequestAdapter);
+        }
         /// <summary>The audit property</summary>
         public global::Soenneker.Granola.OpenApiClient.V1.Audit.AuditRequestBuilder Audit
         {
