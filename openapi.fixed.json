@@ -3,7 +3,7 @@
   "info": {
     "title": "Granola API",
     "description": "API for accessing meeting data from Granola",
-    "version": "1.7.0"
+    "version": "1.8.0"
   },
   "servers": [
     {
@@ -296,6 +296,69 @@
             "ApiKeyAuth": []
           }
         ]
+      },
+      "delete": {
+        "summary": "Delete note",
+        "description": "Moves a note to the trash, as deleting it in Granola does. Trashed notes are permanently deleted after the trash retention period. Pass \u0060permanent=true\u0060 to delete it permanently now, including its transcript and attachments. Personal API keys can delete only notes their owner created. Requires the Delete notes and transcripts permission on the key. Deleting a note that is already in the trash returns 200.",
+        "operationId": "DeleteNote",
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^[Nn][Oo][Tt]_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The ID of the note (case-insensitive)",
+              "example": "not_1d3tmYTlCICgjy"
+            }
+          },
+          {
+            "name": "permanent",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/DeleteNotePermanentParameter"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Note deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteNoteOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "403": {
+            "description": "Forbidden - The key can\u0027t delete notes, or the note can\u0027t be deleted permanently"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "409": {
+            "description": "Conflict - The note was restored while it was being deleted permanently"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
       }
     },
     "/v1/notes/{noteId}/transcript": {
@@ -369,6 +432,56 @@
           },
           "404": {
             "description": "Not found"
+          },
+          "429": {
+            "description": "Rate limited"
+          },
+          "500": {
+            "description": "Internal error"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete transcript",
+        "description": "Permanently deletes a note\u0027s transcript. The note and its summary are kept. The transcript can\u0027t be restored. It needs the Delete notes and transcripts permission. Personal API keys can delete only the transcripts of notes their owner created. Deleting a transcript that is already deleted returns 200.",
+        "operationId": "DeleteTranscript",
+        "parameters": [
+          {
+            "name": "noteId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "pattern": "^[Nn][Oo][Tt]_[a-zA-Z0-9]{14}$",
+              "type": "string",
+              "description": "The ID of the note (case-insensitive)",
+              "example": "not_1d3tmYTlCICgjy"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transcript deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteNoteTranscriptOutput"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid API key"
+          },
+          "403": {
+            "description": "Forbidden - The key can\u0027t delete transcripts, or this transcript can\u0027t be deleted"
+          },
+          "404": {
+            "description": "Not found, or the key\u0027s access scope can\u0027t use this endpoint"
           },
           "429": {
             "description": "Rate limited"
@@ -1917,6 +2030,55 @@
               "$ref": "#/components/schemas/Transcript"
             },
             "description": "The inline transcript of the note. It is null unless you pass \u0060include=transcript\u0060, or when a workspace admin has turned off transcript access over the API. If it is too large to return inline, Get Note returns \u0060TRANSCRIPT_TOO_LARGE\u0060; retrieve it in pages from \u0060/v1/notes/{note_id}/transcript\u0060. The example below shows a macOS transcript. For recordings made on a phone or watch, Granola currently returns \u0060speaker.source\u0060 as \u0060microphone\u0060, and \u0060diarization_label\u0060 can carry anonymous \u0060Speaker A/B/...\u0060 buckets when diarization is available."
+          }
+        }
+      },
+      "DeleteNoteOutput": {
+        "required": [
+          "id",
+          "object",
+          "deleted",
+          "permanent"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^[Nn][Oo][Tt]_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the deleted note",
+            "example": "not_1d3tmYTlCICgjy"
+          },
+          "object": {
+            "$ref": "#/components/schemas/NoteObject"
+          },
+          "deleted": {
+            "$ref": "#/components/schemas/DeleteNoteOutputDeleted"
+          },
+          "permanent": {
+            "type": "boolean",
+            "description": "Whether the note was deleted permanently rather than moved to the trash"
+          }
+        }
+      },
+      "DeleteNoteTranscriptOutput": {
+        "required": [
+          "id",
+          "object",
+          "transcript_deleted"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "pattern": "^[Nn][Oo][Tt]_[a-zA-Z0-9]{14}$",
+            "type": "string",
+            "description": "The ID of the note whose transcript was deleted",
+            "example": "not_1d3tmYTlCICgjy"
+          },
+          "object": {
+            "$ref": "#/components/schemas/NoteObject"
+          },
+          "transcript_deleted": {
+            "$ref": "#/components/schemas/DeleteNoteTranscriptOutputTranscriptDeleted"
           }
         }
       },
@@ -3688,6 +3850,18 @@
           ]
         }
       },
+      "DeleteNoteOutputDeleted": {
+        "enum": [
+          true
+        ],
+        "type": "boolean"
+      },
+      "DeleteNoteTranscriptOutputTranscriptDeleted": {
+        "enum": [
+          true
+        ],
+        "type": "boolean"
+      },
       "WebhookEndpointObject": {
         "enum": [
           "webhook_endpoint"
@@ -4123,6 +4297,28 @@
           ]
         }
       },
+      "DeleteNotePermanentParameter": {
+        "enum": [
+          "true",
+          "false"
+        ],
+        "type": "string",
+        "description": "Delete the note permanently instead of moving it to the trash: its transcript and attachments are destroyed and can\u0027t be restored.",
+        "x-ms-enum": {
+          "name": "DeleteNotePermanentParameter",
+          "modelAsString": false,
+          "values": [
+            {
+              "value": "true",
+              "name": "TrueValue"
+            },
+            {
+              "value": "false",
+              "name": "FalseValue"
+            }
+          ]
+        }
+      },
       "ListAuditEvents200ResponseEventsItemActorApiKeyVariant": {
         "allOf": [
           {
@@ -4479,6 +4675,14 @@
           "description": "The maximum number of transcript items to return",
           "default": 50,
           "example": 50
+        }
+      }
+    },
+    "DeleteNoteQuery": {
+      "type": "object",
+      "properties": {
+        "permanent": {
+          "$ref": "#/components/schemas/DeleteNoteQueryPermanent"
         }
       }
     },
@@ -4906,6 +5110,28 @@
       "description": "A person performed the action without signing in, so there is no account to name, for example someone opening a note through a shared link. Distinct from \u0060system\u0060, which means no person was involved at all. This variant carries no other fields; the \u0060ip_address\u0060 and \u0060user_agent\u0060 in \u0060context\u0060 are the only attribution available.",
       "example": {
         "object": "anonymous"
+      }
+    },
+    "DeleteNoteQueryPermanent": {
+      "enum": [
+        "true",
+        "false"
+      ],
+      "type": "string",
+      "description": "Delete the note permanently instead of moving it to the trash: its transcript and attachments are destroyed and can\u0027t be restored.",
+      "x-ms-enum": {
+        "name": "DeleteNoteQueryPermanent",
+        "modelAsString": false,
+        "values": [
+          {
+            "value": "true",
+            "name": "TrueValue"
+          },
+          {
+            "value": "false",
+            "name": "FalseValue"
+          }
+        ]
       }
     },
     "WorkspaceAnalyticsPeriodDaysAnyOf1": {

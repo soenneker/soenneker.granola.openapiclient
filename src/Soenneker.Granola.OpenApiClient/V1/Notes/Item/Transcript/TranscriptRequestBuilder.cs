@@ -34,6 +34,24 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript
         {
         }
         /// <summary>
+        /// Permanently deletes a note&apos;s transcript. The note and its summary are kept. The transcript can&apos;t be restored. It needs the Delete notes and transcripts permission. Personal API keys can delete only the transcripts of notes their owner created. Deleting a transcript that is already deleted returns 200.
+        /// </summary>
+        /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.DeleteNoteTranscriptOutput"/></returns>
+        /// <param name="cancellationToken">Cancellation token to use when cancelling requests</param>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public async Task<global::Soenneker.Granola.OpenApiClient.Models.DeleteNoteTranscriptOutput?> DeleteAsync(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#nullable restore
+#else
+        public async Task<global::Soenneker.Granola.OpenApiClient.Models.DeleteNoteTranscriptOutput> DeleteAsync(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default, CancellationToken cancellationToken = default)
+        {
+#endif
+            var requestInfo = ToDeleteRequestInformation(requestConfiguration);
+            return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.DeleteNoteTranscriptOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.DeleteNoteTranscriptOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
         /// Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`. Pass `from_time` to start partway through, for example at an excerpt from Search transcripts.
         /// </summary>
         /// <returns>A <see cref="global::Soenneker.Granola.OpenApiClient.Models.GetTranscriptOutput"/></returns>
@@ -50,6 +68,25 @@ namespace Soenneker.Granola.OpenApiClient.V1.Notes.Item.Transcript
 #endif
             var requestInfo = ToGetRequestInformation(requestConfiguration);
             return await RequestAdapter.SendAsync<global::Soenneker.Granola.OpenApiClient.Models.GetTranscriptOutput>(requestInfo, global::Soenneker.Granola.OpenApiClient.Models.GetTranscriptOutput.CreateFromDiscriminatorValue, new global::System.Collections.Generic.Dictionary<string, global::Microsoft.Kiota.Abstractions.Serialization.ParsableFactory<global::Microsoft.Kiota.Abstractions.Serialization.IParsable>> { { "4XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue }, { "5XX", global::Soenneker.OpenApi.Generated.OpenApiRawError.CreateFromDiscriminatorValue } }, cancellationToken).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// Permanently deletes a note&apos;s transcript. The note and its summary are kept. The transcript can&apos;t be restored. It needs the Delete notes and transcripts permission. Personal API keys can delete only the transcripts of notes their owner created. Deleting a transcript that is already deleted returns 200.
+        /// </summary>
+        /// <returns>A <see cref="RequestInformation"/></returns>
+        /// <param name="requestConfiguration">Configuration for the request such as headers, query parameters, and middleware options.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+#nullable enable
+        public RequestInformation ToDeleteRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>>? requestConfiguration = default)
+        {
+#nullable restore
+#else
+        public RequestInformation ToDeleteRequestInformation(Action<RequestConfiguration<DefaultQueryParameters>> requestConfiguration = default)
+        {
+#endif
+            var requestInfo = new RequestInformation(Method.DELETE, UrlTemplate, PathParameters);
+            requestInfo.Configure(requestConfiguration);
+            requestInfo.Headers.TryAdd("Accept", "application/json");
+            return requestInfo;
         }
         /// <summary>
         /// Retrieve a meeting transcript in pages, including when Get Note returns `TRANSCRIPT_TOO_LARGE`. Pass `from_time` to start partway through, for example at an excerpt from Search transcripts.
